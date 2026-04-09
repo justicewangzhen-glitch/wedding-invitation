@@ -492,6 +492,52 @@
     }
     .detail-info a:hover { opacity: 0.7; }
 
+    /* ─── DRESS CODE ─── */
+    .dresscode-block {
+      text-align: center;
+      padding: 48px 24px 0;
+      margin-top: 32px;
+      border-top: 1px solid var(--divider);
+    }
+
+    .dresscode-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--rose);
+      margin-bottom: 6px;
+      letter-spacing: 0.05em;
+    }
+
+    .dresscode-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--charcoal);
+      margin-bottom: 20px;
+      letter-spacing: 0.15em;
+    }
+
+    .dresscode-colors {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .color-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: block;
+    }
+
+    .dresscode-hint {
+      font-size: 0.65rem;
+      color: var(--text-secondary);
+      letter-spacing: 0.05em;
+    }
+
     /* ─── COUNTDOWN ─── */
     .countdown-section {
       background: var(--charcoal);
@@ -747,19 +793,50 @@
       color: var(--text-secondary);
     }
 
+    /* ─── ATTENDANCE TOGGLE ─── */
+    .attendance-fields {
+      transition: opacity 400ms ease, max-height 400ms ease;
+      opacity: 1;
+      max-height: 2000px;
+      overflow: hidden;
+    }
+
+    .attendance-fields.hidden {
+      opacity: 0;
+      max-height: 0;
+    }
+
+    /* ─── CHAR COUNT ─── */
+    .char-count {
+      font-size: 0.6rem;
+      color: var(--text-secondary);
+      opacity: 0.6;
+      font-weight: 300;
+      margin-left: 8px;
+      letter-spacing: 0.02em;
+    }
+
+    .char-count.warning {
+      color: var(--rose);
+      opacity: 1;
+    }
+
     /* ─── FORM ERROR ─── */
     .form-error {
-      background: rgba(192, 151, 143, 0.1);
+      background: rgba(192, 151, 143, 0.06);
       border: 1px solid var(--rose);
-      padding: 16px 20px;
-      margin-bottom: 8px;
+      padding: 18px 24px;
+      margin-bottom: 16px;
       text-align: center;
     }
 
     .form-error p {
-      font-size: 0.85rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      font-weight: 400;
       color: var(--rose);
       margin: 0;
+      letter-spacing: 0.05em;
     }
 
     /* ─── FOOTER ─── */
@@ -816,6 +893,32 @@
       color: var(--taupe);
     }
 
+    .qr-download-btn {
+      margin-top: 16px;
+      padding: 10px 24px;
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .qr-download-btn:hover {
+      background: var(--gold);
+      color: var(--warm-white);
+    }
+
+    .qr-save-tip {
+      margin-top: 12px;
+      font-size: 0.6rem;
+      color: var(--text-secondary);
+      opacity: 0.7;
+    }
+
     /* ─── RESPONSIVE ─── */
     @media (max-width: 640px) {
       /* General */
@@ -838,12 +941,21 @@
       .photo-frame { width: 200px; height: 260px; }
 
       /* Details */
-      .details-grid {
+    .details-grid {
         grid-template-columns: 1fr;
         gap: 40px 0;
       }
       .detail-divider { display: none; }
       .detail-block + .detail-block { border-top: 1px solid var(--divider); padding-top: 40px; }
+
+      /* Dress code mobile */
+      .dresscode-colors {
+        gap: 12px;
+      }
+      .color-dot {
+        width: 24px;
+        height: 24px;
+      }
 
       /* Countdown */
       .countdown-grid { gap: 0 16px; }
@@ -1005,7 +1117,7 @@
 
   <div class="story-grid">
     <div class="story-block">
-      <p class="story-year">2020 · 初见</p>
+      <p class="story-year">2021 · 初见</p>
       <p class="story-text">
         那是一个秋日的午后，阳光穿过梧桐叶洒在石板路上。<br>
         我们的第一次对话，只有一杯咖啡的时间，<br>
@@ -1014,7 +1126,7 @@
     </div>
     <div class="story-vline"></div>
     <div class="story-block">
-      <p class="story-year">2024 · 相守</p>
+      <p class="story-year">2026 · 相守</p>
       <p class="story-text">
         走过四季，我们在彼此的陪伴里<br>
         找到了最真实的自己。<br>
@@ -1057,9 +1169,8 @@
       <h3 class="detail-title">仪式</h3>
       <div class="detail-info">
         <p>2026年6月20日</p>
-        <p>下午三点整</p>
-        <p>兰州市</p>
-        <p>皇冠假日酒店</p>
+        <p>农历五月初六</p>
+        <p>中午十二点整</p>
       </div>
     </div>
 
@@ -1072,14 +1183,27 @@
           <circle cx="12" cy="10" r="3"/>
         </svg>
       </div>
-      <h3 class="detail-title">晚宴</h3>
+      <h3 class="detail-title">午宴</h3>
       <div class="detail-info">
-        <p>仪式后半小时</p>
-        <p>皇冠假日酒店</p>
-        <p style="margin-top: 8px;"><a href="https://maps.apple.com/?q=兰州皇冠假日酒店" target="_blank">Apple 地图导航</a></p>
-        <p><a href="https://maps.google.com/?q=兰州皇冠假日酒店" target="_blank">Google 地图导航</a></p>
+        <p>兰州皇冠假日酒店</p>
+        <p>3F 大宴会厅</p>
+        <p style="margin-top: 12px;"><a href="https://ditu.amap.com/search?query=兰州皇冠假日酒店" target="_blank">高德地图导航</a></p>
       </div>
     </div>
+  </div>
+
+  <!-- 着装推荐 -->
+  <div class="dresscode-block">
+    <p class="dresscode-label">Dress Code</p>
+    <h4 class="dresscode-title">着装推荐</h4>
+    <div class="dresscode-colors">
+      <span class="color-dot" style="background: #FAF8F5; border: 1px solid var(--divider);" title="米白"></span>
+      <span class="color-dot" style="background: #D4C9BE;" title="香槟"></span>
+      <span class="color-dot" style="background: #A89080;" title="驼色"></span>
+      <span class="color-dot" style="background: #8B6F6B;" title="豆沙"></span>
+      <span class="color-dot" style="background: #2A2825;" title="黑色"></span>
+    </div>
+    <p class="dresscode-hint">建议穿着以上色系，与婚礼氛围更搭</p>
   </div>
 </section>
 
@@ -1126,20 +1250,20 @@
   <form class="rsvp-form" id="rsvpForm">
     <div class="form-row">
       <div class="form-group">
-        <label class="form-label" for="name">您的姓名</label>
-        <input class="form-input" type="text" id="name" name="name" placeholder="请填写姓名" required>
+        <label class="form-label" for="name">您的姓名 <span style="color: var(--rose);">*</span></label>
+        <input class="form-input" type="text" id="name" name="name" placeholder="请填写姓名">
       </div>
       <div class="form-group">
-        <label class="form-label" for="phone">联系电话</label>
+        <label class="form-label" for="phone">联系电话 <span style="color: var(--rose);">*</span></label>
         <input class="form-input" type="tel" id="phone" name="phone" placeholder="方便联系">
       </div>
     </div>
 
     <div class="form-group full">
-      <label class="form-label">是否出席</label>
+      <label class="form-label">是否出席 <span style="color: var(--rose);">*</span></label>
       <div class="radio-group">
         <label class="radio-label">
-          <input type="radio" name="attend" value="yes" required>
+          <input type="radio" name="attend" value="yes">
           <span class="radio-custom"></span>
          欣然出席
         </label>
@@ -1151,77 +1275,79 @@
       </div>
     </div>
 
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label" for="guests">出席人数</label>
-        <select class="form-select" id="guests" name="guests">
-          <option value="1">1 人</option>
-          <option value="2">2 人</option>
-          <option value="3">3 人</option>
-          <option value="4">4 人及以上</option>
-        </select>
+    <!-- 出席相关字段：选择"欣然出席"时显示 -->
+    <div id="attendanceFields" class="attendance-fields">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="guests">出席人数 <span style="color: var(--rose);">*</span></label>
+          <select class="form-select" id="guests" name="guests">
+            <option value="1">1 人</option>
+            <option value="2">2 人</option>
+            <option value="3">3 人</option>
+            <option value="4">4 人及以上</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="meal">餐饮偏好</label>
+          <select class="form-select" id="meal" name="meal">
+            <option value="any">不限定</option>
+            <option value="vegetarian">素食</option>
+          </select>
+        </div>
       </div>
-      <div class="form-group">
-        <label class="form-label" for="meal">餐饮偏好</label>
-        <select class="form-select" id="meal" name="meal">
-          <option value="any">不限定</option>
-          <option value="vegetarian">素食</option>
-          <option value="allergy">食物过敏（请备注）</option>
-        </select>
-      </div>
-    </div>
 
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label" for="arrivalDate">预计到达日期</label>
-        <select class="form-select" id="arrivalDate" name="arrivalDate">
-          <option value="">请选择</option>
-          <option value="two-days-before">婚礼前两天（6月18日）</option>
-          <option value="eve">婚礼前一天（6月19日）</option>
-          <option value="day">婚礼当天（6月20日）</option>
-        </select>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="arrivalDate">预计到达日期 <span style="color: var(--rose);">*</span></label>
+          <select class="form-select" id="arrivalDate" name="arrivalDate">
+            <option value="">请选择</option>
+            <option value="two-days-before">婚礼前两天（6月18日）</option>
+            <option value="eve">婚礼前一天（6月19日）</option>
+            <option value="day">婚礼当天（6月20日）</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="arrivalTime">预计到达时间 <span style="color: var(--rose);">*</span></label>
+          <select class="form-select" id="arrivalTime" name="arrivalTime">
+            <option value="">请选择</option>
+            <option value="morning">上午（10:00 前）</option>
+            <option value="noon">中午（10:00 – 12:00）</option>
+            <option value="afternoon">下午（12:00 – 17:00）</option>
+            <option value="evening">傍晚（17:00 后）</option>
+          </select>
+        </div>
       </div>
-      <div class="form-group">
-        <label class="form-label" for="arrivalTime">预计到达时间</label>
-        <select class="form-select" id="arrivalTime" name="arrivalTime">
-          <option value="">请选择</option>
-          <option value="morning">上午（10:00 前）</option>
-          <option value="noon">中午（10:00 – 12:00）</option>
-          <option value="afternoon">下午（12:00 – 17:00）</option>
-          <option value="evening">傍晚（17:00 后）</option>
-        </select>
-      </div>
-    </div>
 
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label" for="departureDate">预计离开日期</label>
-        <select class="form-select" id="departureDate" name="departureDate">
-          <option value="">请选择</option>
-          <option value="day">婚礼当天（6月20日）</option>
-          <option value="next">婚礼次日（6月21日）</option>
-          <option value="later">6月22日或之后</option>
-        </select>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="departureDate">预计离开日期</label>
+          <select class="form-select" id="departureDate" name="departureDate">
+            <option value="">请选择</option>
+            <option value="day">婚礼当天（6月20日）</option>
+            <option value="next">婚礼次日（6月21日）</option>
+            <option value="later">6月22日或之后</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="departureTime">预计离开时间</label>
+          <select class="form-select" id="departureTime" name="departureTime">
+            <option value="">请选择</option>
+            <option value="morning">上午（12:00 前）</option>
+            <option value="afternoon">下午（12:00 – 18:00）</option>
+            <option value="evening">傍晚（18:00 后）</option>
+          </select>
+        </div>
       </div>
-      <div class="form-group">
-        <label class="form-label" for="departureTime">预计离开时间</label>
-        <select class="form-select" id="departureTime" name="departureTime">
-          <option value="">请选择</option>
-          <option value="morning">上午（12:00 前）</option>
-          <option value="afternoon">下午（12:00 – 18:00）</option>
-          <option value="evening">傍晚（18:00 后）</option>
-        </select>
+
+      <div class="form-group full">
+        <label class="form-label" for="flightNumber">外地来宾 · 航班/车次信息 <span style="font-weight:300;font-size:0.85em;opacity:0.6;">（选填）</span></label>
+        <input class="form-input" type="text" id="flightNumber" name="flightNumber" placeholder="如：MU1234 / G1234 / CA5678，方便我们安排接机">
       </div>
     </div>
 
     <div class="form-group full">
-      <label class="form-label" for="flightNumber">外地来宾 · 航班/车次信息 <span style="font-weight:300;font-size:0.85em;opacity:0.6;">（选填）</span></label>
-      <input class="form-input" type="text" id="flightNumber" name="flightNumber" placeholder="如：MU1234 / G1234 / CA5678，方便我们安排接机">
-    </div>
-
-    <div class="form-group full">
-      <label class="form-label" for="message">送上祝福</label>
-      <textarea class="form-textarea" id="message" name="message" placeholder="写下您对新人的祝福..."></textarea>
+      <label class="form-label" for="message">送上祝福 <span class="char-count" id="messageCount">0/100</span></label>
+      <textarea class="form-textarea" id="message" name="message" placeholder="写下您对新人的祝福..." maxlength="100" rows="3"></textarea>
     </div>
 
     <button type="submit" class="form-submit" onclick="console.log('按钮被点击了')">确认回复</button>
@@ -1233,8 +1359,16 @@
         <polyline points="20,6 9,17 4,12"/>
       </svg>
     </div>
-    <h3>感谢您的回复</h3>
-    <p>我们已收到您的确认，期待在婚礼上与您相见</p>
+    <!-- 出席文案 -->
+    <div id="successAttending" class="success-content">
+      <h3>感谢您的确认</h3>
+      <p>期待在婚礼上与您相见</p>
+    </div>
+    <!-- 缺席文案 -->
+    <div id="successDeclined" class="success-content" style="display: none;">
+      <h3>感谢您的告知</h3>
+      <p>虽不能相见，祝福依然在心</p>
+    </div>
   </div>
 </section>
 
@@ -1246,7 +1380,9 @@
 
   <div class="qr-card">
     <div id="qrcode"></div>
-    <p class="qr-hint">长按保存 · 分享给亲友</p>
+    <p class="qr-hint">点击下载 · 分享给亲友</p>
+    <button class="qr-download-btn" id="downloadQR" type="button">保存二维码</button>
+    <p class="qr-save-tip">如无法下载，可截图保存</p>
   </div>
 </section>
 
@@ -1317,7 +1453,7 @@
     const hours = Math.floor((diff % 86400000) / 3600000);
     const mins = Math.floor((diff % 3600000) / 60000);
     const secs = Math.floor((diff % 60000) / 1000);
-    document.getElementById('cdDays').textContent = String(days).padStart(3, '0');
+    document.getElementById('cdDays').textContent = String(days);
     document.getElementById('cdHours').textContent = String(hours).padStart(2, '0');
     document.getElementById('cdMins').textContent = String(mins).padStart(2, '0');
     document.getElementById('cdSecs').textContent = String(secs).padStart(2, '0');
@@ -1328,6 +1464,57 @@
   // ─── RSVP Form ───
   const API_ENDPOINT = '/api/feishu-webhook';
   let isSubmitting = false;
+
+  // ─── 祝福语字数统计 ───
+  const messageInput = document.getElementById('message');
+  const messageCount = document.getElementById('messageCount');
+
+  if (messageInput && messageCount) {
+    messageInput.addEventListener('input', function() {
+      const current = this.value.length;
+      const max = this.getAttribute('maxlength');
+      messageCount.textContent = `${current}/${max}`;
+
+      // 接近上限时变红色提示
+      if (current >= 90) {
+        messageCount.classList.add('warning');
+      } else {
+        messageCount.classList.remove('warning');
+      }
+    });
+  }
+
+  // ─── 出席/缺席切换逻辑 ───
+  const attendRadios = document.querySelectorAll('input[name="attend"]');
+  const attendanceFields = document.getElementById('attendanceFields');
+
+  function updateAttendanceFields() {
+    const selected = document.querySelector('input[name="attend"]:checked');
+    const isAttending = selected && selected.value === 'yes';
+
+    if (isAttending) {
+      attendanceFields.classList.remove('hidden');
+      // 恢复必填字段的 required 属性（可选，因为我们用 JS 校验）
+    } else {
+      attendanceFields.classList.add('hidden');
+      // 清空出席相关字段的值，避免误提交
+      attendanceFields.querySelectorAll('select, input').forEach(field => {
+        if (field.tagName === 'SELECT') {
+          field.selectedIndex = 0;
+        } else {
+          field.value = '';
+        }
+      });
+    }
+  }
+
+  // 监听 radio 变化
+  attendRadios.forEach(radio => {
+    radio.addEventListener('change', updateAttendanceFields);
+  });
+
+  // 初始化状态（默认隐藏）
+  attendanceFields.classList.add('hidden');
 
   document.getElementById('rsvpForm').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -1351,17 +1538,99 @@
 
     const formData = new FormData(form);
 
+    // ─── 校验：姓名必填 ───
+    const nameValue = formData.get('name')?.trim();
+    if (!nameValue) {
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'form-error';
+      errorDiv.innerHTML = '<p>请填写您的姓名</p>';
+      form.insertBefore(errorDiv, form.firstChild);
+      btn.style.opacity = '';
+      btn.textContent = '确认回复';
+      isSubmitting = false;
+      return;
+    }
+
+    // ─── 校验：联系电话必填 ───
+    const phoneValue = formData.get('phone')?.trim();
+    if (!phoneValue) {
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'form-error';
+      errorDiv.innerHTML = '<p>请填写联系电话</p>';
+      form.insertBefore(errorDiv, form.firstChild);
+      btn.style.opacity = '';
+      btn.textContent = '确认回复';
+      isSubmitting = false;
+      return;
+    }
+
+    // ─── 校验：是否出席必选 ───
+    const attendValue = formData.get('attend');
+    if (!attendValue) {
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'form-error';
+      errorDiv.innerHTML = '<p>请选择是否出席</p>';
+      form.insertBefore(errorDiv, form.firstChild);
+      btn.style.opacity = '';
+      btn.textContent = '确认回复';
+      isSubmitting = false;
+      return;
+    }
+
+    // ─── 如果出席，才校验出席相关字段 ───
+    const isAttending = attendValue === 'yes';
+    if (isAttending) {
+      // ─── 校验：出席人数必填 ───
+      const guestsValue = formData.get('guests');
+      if (!guestsValue) {
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'form-error';
+        errorDiv.innerHTML = '<p>请选择出席人数</p>';
+        form.insertBefore(errorDiv, form.firstChild);
+        btn.style.opacity = '';
+        btn.textContent = '确认回复';
+        isSubmitting = false;
+        return;
+      }
+
+      // ─── 校验：预计到达日期必填 ───
+      const arrivalDateValue = formData.get('arrivalDate')?.trim();
+      if (!arrivalDateValue) {
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'form-error';
+        errorDiv.innerHTML = '<p>请选择预计到达日期</p>';
+        form.insertBefore(errorDiv, form.firstChild);
+        btn.style.opacity = '';
+        btn.textContent = '确认回复';
+        isSubmitting = false;
+        return;
+      }
+
+      // ─── 校验：预计到达时间必填 ───
+      const arrivalTimeValue = formData.get('arrivalTime')?.trim();
+      if (!arrivalTimeValue) {
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'form-error';
+        errorDiv.innerHTML = '<p>请选择预计到达时间</p>';
+        form.insertBefore(errorDiv, form.firstChild);
+        btn.style.opacity = '';
+        btn.textContent = '确认回复';
+        isSubmitting = false;
+        return;
+      }
+    }
+
     const payload = {
       name:  formData.get('name')    || '未填写',
       phone: formData.get('phone')   || '未填写',
       attend:          formData.get('attend')         || '',
-      guests:          formData.get('guests')          || '',
-      meal:            formData.get('meal')            || '',
-      arrivalDate:     formData.get('arrivalDate')     || '',
-      arrivalTime:     formData.get('arrivalTime')     || '',
-      departureDate:   formData.get('departureDate')   || '',
-      departureTime:   formData.get('departureTime')   || '',
-      flightNumber:    formData.get('flightNumber')    || '未填写',
+      guests:          formData.get('guests')          || (isAttending ? '' : '0'),
+      meal:            formData.get('meal')            || (isAttending ? '无' : 'N/A'),
+      arrivalDate:     formData.get('arrivalDate')     || (isAttending ? '' : 'N/A'),
+      arrivalTime:     formData.get('arrivalTime')     || (isAttending ? '' : 'N/A'),
+      departureDate:   formData.get('departureDate')   || (isAttending ? '待定' : 'N/A'),
+      departureTime:   formData.get('departureTime')   || (isAttending ? '待定' : 'N/A'),
+      flightNumber:    formData.get('flightNumber')    || (isAttending ? '未填写' : 'N/A'),
       message:         formData.get('message')        || '未填写',
     };
 
@@ -1381,17 +1650,28 @@
       if (response.ok) {
         form.style.display = 'none';
         document.getElementById('formSuccess').classList.add('show');
+
+        // 根据是否出席显示不同文案
+        const isAttending = formData.get('attend') === 'yes';
+        document.getElementById('successAttending').style.display = isAttending ? 'block' : 'none';
+        document.getElementById('successDeclined').style.display = isAttending ? 'none' : 'block';
       } else {
-        // API 返回错误状态码
-        throw new Error(`Server error: ${response.status}`);
+        // API 返回错误状态码，尝试读取后端错误信息
+        const errorText = await response.text().catch(() => '');
+        console.error('RSVP 提交失败:', response.status, errorText);
+        throw new Error(`Server error ${response.status}: ${errorText || '未知错误'}`);
       }
     } catch (err) {
       // 网络错误或 API 错误，显示错误提示
       console.error('RSVP 提交失败:', err);
       
+      const errorMessage = err.message && err.message.includes('Server error') 
+        ? '提交失败：' + err.message.replace('Server error ', '')
+        : '提交失败，请检查网络后重试';
+      
       const errorDiv = document.createElement('div');
       errorDiv.className = 'form-error';
-      errorDiv.innerHTML = '<p>提交失败，请检查网络后重试</p>';
+      errorDiv.innerHTML = '<p>' + errorMessage + '</p>';
       // 插入到表单的最前面
       form.insertBefore(errorDiv, form.firstChild);
       
@@ -1409,7 +1689,8 @@
   // ─── QR Code ───
   (function() {
     const url = window.location.href;
-    new QRCode(document.getElementById('qrcode'), {
+    const qrcodeDiv = document.getElementById('qrcode');
+    new QRCode(qrcodeDiv, {
       text: url,
       width: 160,
       height: 160,
@@ -1417,6 +1698,54 @@
       colorLight: '#FAF8F5',
       correctLevel: QRCode.CorrectLevel.M
     });
+
+    // 下载二维码功能
+    const downloadBtn = document.getElementById('downloadQR');
+    if (downloadBtn) {
+      downloadBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const canvas = qrcodeDiv.querySelector('canvas');
+        if (canvas) {
+          // 创建一个白色背景的 canvas（避免透明背景在某些场景下显示问题）
+          const finalCanvas = document.createElement('canvas');
+          finalCanvas.width = 180;
+          finalCanvas.height = 220; // 增加高度用于添加文字说明
+          const ctx = finalCanvas.getContext('2d');
+
+          // 白色背景
+          ctx.fillStyle = '#FAF8F5';
+          ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
+
+          // 绘制二维码（居中）
+          ctx.drawImage(canvas, 10, 10, 160, 160);
+
+          // 添加文字
+          ctx.fillStyle = '#2A2825';
+          ctx.font = '12px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText('王真 & 陈雨欣 婚礼邀请函', 90, 190);
+
+          // 触发下载
+          const link = document.createElement('a');
+          link.download = '王真陈雨欣-婚礼邀请函-二维码.png';
+          link.href = finalCanvas.toDataURL('image/png');
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        } else {
+          // 如果 canvas 不存在（可能是 img 标签），尝试获取 img
+          const img = qrcodeDiv.querySelector('img');
+          if (img) {
+            const link = document.createElement('a');
+            link.download = '王真陈雨欣-婚礼邀请函-二维码.png';
+            link.href = img.src;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }
+        }
+      });
+    }
   })();
 
   // ─── Music (placeholder — audio file to be added) ───
