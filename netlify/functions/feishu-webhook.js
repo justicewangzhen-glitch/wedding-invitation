@@ -53,47 +53,94 @@ exports.handler = async function (event, context) {
 
   const timestamp = new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' });
 
-  // 构建飞书卡片（使用 div 替代 section，减少消息体积，避免频率限制）
+  // 构建飞书卡片（使用 div 替代 section，减少消息体积）
   const cardElements = [
+    // 第一组：宾客信息
     {
       tag: 'div',
       fields: [
-        { is_short: true, text: { tag: 'plain_text', content: `**姓名**\n${name}` } },
-        { is_short: true, text: { tag: 'plain_text', content: `**联系电话**\n${phone}` } }
+        {
+          is_short: true,
+          text: { tag: 'lark_md', content: `**👤 姓名**\n${name}` }
+        },
+        {
+          is_short: true,
+          text: { tag: 'lark_md', content: `**📞 联系电话**\n${phone}` }
+        }
       ]
     },
     { tag: 'hr' },
+    // 第二组：出席信息
     {
       tag: 'div',
       fields: [
-        { is_short: true, text: { tag: 'plain_text', content: `**是否出席**\n${attendanceLabel}` } },
-        { is_short: true, text: { tag: 'plain_text', content: `**出席人数**\n${guestsLabel}` } }
+        {
+          is_short: true,
+          text: { tag: 'lark_md', content: `**🎉 是否出席**\n${attendanceLabel}` }
+        },
+        {
+          is_short: true,
+          text: { tag: 'lark_md', content: `**👥 出席人数**\n${guestsLabel}` }
+        }
       ]
     },
     { tag: 'hr' },
+    // 第三组：到达信息
     {
       tag: 'div',
       fields: [
-        { is_short: true, text: { tag: 'plain_text', content: `**到达日期**\n${arrivalDateLabel}` } },
-        { is_short: true, text: { tag: 'plain_text', content: `**到达时间**\n${arrivalTimeLabel}` } },
-        { is_short: true, text: { tag: 'plain_text', content: `**离开日期**\n${departureDateLabel}` } },
-        { is_short: true, text: { tag: 'plain_text', content: `**离开时间**\n${departureTimeLabel}` } }
+        {
+          is_short: true,
+          text: { tag: 'lark_md', content: `**✈️ 到达日期**\n${arrivalDateLabel}` }
+        },
+        {
+          is_short: true,
+          text: { tag: 'lark_md', content: `**🕐 到达时间**\n${arrivalTimeLabel}` }
+        }
+      ]
+    },
+    // 第四组：离开信息
+    {
+      tag: 'div',
+      fields: [
+        {
+          is_short: true,
+          text: { tag: 'lark_md', content: `**🚗 离开日期**\n${departureDateLabel}` }
+        },
+        {
+          is_short: true,
+          text: { tag: 'lark_md', content: `**🕑 离开时间**\n${departureTimeLabel}` }
+        }
       ]
     },
     { tag: 'hr' },
+    // 第五组：餐饮和航班
     {
       tag: 'div',
       fields: [
-        { is_short: true, text: { tag: 'plain_text', content: `**餐饮偏好**\n${mealLabel}` } },
-        { is_short: true, text: { tag: 'plain_text', content: `**航班/车次**\n${flightNumber}` } }
+        {
+          is_short: true,
+          text: { tag: 'lark_md', content: `**🍽️ 餐饮偏好**\n${mealLabel}` }
+        },
+        {
+          is_short: true,
+          text: { tag: 'lark_md', content: `**🗺️ 航班/车次**\n${flightNumber}` }
+        }
       ]
     }
   ];
 
+  // 祝福语单独成块
   if (blessing !== '未填写') {
     cardElements.push(
       { tag: 'hr' },
-      { tag: 'div', text: { tag: 'plain_text', content: `**祝福语**\n${blessing}` } }
+      {
+        tag: 'div',
+        text: {
+          tag: 'lark_md',
+          content: `**💬 祝福语**\n${blessing}`
+        }
+      }
     );
   }
 
