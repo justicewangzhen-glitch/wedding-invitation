@@ -706,10 +706,7 @@
       color: var(--warm-white);
     }
 
-    .form-submit:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
+    /* 提交状态用 JS 控制，不用 CSS 类 */
 
     .form-success {
       text-align: center;
@@ -748,6 +745,21 @@
     .form-success p {
       font-size: 0.85rem;
       color: var(--text-secondary);
+    }
+
+    /* ─── FORM ERROR ─── */
+    .form-error {
+      background: rgba(192, 151, 143, 0.1);
+      border: 1px solid var(--rose);
+      padding: 16px 20px;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .form-error p {
+      font-size: 0.85rem;
+      color: var(--rose);
+      margin: 0;
     }
 
     /* ─── FOOTER ─── */
@@ -1212,7 +1224,7 @@
       <textarea class="form-textarea" id="message" name="message" placeholder="写下您对新人的祝福..."></textarea>
     </div>
 
-    <button type="submit" class="form-submit">确认回复</button>
+    <button type="submit" class="form-submit" onclick="console.log('按钮被点击了')">确认回复</button>
   </form>
 
   <div class="form-success" id="formSuccess">
@@ -1315,14 +1327,29 @@
 
   // ─── RSVP Form ───
   const API_ENDPOINT = '/api/feishu-webhook';
+  let isSubmitting = false;
 
   document.getElementById('rsvpForm').addEventListener('submit', async (e) => {
     e.preventDefault();
+    
+    // 如果正在提交中，防止重复提交
+    if (isSubmitting) {
+      alert('正在提交中，请稍候...');
+      return;
+    }
+    isSubmitting = true;
+    
     const btn = e.target.querySelector('.form-submit');
-    btn.disabled = true;
+    const form = e.target;
+    
+    // 清除之前的错误提示
+    const existingError = form.querySelector('.form-error');
+    if (existingError) existingError.remove();
+    
+    btn.style.opacity = '0.5';
     btn.textContent = '提交中...';
 
-    const formData = new FormData(e.target);
+    const formData = new FormData(form);
 
     const payload = {
       name:  formData.get('name')    || '未填写',
@@ -1339,19 +1366,43 @@
     };
 
     try {
-      await fetch(API_ENDPOINT, {
+      // 添加时间戳防止缓存
+      const url = API_ENDPOINT + '?t=' + Date.now();
+      const response = await fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache'
+        },
         body: JSON.stringify(payload)
       });
+      
+      // API 返回 200 才算成功
+      if (response.ok) {
+        form.style.display = 'none';
+        document.getElementById('formSuccess').classList.add('show');
+      } else {
+        // API 返回错误状态码
+        throw new Error(`Server error: ${response.status}`);
+      }
     } catch (err) {
-      // 网络错误不影响展示成功页面
+      // 网络错误或 API 错误，显示错误提示
+      console.error('RSVP 提交失败:', err);
+      
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'form-error';
+      errorDiv.innerHTML = '<p>提交失败，请检查网络后重试</p>';
+      // 插入到表单的最前面
+      form.insertBefore(errorDiv, form.firstChild);
+      
+      // 恢复按钮状态 - 彻底清除所有可能残留的样式和类
+      btn.style.opacity = '';
+      btn.style.pointerEvents = '';
+      btn.style.cursor = '';
+      btn.classList.remove('is-submitting', 'error-recovered', 'disabled');
+      btn.textContent = '确认回复';
+      isSubmitting = false;
     }
-
-    e.target.style.display = 'none';
-    document.getElementById('formSuccess').classList.add('show');
-    btn.disabled = false;
-    btn.textContent = '确认回复';
   });
 
 
