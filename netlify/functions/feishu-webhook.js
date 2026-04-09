@@ -80,9 +80,9 @@ async function getGoogleAccessToken() {
   const jwt = createJWT();
   const response = await fetch('https://oauth2.googleapis.com/token', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({
-      grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+async function appendToGoogleSheet(rowData, accessToken) {
+  const sheetName = process.env.GOOGLE_SHEET_NAME || '工作表1';
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${GOOGLE_SHEETS_ID}/values/${encodeURIComponent(sheetName)}!A1:append?valueInputOption=USER_ENTERED`;
       assertion: jwt
     })
   });
