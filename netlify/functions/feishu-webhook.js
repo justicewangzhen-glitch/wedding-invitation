@@ -1,23 +1,28 @@
 /**
  * Netlify Function: feishu-webhook
- *
- * 接收前端表单数据，中转到飞书机器人 Webhook。
+ * 宾客提交 → 发飞书群卡片 + 写多维表格
  */
 
-// 优先使用环境变量（更安全），否则回退到硬编码值
-const FEISHU_WEBHOOK = process.env.FEISHU_WEBHOOK
-  || 'https://open.feishu.cn/open-apis/bot/v2/hook/37d33c4a-c2bf-44fc-894e-eaac6e54ee02';
+const FEISHU_WEBHOOK = process.env.FEISHU_WEBHOOK || 'https://open.feishu.cn/open-apis/bot/v2/hook/37d33c4a-c2bf-44fc-894e-eaac6e54ee02';
+const FEISHU_APP_TOKEN = process.env.FEISHU_APP_TOKEN || 'C6UMboaZYaa0Xpskzq1cuuMynpb';
+const FEISHU_TABLE_ID = process.env.FEISHU_TABLE_ID || 'tblxEZ636ez634Gy';
+const FEISHU_APP_ID = process.env.FEISHU_APP_ID;
+const FEISHU_APP_SECRET = process.env.FEISHU_APP_SECRET;
 
-// 字段映射（与服务端 index.html 保持一致）
 const ATTENDANCE_MAP = { yes: '✅ 欣然出席', no: '❌ 遗憾缺席' };
-const GUEST_MAP = { '1': '1人', '2': '2人', '3': '3人', '4': '4人及以上' };
-const MEAL_MAP = { any: '不限定', vegetarian: '素食', allergy: '食物过敏' };
-const ARRIVAL_DATE_MAP = { 'two-days-before': '6月18日', eve: '6月19日', day: '6月20日' };
-const ARRIVAL_TIME_MAP = { morning: '上午（10:00前）', noon: '中午（10:00–12:00）', afternoon: '下午（12:00–17:00）', evening: '傍晚（17:00后）' };
-const DEPARTURE_DATE_MAP = { day: '6月20日', next: '6月21日', later: '6月22日或之后' };
-const DEPARTURE_TIME_MAP = { morning: '上午（12:00前）', afternoon: '下午（12:00–18:00）', evening: '傍晚（18:00后）' };
 
-exports.handler = async function (event, context) {
+async function getTenantAccessToken() {
+  if (!FEISHU_APP_ID || !FEISHU_APP_SECRET) return null;
+  const res = await fetch('https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ app_id: FEISHU_APP_ID, app_secret: FEISHU_APP_SECRET })
+  });
+  const data = await res.json();
+  return data.code === 0 ? data.tenant_access_token : null;
+}
+
+exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: JSON.stringify({ error: 'Method Not Allowed' }) };
   }
@@ -26,168 +31,142 @@ exports.handler = async function (event, context) {
   try {
     body = JSON.parse(event.body || '{}');
   } catch {
-    return { statusCode: 400, body: JSON.stringify({ error: 'Invalid JSON body' }) };
+    return { statusCode: 400, body: JSON.stringify({ error: 'Invalid JSON' }) };
   }
 
   const {
     name = '未填写',
     phone = '未填写',
-    attend: attendance,
-    guests = '未知',
-    meal = '未知',
+    attendance,
+    guests = 1,
+    dietary = '不限定',
     arrivalDate,
-    arrivalTime,
+    arrivalTime = '未填写',
     departureDate,
-    departureTime,
-    flightNumber = '未填写',
-    message: blessing = '未填写'
+    departureTime = '未填写',
+    transport = '未填写',
+    wishes = '未填写'
   } = body;
 
+  const timestamp = Date.now();
   const attendanceLabel = ATTENDANCE_MAP[attendance] || '未知';
-  const guestsLabel = GUEST_MAP[guests] || '未知';
-  const mealLabel = MEAL_MAP[meal] || '未知';
-  const arrivalDateLabel = ARRIVAL_DATE_MAP[arrivalDate] || '未填写';
-  const arrivalTimeLabel = ARRIVAL_TIME_MAP[arrivalTime] || '未填写';
-  const departureDateLabel = DEPARTURE_DATE_MAP[departureDate] || '未填写';
-  const departureTimeLabel = DEPARTURE_TIME_MAP[departureTime] || '未填写';
 
-  const timestamp = new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' });
-
-  // 构建飞书卡片（使用 div 替代 section，减少消息体积）
-  const cardElements = [
-    // 第一组：宾客信息
-    {
-      tag: 'div',
-      fields: [
-        {
-          is_short: true,
-          text: { tag: 'lark_md', content: `**👤 姓名**\n${name}` }
-        },
-        {
-          is_short: true,
-          text: { tag: 'lark_md', content: `**📞 联系电话**\n${phone}` }
-        }
-      ]
-    },
-    { tag: 'hr' },
-    // 第二组：出席信息
-    {
-      tag: 'div',
-      fields: [
-        {
-          is_short: true,
-          text: { tag: 'lark_md', content: `**🎉 是否出席**\n${attendanceLabel}` }
-        },
-        {
-          is_short: true,
-          text: { tag: 'lark_md', content: `**👥 出席人数**\n${guestsLabel}` }
-        }
-      ]
-    },
-    { tag: 'hr' },
-    // 第三组：到达信息
-    {
-      tag: 'div',
-      fields: [
-        {
-          is_short: true,
-          text: { tag: 'lark_md', content: `**✈️ 到达日期**\n${arrivalDateLabel}` }
-        },
-        {
-          is_short: true,
-          text: { tag: 'lark_md', content: `**🕐 到达时间**\n${arrivalTimeLabel}` }
-        }
-      ]
-    },
-    // 第四组：离开信息
-    {
-      tag: 'div',
-      fields: [
-        {
-          is_short: true,
-          text: { tag: 'lark_md', content: `**🚗 离开日期**\n${departureDateLabel}` }
-        },
-        {
-          is_short: true,
-          text: { tag: 'lark_md', content: `**🕑 离开时间**\n${departureTimeLabel}` }
-        }
-      ]
-    },
-    { tag: 'hr' },
-    // 第五组：餐饮和航班
-    {
-      tag: 'div',
-      fields: [
-        {
-          is_short: true,
-          text: { tag: 'lark_md', content: `**🍽️ 餐饮偏好**\n${mealLabel}` }
-        },
-        {
-          is_short: true,
-          text: { tag: 'lark_md', content: `**🗺️ 航班/车次**\n${flightNumber}` }
-        }
-      ]
-    }
-  ];
-
-  // 祝福语单独成块
-  if (blessing !== '未填写') {
-    cardElements.push(
-      { tag: 'hr' },
-      {
-        tag: 'div',
-        text: {
-          tag: 'lark_md',
-          content: `**💬 祝福语**\n${blessing}`
-        }
-      }
-    );
-  }
-
-  cardElements.push({
-    tag: 'note',
-    elements: [{ tag: 'plain_text', content: `📅 收到时间：${timestamp}` }]
-  });
-
-  const payload = {
+  // 构建飞书群卡片
+  const cardPayload = {
     msg_type: 'interactive',
     card: {
       header: {
         title: { tag: 'plain_text', content: '💐 婚礼宾客回复' },
-        subtitle: { tag: 'plain_text', content: `${name} 已填写回复` },
         template: 'pink'
       },
-      elements: cardElements
+      elements: [
+        {
+          tag: 'div',
+          fields: [
+            { is_short: true, text: { tag: 'plain_text', content: `**宾客姓名**\n${name}` } },
+            { is_short: true, text: { tag: 'plain_text', content: `**联系电话**\n${phone}` } }
+          ]
+        },
+        { tag: 'hr' },
+        {
+          tag: 'div',
+          fields: [
+            { is_short: true, text: { tag: 'plain_text', content: `**是否出席**\n${attendanceLabel}` } },
+            { is_short: true, text: { tag: 'plain_text', content: `**出席人数**\n${guests}人` } }
+          ]
+        },
+        { tag: 'hr' },
+        {
+          tag: 'div',
+          fields: [
+            { is_short: true, text: { tag: 'plain_text', content: `**餐饮偏好**\n${dietary}` } },
+            { is_short: true, text: { tag: 'plain_text', content: `**交通信息**\n${transport}` } }
+          ]
+        },
+        { tag: 'hr' },
+        {
+          tag: 'div',
+          fields: [
+            { is_short: true, text: { tag: 'plain_text', content: `**到达日期**\n${arrivalDate || '未填写'}` } },
+            { is_short: true, text: { tag: 'plain_text', content: `**到达时间**\n${arrivalTime}` } }
+          ]
+        },
+        { tag: 'hr' },
+        {
+          tag: 'div',
+          fields: [
+            { is_short: true, text: { tag: 'plain_text', content: `**离开日期**\n${departureDate || '未填写'}` } },
+            { is_short: true, text: { tag: 'plain_text', content: `**离开时间**\n${departureTime}` } }
+          ]
+        },
+        { tag: 'hr' },
+        {
+          tag: 'div',
+          text: { tag: 'plain_text', content: `**祝福语**\n${wishes}` }
+        },
+        {
+          tag: 'note',
+          elements: [{ tag: 'plain_text', content: `收到时间：${new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })}` }]
+        }
+      ]
     }
   };
 
+  // 构建 Bitable 记录（字段名用中文字段名，日期用毫秒时间戳）
+  const bitableFields = {
+    '姓名': name,
+    '电话': phone,
+    '是否出席': attendanceLabel,
+    '出席人数': Number(guests),
+    '餐饮偏好': dietary,
+    '到达时间': arrivalTime,
+    '离开时间': departureTime,
+    '交通信息': transport,
+    '祝福语': wishes,
+    '收到时间': timestamp
+  };
+  if (arrivalDate) bitableFields['到达日期'] = timestamp;
+  if (departureDate) bitableFields['离开日期'] = timestamp;
+
+  const results = { webhook: false, bitable: false };
+
+  // 发飞书群卡片
   try {
-    const feishuResponse = await fetch(FEISHU_WEBHOOK, {
+    await fetch(FEISHU_WEBHOOK, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(cardPayload)
     });
-
-    const feishuBody = await feishuResponse.text();
-    console.log('Feishu response:', feishuResponse.status, feishuBody);
-
-    if (!feishuResponse.ok) {
-      return {
-        statusCode: 502,
-        body: JSON.stringify({ error: 'Feishu API error', detail: feishuBody })
-      };
-    }
-
-    return {
-      statusCode: 200,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ success: true })
-    };
+    results.webhook = true;
   } catch (err) {
-    console.error('Network error:', err);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: 'Internal server error' })
-    };
+    console.error('[Webhook]', err.message);
   }
+
+  // 写多维表格
+  const token = await getTenantAccessToken();
+  if (token) {
+    try {
+      await fetch(`https://open.feishu.cn/open-apis/bitable/v1/apps/${FEISHU_APP_TOKEN}/tables/${FEISHU_TABLE_ID}/records`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ fields: bitableFields })
+      });
+      results.bitable = true;
+    } catch (err) {
+      console.error('[Bitable]', err.message);
+    }
+  }
+
+  return {
+    statusCode: 200,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      success: results.webhook,
+      webhook: results.webhook ? 'ok' : 'failed',
+      bitable: results.bitable ? 'ok' : 'failed'
+    })
+  };
 };
