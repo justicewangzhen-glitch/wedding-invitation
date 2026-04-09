@@ -1,0 +1,8 @@
+[build]
+  publish = "."
+
+[[redirects]]
+  from = "/api/feishu-webhook"
+  to = "/.netlify/functions/feishu-webhook"
+  status = 200
+  force = true
