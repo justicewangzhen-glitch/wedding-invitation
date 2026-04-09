@@ -1314,16 +1314,7 @@
   setInterval(updateCountdown, 1000);
 
   // ─── RSVP Form ───
-  // 表单提交目标改为 Netlify Function（服务端中转，无 CORS 限制）
   const API_ENDPOINT = '/api/feishu-webhook';
-
-  const ATTENDANCE_MAP = { yes: '欣然出席', no: '遗憾缺席' };
-  const GUEST_MAP = { '1': '1人', '2': '2人', '3': '3人', '4': '4人及以上' };
-  const MEAL_MAP = { any: '不限定', vegetarian: '素食', allergy: '食物过敏' };
-  const ARRIVAL_DATE_MAP = { 'two-days-before': '6月18日', eve: '6月19日', day: '6月20日' };
-  const ARRIVAL_TIME_MAP = { morning: '上午（10:00前）', noon: '中午（10:00–12:00）', afternoon: '下午（12:00–17:00）', evening: '傍晚（17:00后）' };
-  const DEPARTURE_DATE_MAP = { day: '6月20日', next: '6月21日', later: '6月22日或之后' };
-  const DEPARTURE_TIME_MAP = { morning: '上午（12:00前）', afternoon: '下午（12:00–18:00）', evening: '傍晚（18:00后）' };
 
   document.getElementById('rsvpForm').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -1332,22 +1323,19 @@
     btn.textContent = '提交中...';
 
     const formData = new FormData(e.target);
-    const name = formData.get('name') || '未填写';
-    const phone = formData.get('phone') || '未填写';
-    const attendance = ATTENDANCE_MAP[formData.get('attend')] || '未知';
-    const guests = GUEST_MAP[formData.get('guests')] || '未知';
-    const meal = MEAL_MAP[formData.get('meal')] || '未知';
-    const arrivalDate = ARRIVAL_DATE_MAP[formData.get('arrivalDate')] || '未填写';
-    const arrivalTime = ARRIVAL_TIME_MAP[formData.get('arrivalTime')] || '未填写';
-    const departureDate = DEPARTURE_DATE_MAP[formData.get('departureDate')] || '未填写';
-    const departureTime = DEPARTURE_TIME_MAP[formData.get('departureTime')] || '未填写';
-    const flightNumber = formData.get('flightNumber') || '未填写';
-    const blessing = formData.get('message') || '未填写';
 
     const payload = {
-      name, phone, attendance, guests, meal,
-      arrivalDate, arrivalTime, departureDate, departureTime,
-      flightNumber, message: blessing
+      name:  formData.get('name')    || '未填写',
+      phone: formData.get('phone')   || '未填写',
+      attend:          formData.get('attend')         || '',
+      guests:          formData.get('guests')          || '',
+      meal:            formData.get('meal')            || '',
+      arrivalDate:     formData.get('arrivalDate')     || '',
+      arrivalTime:     formData.get('arrivalTime')     || '',
+      departureDate:   formData.get('departureDate')   || '',
+      departureTime:   formData.get('departureTime')   || '',
+      flightNumber:    formData.get('flightNumber')    || '未填写',
+      message:         formData.get('message')        || '未填写',
     };
 
     try {
@@ -1365,6 +1353,7 @@
     btn.disabled = false;
     btn.textContent = '确认回复';
   });
+
 
   // ─── QR Code ───
   (function() {
