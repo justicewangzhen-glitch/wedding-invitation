@@ -1563,14 +1563,20 @@
     const selectedRadio = document.querySelector('input[name="guestType"]:checked');
     const guestType = selectedRadio?.value;
     
+    console.log('updateGuestTypeFields called, guestType:', guestType);
+    console.log('localFields:', localFields);
+    console.log('outFields:', outFields);
+    
     if (!guestType) {
       // 如果没有选中任何宾客类型，隐藏所有子字段
+      console.log('No guestType selected, hiding all fields');
       localFields?.classList.add('hidden');
       outFields?.classList.add('hidden');
       return;
     }
     
     if (guestType === 'local') {
+      console.log('Showing local fields');
       localFields?.classList.remove('hidden');
       outFields?.classList.add('hidden');
       // 清空外地宾客字段
@@ -1582,6 +1588,7 @@
         }
       });
     } else if (guestType === 'out') {
+      console.log('Showing out fields');
       localFields?.classList.add('hidden');
       outFields?.classList.remove('hidden');
       // 清空本地宾客字段
@@ -1595,8 +1602,14 @@
   attendRadios.forEach(radio => {
     radio.addEventListener('change', updateAttendanceFields);
   });
-  guestTypeRadios.forEach(radio => {
-    radio.addEventListener('change', updateGuestTypeFields);
+  
+  console.log('Binding guestType radios, count:', guestTypeRadios.length);
+  guestTypeRadios.forEach((radio, index) => {
+    console.log(`Binding radio ${index}:`, radio.value);
+    radio.addEventListener('change', () => {
+      console.log('Radio changed:', radio.value);
+      updateGuestTypeFields();
+    });
   });
 
   // 初始化状态（默认隐藏）
