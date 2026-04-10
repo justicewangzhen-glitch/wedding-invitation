@@ -1,435 +1,451 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>陈泓宇 & 林思妍 - 婚礼邀请函</title>
-  <meta name="description" content="我们诚挚邀请您见证我们的幸福时刻">
-  
-  <!-- Fonts -->
+  <title>王真 &amp; 陈雨欣 · 婚礼邀请函</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Serif+SC:wght@200;300;400;500&display=swap" rel="stylesheet">
-  
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'paper': '#fdfbf8',
-            'ink': '#2a2a2a',
-            'gold': '#c9b99a',
-            'gold-light': '#e8e0d0',
-            'rose': '#d4a5a5',
-            'rose-light': '#f0e6e6',
-            'warm': '#f5f0e8',
-            'grey': '#6b6b6b',
-            'grey-light': '#999999'
-          },
-          fontFamily: {
-            'display': ['Cormorant Garamond', 'Noto Serif SC', 'serif'],
-            'body': ['Noto Serif SC', 'serif'],
-          }
-        }
-      }
-    }
-  </script>
-  
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Josefin+Sans:wght@200;300;400&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+
   <style>
-    /* Custom Styles */
     :root {
-      --paper: #fdfbf8;
-      --ink: #2a2a2a;
-      --gold: #c9b99a;
-      --gold-light: #e8e0d0;
-      --rose: #d4a5a5;
-      --rose-light: #f0e6e6;
-      --warm: #f5f0e8;
-      --grey: #6b6b6b;
+      --cream: #FAF8F5;
+      --warm-white: #FFFDF9;
+      --charcoal: #2A2825;
+      --taupe: #B5A99E;
+      --taupe-light: #D4C9BE;
+      --rose: #C0978F;
+      --gold: #C4A96E;
+      --gold-light: #E8D9B8;
+      --sage: #8B9E8B;
+      --text-secondary: #8A8480;
+      --divider: rgba(181,169,158,0.35);
     }
-    
-    * {
+
+    *, *::before, *::after {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-    
+
     html {
       scroll-behavior: smooth;
+      font-size: 16px;
     }
-    
+
     body {
-      font-family: 'Noto Serif SC', serif;
-      background: var(--paper);
-      color: var(--ink);
+      background-color: var(--cream);
+      color: var(--charcoal);
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 300;
+      letter-spacing: 0.03em;
       line-height: 1.8;
       overflow-x: hidden;
     }
-    
-    /* Typography */
-    h1, h2, h3, .font-display {
-      font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
-      font-weight: 300;
-      letter-spacing: 0.05em;
+
+    ::selection {
+      background: var(--gold-light);
+      color: var(--charcoal);
     }
-    
-    /* Animations */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(40px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-    }
-    
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.7; }
-    }
-    
-    .fade-in-up {
-      animation: fadeInUp 1s ease-out forwards;
-    }
-    
-    .fade-in {
-      animation: fadeIn 1.2s ease-out forwards;
-    }
-    
+
+    /* ─── Scrollbar ─── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--cream); }
+    ::-webkit-scrollbar-thumb { background: var(--taupe); border-radius: 2px; }
+
+    /* ─── Utility ─── */
     .section-reveal {
       opacity: 0;
-      transform: translateY(40px);
-      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(28px);
+      transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
     }
-    
     .section-reveal.visible {
       opacity: 1;
       transform: translateY(0);
     }
-    
-    /* Grain texture overlay */
-    .grain {
+
+    /* ─── Navigation dots ─── */
+    .nav-dots {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1000;
-      opacity: 0.03;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      right: 28px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 100;
     }
-    
-    /* Hero Section */
+    .nav-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--taupe);
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      opacity: 0.5;
+    }
+    .nav-dot.active {
+      opacity: 1;
+      background: var(--gold);
+      transform: scale(1.4);
+    }
+    .nav-dot:hover { opacity: 1; }
+
+    /* ─── Music Toggle ─── */
+    .music-toggle {
+      position: fixed;
+      top: 28px;
+      right: 28px;
+      z-index: 200;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--divider);
+      background: rgba(250,248,245,0.85);
+      backdrop-filter: blur(8px);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      color: var(--taupe);
+    }
+    .music-toggle:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .music-toggle svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    /* ─── HERO ─── */
     .hero {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      text-align: center;
-      padding: 2rem;
       position: relative;
       overflow: hidden;
+      padding: 40px 24px;
     }
-    
+
     .hero-bg {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, var(--paper) 0%, var(--warm) 50%, var(--rose-light) 100%);
-      z-index: -2;
-    }
-    
-    .hero-flowers {
-      position: absolute;
-      width: 100%;
-      height: 100%;
+      inset: 0;
       pointer-events: none;
-      z-index: -1;
-      opacity: 0.15;
     }
-    
-    .hero-flowers svg {
+
+    /* Botanical SVG watermark */
+    .botanical-watermark {
       position: absolute;
-      width: 200px;
-      height: 200px;
+      opacity: 0.06;
+      fill: var(--taupe);
     }
-    
-    .hero-flowers svg:nth-child(1) {
-      top: 10%;
-      left: 5%;
-      animation: float 6s ease-in-out infinite;
+    .botanical-watermark.top-right {
+      top: -40px;
+      right: -40px;
+      width: 420px;
+      height: 420px;
+      transform: rotate(15deg);
     }
-    
-    .hero-flowers svg:nth-child(2) {
-      top: 20%;
-      right: 10%;
-      animation: float 7s ease-in-out infinite 0.5s;
+    .botanical-watermark.bottom-left {
+      bottom: -60px;
+      left: -60px;
+      width: 340px;
+      height: 340px;
+      transform: rotate(-20deg);
     }
-    
-    .hero-flowers svg:nth-child(3) {
-      bottom: 20%;
-      left: 8%;
-      animation: float 5s ease-in-out infinite 1s;
-    }
-    
-    .hero-flowers svg:nth-child(4) {
-      bottom: 15%;
-      right: 5%;
-      animation: float 8s ease-in-out infinite 1.5s;
-    }
-    
-    .hero-badge {
-      font-size: 0.75rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 2rem;
-      animation: fadeInUp 1s ease-out;
-    }
-    
-    .hero-names {
-      font-size: clamp(2.5rem, 8vw, 5rem);
-      font-weight: 300;
-      letter-spacing: 0.1em;
-      margin-bottom: 1rem;
-      animation: fadeInUp 1s ease-out 0.2s backwards;
-    }
-    
-    .hero-names span {
-      display: inline-block;
-      animation: float 4s ease-in-out infinite;
-    }
-    
-    .hero-names span:nth-child(2) {
-      animation-delay: 0.5s;
-    }
-    
-    .hero-ampersand {
-      font-size: 0.6em;
-      color: var(--rose);
-      margin: 0 0.3em;
-      font-style: italic;
-    }
-    
-    .hero-date {
-      font-size: 1rem;
-      color: var(--grey);
-      letter-spacing: 0.2em;
-      margin-bottom: 3rem;
-      animation: fadeInUp 1s ease-out 0.4s backwards;
-    }
-    
-    .scroll-indicator {
+
+    /* Horizontal lines */
+    .hero-line {
       position: absolute;
-      bottom: 3rem;
-      left: 50%;
-      transform: translateX(-50%);
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--divider);
+    }
+    .hero-line.top { top: 60px; }
+    .hero-line.bottom { bottom: 60px; }
+
+    .hero-ornament {
+      position: absolute;
       display: flex;
       flex-direction: column;
       align-items: center;
-      color: var(--gold);
-      font-size: 0.75rem;
-      letter-spacing: 0.2em;
-      animation: pulse 2s ease-in-out infinite;
+      gap: 6px;
     }
-    
-    .scroll-indicator svg {
-      width: 24px;
-      height: 24px;
-      margin-top: 0.5rem;
-      animation: float 2s ease-in-out infinite;
+    .hero-ornament.top { top: 54px; left: 50%; transform: translateX(-50%); }
+    .hero-ornament.bottom { bottom: 54px; left: 50%; transform: translateX(-50%); }
+    .ornament-line { width: 1px; height: 24px; background: var(--divider); }
+    .ornament-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--gold); }
+
+    .hero-content {
+      text-align: center;
+      position: relative;
+      z-index: 2;
     }
-    
-    /* Section Styles */
-    .section {
-      padding: 6rem 1.5rem;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    
-    .section-label {
-      font-size: 0.75rem;
-      letter-spacing: 0.3em;
+
+    .hero-eyebrow {
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 200;
+      font-size: clamp(0.65rem, 1.5vw, 0.75rem);
+      letter-spacing: 0.35em;
       text-transform: uppercase;
       color: var(--gold);
-      margin-bottom: 1rem;
-      text-align: center;
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
     }
-    
-    .section-title {
-      font-size: clamp(1.75rem, 5vw, 2.5rem);
-      text-align: center;
-      margin-bottom: 3rem;
-      position: relative;
+
+    .hero-names {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(3.2rem, 9vw, 7rem);
+      line-height: 1.05;
+      color: var(--charcoal);
+      margin-bottom: 8px;
+      opacity: 0;
+      animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) 0.6s forwards;
     }
-    
-    .section-title::after {
-      content: '';
+
+    .hero-ampersand {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(1.2rem, 3vw, 2rem);
+      color: var(--taupe);
       display: block;
-      width: 60px;
+      margin: 10px 0 14px;
+      opacity: 0;
+      animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) 0.8s forwards;
+    }
+
+    .hero-date {
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 200;
+      font-size: clamp(0.7rem, 1.8vw, 0.85rem);
+      letter-spacing: 0.4em;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) 1.0s forwards;
+    }
+
+    .hero-divider {
+      width: 40px;
       height: 1px;
       background: var(--gold);
-      margin: 1.5rem auto 0;
+      margin: 28px auto 0;
+      opacity: 0;
+      animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) 1.2s forwards;
     }
-    
-    .section-subtitle {
-      text-align: center;
-      color: var(--grey);
-      font-size: 0.9rem;
-      margin-top: -2rem;
-      margin-bottom: 3rem;
-      font-style: italic;
+
+    .hero-cta {
+      margin-top: 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      opacity: 0;
+      animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) 1.4s forwards;
     }
-    
-    /* Story Section */
-    .story-section {
-      background: linear-gradient(to bottom, var(--paper), var(--warm));
+
+    .scroll-hint {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
     }
-    
-    .story-content {
-      text-align: center;
-      max-width: 600px;
+
+    .scroll-arrow {
+      width: 1px;
+      height: 36px;
+      background: linear-gradient(to bottom, var(--taupe), transparent);
+      animation: scrollPulse 2.5s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.2); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── SECTION COMMON ─── */
+    .section {
+      padding: 120px 24px;
+      max-width: 760px;
       margin: 0 auto;
     }
-    
-    .story-quote {
-      font-size: 1.1rem;
-      line-height: 2;
-      color: var(--grey);
-      font-style: italic;
-      margin-bottom: 3rem;
-      position: relative;
-      padding: 0 2rem;
-    }
-    
-    .story-quote::before,
-    .story-quote::after {
-      content: '"';
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 4rem;
-      color: var(--gold-light);
-      position: absolute;
-      line-height: 1;
-    }
-    
-    .story-quote::before {
-      top: -1rem;
-      left: 0;
-    }
-    
-    .story-quote::after {
-      content: '"';
-      bottom: -2rem;
-      right: 0;
-    }
-    
-    .timeline {
-      position: relative;
-      padding: 2rem 0;
-    }
-    
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 50%;
-      top: 0;
-      bottom: 0;
-      width: 1px;
-      background: linear-gradient(to bottom, transparent, var(--gold), transparent);
-      transform: translateX(-50%);
-    }
-    
-    .timeline-item {
-      display: flex;
-      margin-bottom: 3rem;
-      position: relative;
-    }
-    
-    .timeline-item:nth-child(odd) {
-      flex-direction: row-reverse;
-      text-align: right;
-    }
-    
-    .timeline-content {
-      width: 45%;
-      padding: 0 2rem;
-    }
-    
-    .timeline-dot {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 12px;
-      height: 12px;
-      background: var(--gold);
-      border-radius: 50%;
-      border: 3px solid var(--paper);
-      box-shadow: 0 0 0 1px var(--gold);
-    }
-    
-    .timeline-date {
-      font-size: 0.85rem;
+
+    .section-label {
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 200;
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
       color: var(--gold);
-      letter-spacing: 0.1em;
-      margin-bottom: 0.5rem;
+      text-align: center;
+      margin-bottom: 56px;
     }
-    
-    .timeline-title {
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      line-height: 1.2;
+      text-align: center;
+      color: var(--charcoal);
+      margin-bottom: 16px;
     }
-    
-    .timeline-desc {
-      font-size: 0.9rem;
-      color: var(--grey);
-      line-height: 1.6;
+
+    .section-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      color: var(--text-secondary);
+      text-align: center;
+      margin-bottom: 48px;
     }
-    
-    /* Details Section */
-    .details-section {
-      background: var(--paper);
+
+    /* ─── DIVIDER ─── */
+    .ornamental-divider {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      justify-content: center;
+      padding: 0 24px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .ornamental-divider::before,
+    .ornamental-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--divider);
+    }
+    .ornamental-divider svg {
+      width: 22px;
+      height: 22px;
+      fill: var(--gold);
+      flex-shrink: 0;
+    }
+
+    /* ─── STORY ─── */
+    .story {
+      background: var(--warm-white);
+      border-top: 1px solid var(--divider);
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+      gap: 0 56px;
+      margin-top: 64px;
+      align-items: center;
+    }
+
+    .story-block {
+      text-align: center;
+    }
+
+    .story-year {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .story-text {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 2;
+    }
+
+    .story-vline {
+      background: var(--divider);
+      width: 1px;
+      height: 100px;
+      justify-self: center;
+    }
+
+    .story-photo-placeholder {
+      grid-column: 1 / -1;
+      margin-top: 56px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .photo-frame {
+      width: 260px;
+      height: 320px;
+      border: 1px solid var(--divider);
       position: relative;
+      background: var(--cream);
+      overflow: hidden;
     }
-    
-    .details-section::before {
+
+    .photo-frame::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 100px;
-      background: linear-gradient(to bottom, var(--warm), transparent);
+      inset: 10px;
+      border: 1px solid var(--gold-light);
     }
-    
+
+    .photo-placeholder-inner {
+      position: absolute;
+      inset: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: var(--taupe);
+    }
+
+    .photo-placeholder-inner svg {
+      width: 40px;
+      height: 40px;
+      stroke: var(--taupe);
+      fill: none;
+    }
+
+    .photo-placeholder-inner span {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    /* ─── DETAILS ─── */
     .details-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: 1fr 1px 1fr;
       gap: 0 48px;
       margin-top: 72px;
     }
-    
+
     .detail-block {
       text-align: center;
     }
-    
+
     .detail-icon {
       width: 44px;
       height: 44px;
@@ -438,7 +454,7 @@
       align-items: center;
       justify-content: center;
     }
-    
+
     .detail-icon svg {
       width: 28px;
       height: 28px;
@@ -446,1063 +462,1429 @@
       fill: none;
       stroke-width: 1;
     }
-    
+
     .detail-title {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.5rem;
       font-weight: 400;
       margin-bottom: 6px;
     }
-    
-    .detail-content {
+
+    .detail-info {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      line-height: 2;
+      letter-spacing: 0.05em;
+    }
+
+    .detail-divider {
+      background: var(--divider);
+      width: 1px;
+      height: 160px;
+      justify-self: center;
+    }
+
+    .detail-info a {
+      color: var(--rose);
+      text-decoration: none;
+      border-bottom: 1px solid var(--rose);
+      padding-bottom: 1px;
+      transition: opacity 0.2s;
+    }
+    .detail-info a:hover { opacity: 0.7; }
+
+    /* ─── DRESS CODE ─── */
+    .dresscode-block {
+      text-align: center;
+      padding: 48px 24px 0;
+      margin-top: 32px;
+      border-top: 1px solid var(--divider);
+    }
+
+    .dresscode-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
       font-size: 0.95rem;
-      color: var(--grey);
-      line-height: 1.6;
+      color: var(--rose);
+      margin-bottom: 6px;
+      letter-spacing: 0.05em;
     }
-    
-    /* Gallery Section */
-    .gallery-section {
-      padding: 6rem 0;
-      background: linear-gradient(to bottom, var(--paper), var(--warm), var(--paper));
+
+    .dresscode-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--charcoal);
+      margin-bottom: 20px;
+      letter-spacing: 0.15em;
     }
-    
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 0 24px;
+
+    .dresscode-colors {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 16px;
     }
-    
-    .gallery-item {
-      position: relative;
-      aspect-ratio: 1;
-      overflow: hidden;
-      cursor: pointer;
+
+    .color-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: block;
     }
-    
-    .gallery-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+
+    .dresscode-hint {
+      font-size: 0.65rem;
+      color: var(--text-secondary);
+      letter-spacing: 0.05em;
     }
-    
-    .gallery-item:hover img {
-      transform: scale(1.05);
+
+    /* ─── COUNTDOWN ─── */
+    .countdown-section {
+      background: var(--charcoal);
+      padding: 100px 24px;
+      text-align: center;
     }
-    
-    .gallery-item::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.3), transparent);
-      opacity: 0;
-      transition: opacity 0.3s;
+
+    .countdown-section .section-label { color: var(--gold-light); }
+    .countdown-section .section-title {
+      color: var(--cream);
+      font-size: clamp(1.6rem, 4vw, 2.6rem);
     }
-    
-    .gallery-item:hover::after {
-      opacity: 1;
+    .countdown-section .section-subtitle {
+      color: rgba(250,248,245,0.4);
+      margin-bottom: 64px;
     }
-    
-    /* RSVP Section */
+
+    .countdown-grid {
+      display: flex;
+      justify-content: center;
+      gap: clamp(24px, 5vw, 64px);
+    }
+
+    .countdown-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      min-width: 64px;
+    }
+
+    .countdown-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 7vw, 4.5rem);
+      font-weight: 300;
+      color: var(--cream);
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .countdown-unit {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(250,248,245,0.35);
+    }
+
+    .countdown-sep {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: rgba(250,248,245,0.2);
+      align-self: flex-start;
+      padding-top: 6px;
+      line-height: 1;
+    }
+
+    /* ─── RSVP ─── */
     .rsvp-section {
-      background: linear-gradient(135deg, var(--warm) 0%, var(--rose-light) 100%);
-      position: relative;
+      background: var(--warm-white);
+      border-top: 1px solid var(--divider);
     }
-    
-    .rsvp-section::before {
-      content: '';
-      position: absolute;
-      top: -50px;
-      left: 0;
-      right: 0;
-      height: 100px;
-      background: linear-gradient(to bottom, var(--paper), transparent);
+
+    .rsvp-intro {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      max-width: 480px;
+      margin: 0 auto 56px;
+      line-height: 2.2;
     }
-    
+
     .rsvp-form {
-      max-width: 600px;
+      max-width: 480px;
       margin: 0 auto;
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(10px);
-      padding: 3rem;
-      border-radius: 2px;
-      border: 1px solid var(--gold-light);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
-    
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-    
-    .form-group.full {
-      grid-column: 1 / -1;
-    }
-    
+
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
+      gap: 16px;
     }
-    
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-group.full { grid-column: 1 / -1; }
+
     .form-label {
-      display: block;
-      font-size: 0.85rem;
-      color: var(--grey);
-      margin-bottom: 0.5rem;
-      letter-spacing: 0.05em;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
     }
-    
+
     .form-input,
     .form-select,
     .form-textarea {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--divider);
+      padding: 12px 0;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      color: var(--charcoal);
+      outline: none;
+      transition: border-color 0.3s ease;
       width: 100%;
-      padding: 1rem;
-      border: 1px solid var(--gold-light);
-      background: rgba(255, 255, 255, 0.9);
-      font-family: 'Noto Serif SC', serif;
-      font-size: 0.95rem;
-      color: var(--ink);
-      transition: all 0.3s;
-      border-radius: 2px;
+      appearance: none;
     }
-    
+
     .form-input:focus,
     .form-select:focus,
     .form-textarea:focus {
-      outline: none;
-      border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(201, 185, 154, 0.1);
+      border-bottom-color: var(--gold);
     }
-    
+
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+      color: var(--taupe-light);
+      font-style: italic;
+    }
+
+    .form-select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23B5A99E' stroke-width='1.2' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0 center;
+      padding-right: 20px;
+      cursor: pointer;
+    }
+
     .form-textarea {
-      min-height: 120px;
-      resize: vertical;
+      resize: none;
+      height: 80px;
+      line-height: 1.8;
     }
-    
+
     .radio-group {
       display: flex;
-      gap: 1.5rem;
-      flex-wrap: wrap;
+      gap: 24px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--divider);
     }
-    
+
     .radio-label {
       display: flex;
       align-items: center;
+      gap: 10px;
       cursor: pointer;
-      font-size: 0.9rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      color: var(--charcoal);
     }
-    
-    .radio-label input {
+
+    .radio-label input[type="radio"] {
       display: none;
     }
-    
+
     .radio-custom {
-      width: 20px;
-      height: 20px;
-      border: 1px solid var(--gold);
+      width: 16px;
+      height: 16px;
+      border: 1px solid var(--divider);
       border-radius: 50%;
-      margin-right: 0.5rem;
-      position: relative;
-      transition: all 0.3s;
-    }
-    
-    .radio-label input:checked + .radio-custom {
-      background: var(--gold);
-      border-color: var(--gold);
-    }
-    
-    .radio-label input:checked + .radio-custom::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 8px;
-      height: 8px;
-      background: white;
-      border-radius: 50%;
-    }
-    
-    .submit-btn {
-      width: 100%;
-      padding: 1.2rem;
-      background: var(--ink);
-      color: var(--paper);
-      border: none;
-      font-family: 'Noto Serif SC', serif;
-      font-size: 0.9rem;
-      letter-spacing: 0.2em;
-      cursor: pointer;
-      transition: all 0.3s;
-      border-radius: 2px;
-    }
-    
-    .submit-btn:hover {
-      background: var(--gold);
-      color: var(--ink);
-    }
-    
-    /* Footer */
-    .footer {
-      text-align: center;
-      padding: 4rem 2rem;
-      background: var(--ink);
-      color: var(--paper);
-    }
-    
-    .footer-text {
-      font-size: 0.85rem;
-      opacity: 0.7;
-      letter-spacing: 0.1em;
-    }
-    
-    /* Decorative elements */
-    .divider {
-      width: 60px;
-      height: 1px;
-      background: var(--gold);
-      margin: 3rem auto;
-    }
-    
-    .flourish {
-      text-align: center;
-      color: var(--gold);
-      font-size: 1.5rem;
-      margin: 2rem 0;
-      opacity: 0.5;
-    }
-    
-    /* Responsive */
-    @media (max-width: 768px) {
-      .timeline::before {
-        left: 20px;
-      }
-      
-      .timeline-item,
-      .timeline-item:nth-child(odd) {
-        flex-direction: column;
-        text-align: left;
-        padding-left: 50px;
-      }
-      
-      .timeline-content {
-        width: 100%;
-        padding: 0;
-      }
-      
-      .timeline-dot {
-        left: 20px;
-      }
-      
-      .form-row {
-        grid-template-columns: 1fr;
-      }
-      
-      .gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-    
-    /* Animation delays */
-    .delay-1 { animation-delay: 0.1s; }
-    .delay-2 { animation-delay: 0.2s; }
-    .delay-3 { animation-delay: 0.3s; }
-    .delay-4 { animation-delay: 0.4s; }
-    .delay-5 { animation-delay: 0.5s; }
-    
-    /* Form success/error states */
-    .form-success {
-      display: none;
-      text-align: center;
-      padding: 3rem;
-    }
-    
-    .form-success.show {
-      display: block;
-    }
-    
-    .success-icon {
-      width: 60px;
-      height: 60px;
-      margin: 0 auto 1.5rem;
-      color: var(--gold);
-    }
-    
-    .form-error {
-      display: none;
-      color: #c44;
-      text-align: center;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      background: rgba(204, 68, 68, 0.1);
-      border-radius: 2px;
-    }
-    
-    .form-error.show {
-      display: block;
-    }
-    
-    /* Loading spinner */
-    .spinner {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      border: 2px solid var(--gold-light);
-      border-top-color: var(--gold);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin-right: 0.5rem;
-      vertical-align: middle;
-    }
-    
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    
-    /* Countdown Section */
-    .countdown-section {
-      background: linear-gradient(to bottom, var(--warm), var(--paper));
-      padding: 5rem 1.5rem;
-      text-align: center;
-    }
-    
-    .countdown-container {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-top: 3rem;
-      flex-wrap: wrap;
-    }
-    
-    .countdown-item {
-      min-width: 80px;
-    }
-    
-    .countdown-number {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 3rem;
-      font-weight: 300;
-      color: var(--gold);
-      line-height: 1;
-    }
-    
-    .countdown-label {
-      font-size: 0.75rem;
-      color: var(--grey);
-      letter-spacing: 0.2em;
-      margin-top: 0.5rem;
-      text-transform: uppercase;
-    }
-    
-    .countdown-divider {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2rem;
-      color: var(--gold-light);
-      align-self: center;
-    }
-    
-    /* Attendance fields toggle */
-    .attendance-fields {
-      transition: all 0.3s ease;
-    }
-    
-    .attendance-fields.hidden {
-      display: none;
-    }
-    
-    /* Dress code section */
-    .dress-code-section {
-      background: var(--paper);
-      padding: 5rem 1.5rem;
-    }
-    
-    .dress-code-content {
-      max-width: 600px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    
-    .color-palette {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin: 2rem 0;
-    }
-    
-    .color-swatch {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      border: 2px solid var(--gold-light);
-      transition: transform 0.3s;
-    }
-    
-    .color-swatch:hover {
-      transform: scale(1.1);
-    }
-    
-    /* QR Code Section */
-    .qr-section {
-      background: linear-gradient(to bottom, var(--paper), var(--warm));
-      padding: 5rem 1.5rem;
-      text-align: center;
-    }
-    
-    .qr-container {
-      max-width: 400px;
-      margin: 2rem auto;
-      padding: 2rem;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    }
-    
-    .qr-code {
-      width: 200px;
-      height: 200px;
-      margin: 0 auto;
-      background: var(--gold-light);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.8rem;
-      color: var(--grey);
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .radio-custom::after {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .radio-label input:checked + .radio-custom {
+      border-color: var(--gold);
+    }
+
+    .radio-label input:checked + .radio-custom::after {
+      opacity: 1;
+    }
+
+    .form-submit {
+      margin-top: 12px;
+      padding: 18px 48px;
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      align-self: center;
+    }
+
+    .form-submit:hover {
+      background: var(--gold);
+      color: var(--warm-white);
+    }
+
+    /* 提交状态用 JS 控制，不用 CSS 类 */
+
+    .form-success {
+      text-align: center;
+      padding: 48px 24px;
+      display: none;
+    }
+
+    .form-success.show { display: block; }
+
+    .form-success-icon {
+      width: 56px;
+      height: 56px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+
+    .form-success-icon svg {
+      width: 24px;
+      height: 24px;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 1.5;
+    }
+
+    .form-success h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 400;
+      margin-bottom: 12px;
+    }
+
+    .form-success p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    /* ─── ATTENDANCE TOGGLE ─── */
+    .attendance-fields {
+      transition: opacity 400ms ease, max-height 400ms ease;
+      opacity: 1;
+      max-height: 2000px;
+      overflow: hidden;
+    }
+
+    .attendance-fields.hidden {
+      opacity: 0;
+      max-height: 0;
+    }
+
+    /* ─── GUEST TYPE FIELDS TOGGLE ─── */
+    .local-fields, .out-fields {
+      display: block;
+    }
+
+    .local-fields.hidden, .out-fields.hidden {
+      display: none;
+    }
+
+    /* 宾客类型单选组 */
+    .guest-type-group {
+      margin-top: 0.5rem;
+    }
+
+    /* ─── CHAR COUNT ─── */
+    .char-count {
+      font-size: 0.6rem;
+      color: var(--text-secondary);
+      opacity: 0.6;
+      font-weight: 300;
+      margin-left: 8px;
+      letter-spacing: 0.02em;
+    }
+
+    .char-count.warning {
+      color: var(--rose);
+      opacity: 1;
+    }
+
+    /* ─── FORM ERROR ─── */
+    .form-error {
+      background: rgba(192, 151, 143, 0.06);
+      border: 1px solid var(--rose);
+      padding: 18px 24px;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .form-error p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--rose);
+      margin: 0;
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      padding: 80px 24px;
+      text-align: center;
+      border-top: 1px solid var(--divider);
+    }
+
+    .footer-names {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.4rem;
+      font-weight: 300;
+      color: var(--charcoal);
+      margin-bottom: 20px;
+    }
+
+    .footer-hashtag {
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--taupe);
+    }
+
+    .footer-hashtag span { color: var(--gold); }
+
+    /* ─── QR SECTION ─── */
+    .qr-section {
+      background: var(--warm-white);
+      border-top: 1px solid var(--divider);
+      padding: 80px 24px;
+      text-align: center;
+    }
+
+    .qr-card {
+      display: inline-block;
+      padding: 40px;
+      border: 1px solid var(--divider);
+      margin-top: 40px;
+    }
+
+    #qrcode {
+      width: 160px;
+      height: 160px;
+      margin: 0 auto;
+    }
+
+    .qr-hint {
+      margin-top: 20px;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--taupe);
+    }
+
+    .qr-download-btn {
+      margin-top: 16px;
+      padding: 10px 24px;
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .qr-download-btn:hover {
+      background: var(--gold);
+      color: var(--warm-white);
+    }
+
+    .qr-save-tip {
+      margin-top: 12px;
+      font-size: 0.6rem;
+      color: var(--text-secondary);
+      opacity: 0.7;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 640px) {
+      /* General */
+      .section { padding: 72px 20px; }
+      .section-label { margin-bottom: 36px; }
+      .ornamental-divider svg { width: 18px; height: 18px; }
+
+      /* Hero */
+      .hero { padding: 32px 20px; }
+      .botanical-watermark { display: none; }
+      .hero-cta { margin-top: 36px; }
+
+      /* Story */
+      .story-grid {
+        grid-template-columns: 1fr;
+        gap: 28px 0;
+      }
+      .story-vline { display: none; }
+      .story-block + .story-block { border-top: 1px solid var(--divider); padding-top: 28px; }
+      .photo-frame { width: 200px; height: 260px; }
+
+      /* Details */
+    .details-grid {
+        grid-template-columns: 1fr;
+        gap: 40px 0;
+      }
+      .detail-divider { display: none; }
+      .detail-block + .detail-block { border-top: 1px solid var(--divider); padding-top: 40px; }
+
+      /* Dress code mobile */
+      .dresscode-colors {
+        gap: 12px;
+      }
+      .color-dot {
+        width: 24px;
+        height: 24px;
+      }
+
+      /* Countdown */
+      .countdown-grid { gap: 0 16px; }
+      .countdown-sep { font-size: 1.8rem; padding-top: 4px; }
+      .countdown-number { font-size: 2.2rem; }
+      .countdown-item { min-width: 48px; }
+
+      /* Nav & Controls */
+      .nav-dots { display: none; }
+      .music-toggle {
+        top: 16px;
+        right: 16px;
+        width: 34px;
+        height: 34px;
+      }
+
+      /* Forms */
+      .form-row { grid-template-columns: 1fr; }
+      .radio-group { gap: 16px; flex-wrap: wrap; }
+      .form-submit { width: 100%; }
+    }
+
+    @media (max-width: 375px) {
+      .hero-names { font-size: clamp(2.6rem, 14vw, 3.2rem); }
+      .countdown-grid { gap: 0 10px; }
+      .countdown-number { font-size: 1.8rem; }
+    }
+
+    /* ─── LOADING OVERLAY ─── */
+    .loading-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--cream);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      z-index: 9999;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    .loading-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loading-ring {
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--divider);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 1.2s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.9rem;
+      color: var(--taupe);
     }
   </style>
 </head>
 <body>
-  <!-- Grain overlay -->
-  <div class="grain"></div>
-  
-  <!-- Decorative flowers -->
-  <div class="hero-flowers">
-    <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="currentColor" opacity="0.3"/></svg>
-    <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" fill="currentColor" opacity="0.2"/></svg>
-    <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" fill="currentColor" opacity="0.25"/></svg>
-    <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="currentColor" opacity="0.15"/></svg>
+
+<!-- Loading overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-ring"></div>
+  <div class="loading-text">正在加载邀请函...</div>
+</div>
+
+<!-- Music toggle -->
+<button class="music-toggle" id="musicToggle" title="播放/暂停背景音乐" aria-label="音乐开关">
+  <svg id="iconMusic" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM21 16a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/></svg>
+</button>
+
+<!-- Navigation dots -->
+<nav class="nav-dots" aria-label="页面导航">
+  <button class="nav-dot active" data-target="hero" aria-label="首页"></button>
+  <button class="nav-dot" data-target="story" aria-label="我们的故事"></button>
+  <button class="nav-dot" data-target="details" aria-label="婚礼详情"></button>
+  <button class="nav-dot" data-target="countdown" aria-label="倒计时"></button>
+  <button class="nav-dot" data-target="rsvp" aria-label="回复"></button>
+</nav>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section class="hero" id="hero">
+  <!-- Decorative lines -->
+  <div class="hero-line top"></div>
+  <div class="hero-line bottom"></div>
+
+  <!-- Ornamental decorations -->
+  <div class="hero-ornament top">
+    <div class="ornament-dot"></div>
+    <div class="ornament-line"></div>
+  </div>
+  <div class="hero-ornament bottom">
+    <div class="ornament-line"></div>
+    <div class="ornament-dot"></div>
   </div>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-bg"></div>
-    
-    <p class="hero-badge fade-in">Wedding Invitation</p>
-    
+  <!-- Botanical watermark (top right) -->
+  <svg class="botanical-watermark top-right" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+    <path d="M200,380 C200,380 120,300 80,200 C40,100 100,20 200,60 C300,100 360,40 340,120 C320,200 260,280 200,380Z"/>
+    <path d="M200,60 C200,60 280,140 320,240 C360,340 300,420 200,380"/>
+    <path d="M80,200 C80,200 140,140 200,200 C260,260 220,320 160,300"/>
+    <path d="M340,120 C340,120 280,160 220,200"/>
+    <path d="M200,380 C200,380 160,320 140,260"/>
+    <ellipse cx="90" cy="190" rx="40" ry="25" transform="rotate(-30 90 190)"/>
+    <ellipse cx="310" cy="120" rx="35" ry="22" transform="rotate(20 310 120)"/>
+    <ellipse cx="200" cy="90" rx="30" ry="20"/>
+    <circle cx="200" cy="60" r="6"/>
+  </svg>
+
+  <!-- Botanical watermark (bottom left) -->
+  <svg class="botanical-watermark bottom-left" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+    <path d="M200,380 C200,380 120,300 80,200 C40,100 100,20 200,60 C300,100 360,40 340,120 C320,200 260,280 200,380Z"/>
+    <path d="M200,60 C200,60 280,140 320,240 C360,340 300,420 200,380"/>
+    <path d="M80,200 C80,200 140,140 200,200 C260,260 220,320 160,300"/>
+    <path d="M340,120 C340,120 280,160 220,200"/>
+    <ellipse cx="90" cy="190" rx="40" ry="25" transform="rotate(-30 90 190)"/>
+    <ellipse cx="310" cy="120" rx="35" ry="22" transform="rotate(20 310 120)"/>
+    <ellipse cx="200" cy="90" rx="30" ry="20"/>
+  </svg>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">Wedding Invitation</p>
     <h1 class="hero-names">
-      <span>陈泓宇</span>
-      <span class="hero-ampersand">&</span>
-      <span>林思妍</span>
+      王真 &amp; 陈雨欣
     </h1>
-    
-    <p class="hero-date">2026.06.20 · 深圳</p>
-    
-    <div class="scroll-indicator">
-      <span>Scroll</span>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-        <path d="M12 5v14M19 12l-7 7-7-7"/>
-      </svg>
-    </div>
-  </section>
+    <span class="hero-ampersand">&amp;</span>
+    <p class="hero-date">2026 · 陆月 · 贰拾</p>
+    <div class="hero-divider"></div>
 
-  <!-- Story Section -->
-  <section class="section story-section section-reveal" id="story">
-    <p class="section-label">Our Story</p>
-    <h2 class="section-title">我们的故事</h2>
-    
-    <div class="story-content">
-      <p class="story-quote">
-        从相识到相知，从相知到相守。我们在时光的长河中相遇，彼此成为对方生命中最温暖的存在。如今，我们决定携手步入人生的新篇章，愿与你分享这份喜悦。
+    <div class="hero-cta">
+      <div class="scroll-hint">
+        <span>Scroll</span>
+        <div class="scroll-arrow"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ DIVIDER ══════════════ -->
+<div class="ornamental-divider">
+  <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+</div>
+
+<!-- ══════════════ STORY ══════════════ -->
+<section class="section story section-reveal" id="story">
+  <p class="section-label">Our Story</p>
+  <h2 class="section-title">我们的故事</h2>
+  <p class="section-subtitle">从相遇到相守，每一步都是命中注定</p>
+
+  <div class="story-grid">
+    <div class="story-block">
+      <p class="story-year">2021 · 初见</p>
+      <p class="story-text">
+        那是一个春日的午后，阳光穿过梧桐叶洒在石板路上。<br>
+        我们的第一次对话，只有一杯咖啡的时间，<br>
+        却仿佛认识了很久。
       </p>
     </div>
-    
-    <div class="divider"></div>
-    
-    <div class="timeline">
-      <div class="timeline-item section-reveal">
-        <div class="timeline-content">
-          <div class="timeline-date">2022.03</div>
-          <h3 class="timeline-title">初遇</h3>
-          <p class="timeline-desc">在朋友的聚会上相识，命运让我们相遇。</p>
-        </div>
-        <div class="timeline-dot"></div>
-      </div>
-      
-      <div class="timeline-item section-reveal">
-        <div class="timeline-content">
-          <div class="timeline-date">2023.06</div>
-          <h3 class="timeline-title">相知</h3>
-          <p class="timeline-desc">一起旅行，一起分享生活的点滴，确认彼此是对的人。</p>
-        </div>
-        <div class="timeline-dot"></div>
-      </div>
-      
-      <div class="timeline-item section-reveal">
-        <div class="timeline-content">
-          <div class="timeline-date">2024.12</div>
-          <h3 class="timeline-title">求婚</h3>
-          <p class="timeline-desc">在夕阳下的海边，许下一生的承诺。</p>
-        </div>
-        <div class="timeline-dot"></div>
-      </div>
-      
-      <div class="timeline-item section-reveal">
-        <div class="timeline-content">
-          <div class="timeline-date">2026.06</div>
-          <h3 class="timeline-title">婚礼</h3>
-          <p class="timeline-desc">携手步入婚姻殿堂，开启人生新篇章。</p>
-        </div>
-        <div class="timeline-dot"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Details Section -->
-  <section class="section details-section section-reveal" id="details">
-    <p class="section-label">Wedding Details</p>
-    <h2 class="section-title">婚礼信息</h2>
-    
-    <div class="details-grid">
-      <div class="detail-block section-reveal">
-        <div class="detail-icon">
-          <svg viewBox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-        </div>
-        <h3 class="detail-title">日期</h3>
-        <p class="detail-content">2026年6月20日<br>星期六</p>
-      </div>
-      
-      <div class="detail-block section-reveal">
-        <div class="detail-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-        </div>
-        <h3 class="detail-title">时间</h3>
-        <p class="detail-content">仪式 11:28<br>午宴 12:08</p>
-      </div>
-      
-      <div class="detail-block section-reveal">
-        <div class="detail-icon">
-          <svg viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-        </div>
-        <h3 class="detail-title">地点</h3>
-        <p class="detail-content">深圳前海JW万豪酒店<br>二楼大宴会厅</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Countdown Section -->
-  <section class="countdown-section section-reveal" id="countdown">
-    <p class="section-label">Countdown</p>
-    <h2 class="section-title">距离婚礼还有</h2>
-    
-    <div class="countdown-container" id="countdownTimer">
-      <div class="countdown-item">
-        <div class="countdown-number" id="days">00</div>
-        <div class="countdown-label">Days</div>
-      </div>
-      <div class="countdown-divider">:</div>
-      <div class="countdown-item">
-        <div class="countdown-number" id="hours">00</div>
-        <div class="countdown-label">Hours</div>
-      </div>
-      <div class="countdown-divider">:</div>
-      <div class="countdown-item">
-        <div class="countdown-number" id="minutes">00</div>
-        <div class="countdown-label">Minutes</div>
-      </div>
-      <div class="countdown-divider">:</div>
-      <div class="countdown-item">
-        <div class="countdown-number" id="seconds">00</div>
-        <div class="countdown-label">Seconds</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Dress Code Section -->
-  <section class="section dress-code-section section-reveal" id="dresscode">
-    <p class="section-label">Dress Code</p>
-    <h2 class="section-title">着装建议</h2>
-    <p class="section-subtitle">建议穿着浅色或大地色系正装</p>
-    
-    <div class="dress-code-content">
-      <div class="color-palette">
-        <div class="color-swatch" style="background: #f5f0e8;" title="Champagne"></div>
-        <div class="color-swatch" style="background: #e8e0d0;" title="Beige"></div>
-        <div class="color-swatch" style="background: #d4c4b0;" title="Taupe"></div>
-        <div class="color-swatch" style="background: #c9b99a;" title="Gold"></div>
-        <div class="color-swatch" style="background: #8b7355;" title="Brown"></div>
-      </div>
-      <p style="color: var(--grey); font-size: 0.9rem;">
-        男士建议西装或衬衫配长裤<br>
-        女士建议连衣裙或套装
+    <div class="story-vline"></div>
+    <div class="story-block">
+      <p class="story-year">2026 · 相守</p>
+      <p class="story-text">
+        走过四季，我们在彼此的陪伴里<br>
+        找到了最真实的自己。<br>
+        于是决定，把余生的每一天，<br>
+        都写成我们的故事。
       </p>
     </div>
-  </section>
 
-  <!-- RSVP Section -->
-  <section class="section rsvp-section section-reveal" id="rsvp">
-    <p class="section-label">RSVP</p>
-    <h2 class="section-title">期待您的回复</h2>
-    <p class="section-subtitle">请于 2026 年 6 月 1 日前告知我们</p>
-
-    <p class="rsvp-intro">
-      您的到来是对我们最好的祝福。<br>
-      请填写以下信息，让我们更好地为您安排当天的座位与餐饮。
-    </p>
-
-    <form class="rsvp-form" id="rsvpForm">
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label" for="name">您的姓名 <span style="color: var(--rose);">*</span></label>
-          <input class="form-input" type="text" id="name" name="name" placeholder="请填写姓名">
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="phone">联系电话 <span style="color: var(--rose);">*</span></label>
-          <input class="form-input" type="tel" id="phone" name="phone" placeholder="方便联系" required>
-        </div>
+    <div class="story-photo-placeholder">
+      <div class="photo-frame">
+        <img
+          src="婚纱照.jpeg"
+          alt="王真 & 陈雨欣 婚纱照"
+          style="width:100%;height:100%;object-fit:cover;display:block;"
+        >
       </div>
+    </div>
+  </div>
+</section>
 
-      <div class="form-group full">
-        <label class="form-label">是否出席 <span style="color: var(--rose);">*</span></label>
-        <div class="radio-group">
-          <label class="radio-label">
-            <input type="radio" name="attend" value="yes">
-            <span class="radio-custom"></span>
-            欣然出席
-          </label>
-          <label class="radio-label">
-            <input type="radio" name="attend" value="no">
-            <span class="radio-custom"></span>
-            遗憾缺席
-          </label>
-        </div>
-      </div>
+<!-- ══════════════ DIVIDER ══════════════ -->
+<div class="ornamental-divider">
+  <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+</div>
 
-      <!-- 出席相关字段：选择"欣然出席"时显示 -->
-      <div id="attendanceFields" class="attendance-fields">
-        <!-- 宾客类型选择 -->
-        <div class="form-group full">
-          <label class="form-label">宾客类型 <span style="color: var(--rose);">*</span></label>
-          <div class="radio-group guest-type-group">
-            <label class="radio-label">
-              <input type="radio" name="guestType" value="local">
-              <span class="radio-custom"></span>
-              本地亲友
-            </label>
-            <label class="radio-label">
-              <input type="radio" name="guestType" value="out">
-              <span class="radio-custom"></span>
-              外地宾客
-            </label>
-          </div>
-        </div>
+<!-- ══════════════ DETAILS ══════════════ -->
+<section class="section section-reveal" id="details">
+  <p class="section-label">The Details</p>
+  <h2 class="section-title">婚礼信息</h2>
+  <p class="section-subtitle">期待与您共度这一天</p>
 
-        <!-- 本地宾客：只显示人数+餐饮 -->
-        <div id="localFields" class="local-fields">
-          <div class="form-row" style="margin-bottom: 1.5rem;">
-            <div class="form-group">
-              <label class="form-label" for="guestsLocal">出席人数 <span style="color: var(--rose);">*</span></label>
-              <select class="form-select" id="guestsLocal" name="guestsLocal">
-                <option value="">请选择</option>
-                <option value="1">1 人</option>
-                <option value="2">2 人</option>
-                <option value="3">3 人</option>
-                <option value="4">4 人及以上</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="mealLocal">餐饮偏好</label>
-              <select class="form-select" id="mealLocal" name="mealLocal">
-                <option value="any">不限定</option>
-                <option value="vegetarian">素食</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <!-- 外地宾客：显示完整信息 -->
-        <div id="outFields" class="out-fields">
-          <p class="form-hint" style="margin: 0 0 1rem 0; font-size: 0.8rem; font-style: italic; color: var(--grey); opacity: 0.7;">
-            外地宾客：烦请留下行程，便于我们提前安排住宿
-          </p>
-          <div class="form-row" style="margin-bottom: 1.5rem;">
-            <div class="form-group">
-              <label class="form-label" for="guestsOut">出席人数 <span style="color: var(--rose);">*</span></label>
-              <select class="form-select" id="guestsOut" name="guestsOut">
-                <option value="">请选择</option>
-                <option value="1">1 人</option>
-                <option value="2">2 人</option>
-                <option value="3">3 人</option>
-                <option value="4">4 人及以上</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="mealOut">餐饮偏好</label>
-              <select class="form-select" id="mealOut" name="mealOut">
-                <option value="any">不限定</option>
-                <option value="vegetarian">素食</option>
-                <option value="allergy">食物过敏</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label" for="arrivalDate">预计到达日期 <span style="color: var(--rose);">*</span></label>
-              <select class="form-select" id="arrivalDate" name="arrivalDate">
-                <option value="">请选择</option>
-                <option value="two-days-before">6月18日（两天前）</option>
-                <option value="eve">6月19日（前一天）</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="arrivalTime">预计到达时间 <span style="color: var(--rose);">*</span></label>
-              <select class="form-select" id="arrivalTime" name="arrivalTime">
-                <option value="">请选择</option>
-                <option value="morning">上午（10:00前）</option>
-                <option value="noon">中午（10:00–12:00）</option>
-                <option value="afternoon">下午（12:00–17:00）</option>
-                <option value="evening">傍晚（17:00后）</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label" for="departureDate">预计离开日期</label>
-              <select class="form-select" id="departureDate" name="departureDate">
-                <option value="">请选择</option>
-                <option value="day">6月20日（婚礼当天）</option>
-                <option value="next">6月21日（第二天）</option>
-                <option value="later">6月22日或之后</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-group full">
-            <label class="form-label" for="flightNumber">航班/车次信息 <span style="font-weight:300;font-size:0.85em;opacity:0.6;">（选填）</span></label>
-            <input class="form-input" type="text" id="flightNumber" name="flightNumber" placeholder="如：MU1234 / G1234 / CA5678，方便我们安排接机">
-          </div>
-        </div>
-      </div>
-
-      <div class="form-group full">
-        <label class="form-label" for="message">祝福留言 <span style="font-weight:300;font-size:0.85em;opacity:0.6;">（选填）</span></label>
-        <textarea class="form-textarea" id="message" name="message" placeholder="留下您对我们的祝福..."></textarea>
-      </div>
-
-      <div class="form-error" id="formError"></div>
-
-      <button type="submit" class="submit-btn" id="submitBtn">
-        确认回复
-      </button>
-    </form>
-
-    <!-- Success Message -->
-    <div class="form-success" id="formSuccess">
-      <div class="success-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+  <div class="details-grid">
+    <div class="detail-block">
+      <div class="detail-icon">
+        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12,6 12,12 16,14"/>
         </svg>
       </div>
-      <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; margin-bottom: 1rem;">
-        感谢回复！
-      </h3>
-      <p style="color: var(--grey);" id="successAttending">
-        我们期待与您相见，共襄盛举。
-      </p>
-      <p style="color: var(--grey);" id="successDeclined">
-        虽遗憾无法到场，仍感谢您的心意与祝福。
-      </p>
-    </div>
-  </section>
-
-  <!-- QR Code Section -->
-  <section class="section qr-section section-reveal" id="qr">
-    <p class="section-label">Save the Date</p>
-    <h2 class="section-title">收藏邀请函</h2>
-    <p class="section-subtitle">扫描二维码保存到手机</p>
-    
-    <div class="qr-container">
-      <div class="qr-code" id="qrcode">
-        <!-- QR Code will be generated here -->
-        <span>QR Code Placeholder</span>
+      <h3 class="detail-title">仪式</h3>
+      <div class="detail-info">
+        <p>2026年6月20日</p>
+        <p>农历五月初六</p>
+        <p>中午十二点整</p>
       </div>
-      <p style="margin-top: 1.5rem; color: var(--grey); font-size: 0.85rem;">
-        陈泓宇 & 林思妍<br>
-        2026.06.20 · 深圳
-      </p>
     </div>
-  </section>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <p class="footer-text">期待与您相见 · 共襄盛举</p>
-    <p class="footer-text" style="margin-top: 1rem; opacity: 0.5;">
-      陈泓宇 & 林思妍 · 2026.06.20
-    </p>
-  </footer>
+    <div class="detail-divider"></div>
 
-  <!-- Scripts -->
-  <script>
-    // Scroll reveal animation
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
+    <div class="detail-block">
+      <div class="detail-icon">
+        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
+      </div>
+      <h3 class="detail-title">午宴</h3>
+      <div class="detail-info">
+        <p>兰州皇冠假日酒店</p>
+        <p>3F 大宴会厅</p>
+        <p style="margin-top: 12px;"><a href="https://ditu.amap.com/search?query=兰州皇冠假日酒店" target="_blank">高德地图导航</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 着装推荐 -->
+  <div class="dresscode-block">
+    <p class="dresscode-label">Dress Code</p>
+    <h4 class="dresscode-title">着装推荐</h4>
+    <div class="dresscode-colors">
+      <span class="color-dot" style="background: #FAF8F5; border: 1px solid var(--divider);" title="米白"></span>
+      <span class="color-dot" style="background: #D4C9BE;" title="香槟"></span>
+      <span class="color-dot" style="background: #A89080;" title="驼色"></span>
+      <span class="color-dot" style="background: #8B6F6B;" title="豆沙"></span>
+      <span class="color-dot" style="background: #2A2825;" title="黑色"></span>
+    </div>
+    <p class="dresscode-hint">建议穿着以上色系，与婚礼氛围更搭</p>
+  </div>
+</section>
+
+<!-- ══════════════ COUNTDOWN ══════════════ -->
+<section class="countdown-section section-reveal" id="countdown">
+  <p class="section-label">Save the Date</p>
+  <h2 class="section-title">距离我们的大日子</h2>
+  <p class="section-subtitle">期待与您相聚的每一刻</p>
+
+  <div class="countdown-grid" id="countdownGrid">
+    <div class="countdown-item">
+      <span class="countdown-number" id="cdDays">---</span>
+      <span class="countdown-unit">Days</span>
+    </div>
+    <span class="countdown-sep">:</span>
+    <div class="countdown-item">
+      <span class="countdown-number" id="cdHours">--</span>
+      <span class="countdown-unit">Hours</span>
+    </div>
+    <span class="countdown-sep">:</span>
+    <div class="countdown-item">
+      <span class="countdown-number" id="cdMins">--</span>
+      <span class="countdown-unit">Mins</span>
+    </div>
+    <span class="countdown-sep">:</span>
+    <div class="countdown-item">
+      <span class="countdown-number" id="cdSecs">--</span>
+      <span class="countdown-unit">Secs</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ RSVP ══════════════ -->
+<section class="section rsvp-section section-reveal" id="rsvp">
+  <p class="section-label">RSVP</p>
+  <h2 class="section-title">期待您的回复</h2>
+  <p class="section-subtitle">请于 2026 年 6 月 1 日前告知我们</p>
+
+  <p class="rsvp-intro">
+    您的到来是对我们最好的祝福。<br>
+    请填写以下信息，让我们更好地为您安排当天的座位与餐饮。
+  </p>
+
+  <form class="rsvp-form" id="rsvpForm">
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label" for="name">您的姓名 <span style="color: var(--rose);">*</span></label>
+        <input class="form-input" type="text" id="name" name="name" placeholder="请填写姓名">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="phone">联系电话 <span style="color: var(--rose);">*</span></label>
+        <input class="form-input" type="tel" id="phone" name="phone" placeholder="方便联系" required>
+      </div>
+    </div>
+
+    <div class="form-group full">
+      <label class="form-label">是否出席 <span style="color: var(--rose);">*</span></label>
+      <div class="radio-group">
+        <label class="radio-label">
+          <input type="radio" name="attend" value="yes">
+          <span class="radio-custom"></span>
+         欣然出席
+        </label>
+        <label class="radio-label">
+          <input type="radio" name="attend" value="no">
+          <span class="radio-custom"></span>
+         遗憾缺席
+        </label>
+      </div>
+    </div>
+
+    <!-- 出席相关字段：选择"欣然出席"时显示 -->
+    <div id="attendanceFields" class="attendance-fields">
+      <!-- 宾客类型选择 -->
+      <div class="form-group full">
+        <label class="form-label">宾客类型 <span style="color: var(--rose);">*</span></label>
+        <div class="radio-group guest-type-group">
+          <label class="radio-label">
+            <input type="radio" name="guestType" value="local">
+            <span class="radio-custom"></span>
+            本地亲友
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="guestType" value="out">
+            <span class="radio-custom"></span>
+            外地宾客
+          </label>
+        </div>
+      </div>
+
+      <!-- 本地宾客：只显示人数+餐饮 -->
+      <div id="localFields" class="local-fields">
+        <div class="form-row" style="margin-bottom: 1.5rem;">
+          <div class="form-group">
+            <label class="form-label" for="guestsLocal">出席人数 <span style="color: var(--rose);">*</span></label>
+            <select class="form-select" id="guestsLocal" name="guestsLocal">
+              <option value="">请选择</option>
+              <option value="1">1 人</option>
+              <option value="2">2 人</option>
+              <option value="3">3 人</option>
+              <option value="4">4 人及以上</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="mealLocal">餐饮偏好</label>
+            <select class="form-select" id="mealLocal" name="mealLocal">
+              <option value="any">不限定</option>
+              <option value="vegetarian">素食</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- 外地宾客：显示完整信息 -->
+      <div id="outFields" class="out-fields">
+        <p class="form-hint" style="margin: 0 0 1rem 0; font-size: 0.8rem; font-style: italic; color: var(--grey); opacity: 0.7;">
+          外地宾客：烦请留下行程，便于我们提前安排住宿
+        </p>
+        <div class="form-row" style="margin-bottom: 1.5rem;">
+          <div class="form-group">
+            <label class="form-label" for="guestsOut">出席人数 <span style="color: var(--rose);">*</span></label>
+            <select class="form-select" id="guestsOut" name="guestsOut">
+              <option value="">请选择</option>
+              <option value="1">1 人</option>
+              <option value="2">2 人</option>
+              <option value="3">3 人</option>
+              <option value="4">4 人及以上</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="mealOut">餐饮偏好</label>
+            <select class="form-select" id="mealOut" name="mealOut">
+              <option value="any">不限定</option>
+              <option value="vegetarian">素食</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row" style="margin-bottom: 1.5rem;">
+          <div class="form-group">
+            <label class="form-label" for="arrivalDate">预计到达日期 <span style="color: var(--rose);">*</span> <span style="font-weight:300;font-size:0.85em;opacity:0.6;">（方便我们安排接待）</span></label>
+            <select class="form-select" id="arrivalDate" name="arrivalDate">
+              <option value="">请选择</option>
+              <option value="two-days-before">婚礼前两天（6月18日）</option>
+              <option value="eve">婚礼前一天（6月19日）</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="arrivalTime">预计到达时间 <span style="color: var(--rose);">*</span></label>
+            <select class="form-select" id="arrivalTime" name="arrivalTime">
+              <option value="">请选择</option>
+              <option value="morning">上午（10:00 前）</option>
+              <option value="noon">中午（10:00 – 12:00）</option>
+              <option value="afternoon">下午（12:00 – 17:00）</option>
+              <option value="evening">傍晚（17:00 后）</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group full">
+          <label class="form-label" for="flightNumber">航班/车次信息 <span style="font-weight:300;font-size:0.85em;opacity:0.6;">（选填）</span></label>
+          <input class="form-input" type="text" id="flightNumber" name="flightNumber" placeholder="如：MU1234 / G1234 / CA5678，方便我们安排接机">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group full">
+      <label class="form-label" for="message">送上祝福 <span class="char-count" id="messageCount">0/100</span></label>
+      <textarea class="form-textarea" id="message" name="message" placeholder="写下您对新人的祝福..." maxlength="100" rows="3"></textarea>
+    </div>
+
+    <button type="submit" class="form-submit" onclick="console.log('按钮被点击了')">确认回复</button>
+  </form>
+
+  <div class="form-success" id="formSuccess">
+    <div class="form-success-icon">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20,6 9,17 4,12"/>
+      </svg>
+    </div>
+    <!-- 出席文案 -->
+    <div id="successAttending" class="success-content">
+      <h3>感谢您的确认</h3>
+      <p>期待在婚礼上与您相见</p>
+    </div>
+    <!-- 缺席文案 -->
+    <div id="successDeclined" class="success-content" style="display: none;">
+      <h3>感谢您的告知</h3>
+      <p>虽不能相见，祝福依然在心</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ QR ══════════════ -->
+<section class="qr-section section-reveal">
+  <p class="section-label">Save this Invitation</p>
+  <h2 class="section-title" style="font-size: clamp(1.4rem, 3.5vw, 2.2rem);">收藏这份邀请函</h2>
+  <p class="section-subtitle">扫码打开，随时查看</p>
+
+  <div class="qr-card">
+    <div id="qrcode"></div>
+    <p class="qr-hint">点击下载 · 分享给亲友</p>
+    <button class="qr-download-btn" id="downloadQR" type="button">保存二维码</button>
+    <p class="qr-save-tip">如无法下载，可截图保存</p>
+  </div>
+</section>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer class="footer">
+  <p class="footer-names">王真 &amp; 陈雨欣</p>
+  <p class="footer-hashtag">#王真陈雨欣 <span>·</span> 2026</p>
+</footer>
+
+<!-- QRCode.js -->
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
+<script>
+  // ─── Loading ───
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('loadingOverlay').classList.add('hidden');
+    }, 1200);
+  });
+
+  // ─── Scroll Reveal ───
+  const revealEls = document.querySelectorAll('.section-reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => observer.observe(el));
+
+  // ─── Nav dots ───
+  const sections = ['hero', 'story', 'details', 'countdown', 'rsvp'];
+  const dots = document.querySelectorAll('.nav-dot');
+
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        dots.forEach(d => d.classList.toggle('active', d.dataset.target === id));
+      }
+    });
+  }, { threshold: 0.4 });
+
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) sectionObserver.observe(el);
+  });
+
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      document.getElementById(dot.dataset.target)?.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  // ─── Countdown ───
+  const weddingDate = new Date('2026-06-20T15:00:00');
+
+  function updateCountdown() {
+    const now = new Date();
+    const diff = weddingDate - now;
+    if (diff <= 0) {
+      document.getElementById('countdownGrid').innerHTML =
+        '<p style="font-family:\'Cormorant Garamond\',serif;font-size:1.6rem;font-style:italic;color:var(--cream);">今天是我们的大日子 💐</p>';
+      return;
+    }
+    const days = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const mins = Math.floor((diff % 3600000) / 60000);
+    const secs = Math.floor((diff % 60000) / 1000);
+    document.getElementById('cdDays').textContent = String(days);
+    document.getElementById('cdHours').textContent = String(hours).padStart(2, '0');
+    document.getElementById('cdMins').textContent = String(mins).padStart(2, '0');
+    document.getElementById('cdSecs').textContent = String(secs).padStart(2, '0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // ─── RSVP Form ───
+  const API_ENDPOINT = '/api/feishu-webhook';
+  let isSubmitting = false;
+
+  // ─── 祝福语字数统计 ───
+  const messageInput = document.getElementById('message');
+  const messageCount = document.getElementById('messageCount');
+
+  if (messageInput && messageCount) {
+    messageInput.addEventListener('input', function() {
+      const current = this.value.length;
+      const max = this.getAttribute('maxlength');
+      messageCount.textContent = `${current}/${max}`;
+
+      // 接近上限时变红色提示
+      if (current >= 90) {
+        messageCount.classList.add('warning');
+      } else {
+        messageCount.classList.remove('warning');
+      }
+    });
+  }
+
+  // ─── 出席/缺席切换逻辑 ───
+  const attendRadios = document.querySelectorAll('input[name="attend"]');
+  const attendanceFields = document.getElementById('attendanceFields');
+  const guestTypeRadios = document.querySelectorAll('input[name="guestType"]');
+  const localFields = document.getElementById('localFields');
+  const outFields = document.getElementById('outFields');
+
+  function updateAttendanceFields() {
+    const selected = document.querySelector('input[name="attend"]:checked');
+    const isAttending = selected && selected.value === 'yes';
+
+    if (isAttending) {
+      attendanceFields.classList.remove('hidden');
+    } else {
+      attendanceFields.classList.add('hidden');
+      // 清空出席相关字段的值，避免误提交
+      attendanceFields.querySelectorAll('select, input').forEach(field => {
+        if (field.tagName === 'SELECT') {
+          field.selectedIndex = 0;
+        } else {
+          field.value = '';
         }
       });
-    }, observerOptions);
-    
-    document.querySelectorAll('.section-reveal').forEach(el => {
-      observer.observe(el);
-    });
+      // 清除宾客类型 radio 选中状态
+      guestTypeRadios.forEach(radio => {
+        radio.checked = false;
+      });
+      // 重置宾客类型子字段显示
+      localFields?.classList.add('hidden');
+      outFields?.classList.add('hidden');
+    }
+  }
 
-    // Countdown Timer
-    function updateCountdown() {
-      const weddingDate = new Date('2026-06-20T11:28:00');
-      const now = new Date();
-      const diff = weddingDate - now;
-      
-      if (diff > 0) {
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-        
-        document.getElementById('days').textContent = String(days).padStart(2, '0');
-        document.getElementById('hours').textContent = String(hours).padStart(2, '0');
-        document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
-        document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
-      }
+  // ─── 宾客类型切换逻辑 ───
+  function updateGuestTypeFields() {
+    const selectedRadio = document.querySelector('input[name="guestType"]:checked');
+    const guestType = selectedRadio?.value;
+    
+    if (!guestType) {
+      // 如果没有选中任何宾客类型，隐藏所有子字段
+      localFields?.classList.add('hidden');
+      outFields?.classList.add('hidden');
+      return;
     }
     
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-
-    // Form handling
-    const form = document.getElementById('rsvpForm');
-    const attendanceFields = document.getElementById('attendanceFields');
-    const localFields = document.getElementById('localFields');
-    const outFields = document.getElementById('outFields');
-    const attendRadios = document.querySelectorAll('input[name="attend"]');
-    const guestTypeRadios = document.querySelectorAll('input[name="guestType"]');
-
-    // Show/hide attendance fields based on attend selection
-    attendRadios.forEach(radio => {
-      radio.addEventListener('change', function() {
-        if (this.value === 'yes') {
-          attendanceFields.classList.remove('hidden');
+    if (guestType === 'local') {
+      localFields?.classList.remove('hidden');
+      outFields?.classList.add('hidden');
+      // 清空外地宾客字段
+      outFields?.querySelectorAll('select, input').forEach(field => {
+        if (field.tagName === 'SELECT') {
+          field.selectedIndex = 0;
         } else {
-          attendanceFields.classList.add('hidden');
-          // Clear attendance fields when declining
-          document.querySelectorAll('#attendanceFields input, #attendanceFields select').forEach(el => {
-            if (el.type === 'radio') el.checked = false;
-            else el.value = '';
-          });
+          field.value = '';
         }
       });
-    });
-
-    // Show/hide guest type fields
-    guestTypeRadios.forEach(radio => {
-      radio.addEventListener('change', function() {
-        if (this.value === 'local') {
-          localFields.style.display = 'block';
-          outFields.style.display = 'none';
-          // Clear out fields
-          document.querySelectorAll('#outFields select, #outFields input').forEach(el => el.value = '');
-        } else {
-          localFields.style.display = 'none';
-          outFields.style.display = 'block';
-          // Clear local fields
-          document.querySelectorAll('#localFields select').forEach(el => el.value = '');
-        }
+    } else if (guestType === 'out') {
+      localFields?.classList.add('hidden');
+      outFields?.classList.remove('hidden');
+      // 清空本地宾客字段
+      localFields?.querySelectorAll('select').forEach(field => {
+        field.selectedIndex = 0;
       });
-    });
+    }
+  }
 
-    // Hide all attendance fields initially
-    attendanceFields.classList.add('hidden');
-    localFields.style.display = 'none';
-    outFields.style.display = 'none';
+  // 监听 radio 变化
+  attendRadios.forEach(radio => {
+    radio.addEventListener('change', updateAttendanceFields);
+  });
+  guestTypeRadios.forEach(radio => {
+    radio.addEventListener('change', updateGuestTypeFields);
+  });
 
-    // API endpoint - 使用相对路径
-    const API_ENDPOINT = '/.netlify/functions/feishu-webhook';
+  // 初始化状态（默认隐藏）
+  attendanceFields.classList.add('hidden');
+  localFields?.classList.add('hidden');
+  outFields?.classList.add('hidden');
 
-    // Form submission
-    let isSubmitting = false;
+  document.getElementById('rsvpForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    // 如果正在提交中，防止重复提交
+    if (isSubmitting) {
+      alert('正在提交中，请稍候...');
+      return;
+    }
+    isSubmitting = true;
+    
+    const btn = e.target.querySelector('.form-submit');
+    const form = e.target;
+    
+    // 清除之前的错误提示
+    const existingError = form.querySelector('.form-error');
+    if (existingError) existingError.remove();
+    
+    btn.style.opacity = '0.5';
+    btn.textContent = '提交中...';
 
-    form.addEventListener('submit', async function(e) {
-      e.preventDefault();
+    const formData = new FormData(form);
 
-      if (isSubmitting) return;
+    // ─── 校验：姓名必填 ───
+    const nameValue = formData.get('name')?.trim();
+    if (!nameValue) {
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'form-error';
+      errorDiv.innerHTML = '<p>请填写您的姓名</p>';
+      form.insertBefore(errorDiv, form.firstChild);
+      btn.style.opacity = '';
+      btn.textContent = '确认回复';
+      isSubmitting = false;
+      return;
+    }
 
-      const btn = document.getElementById('submitBtn');
-      const errorDiv = document.getElementById('formError');
+    // ─── 校验：联系电话必填 ───
+    const phoneValue = formData.get('phone')?.trim();
+    if (!phoneValue) {
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'form-error';
+      errorDiv.innerHTML = '<p>请填写联系电话</p>';
+      form.insertBefore(errorDiv, form.firstChild);
+      btn.style.opacity = '';
+      btn.textContent = '确认回复';
+      isSubmitting = false;
+      return;
+    }
 
-      // Get form data
-      const formData = new FormData(form);
-      const attendValue = formData.get('attend');
+    // ─── 校验：是否出席必选 ───
+    const attendValue = formData.get('attend');
+    if (!attendValue) {
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'form-error';
+      errorDiv.innerHTML = '<p>请选择是否出席</p>';
+      form.insertBefore(errorDiv, form.firstChild);
+      btn.style.opacity = '';
+      btn.textContent = '确认回复';
+      isSubmitting = false;
+      return;
+    }
 
-      // Validation
-      if (!formData.get('name')?.trim()) {
-        errorDiv.textContent = '请填写您的姓名';
-        errorDiv.classList.add('show');
-        return;
-      }
-
-      if (!formData.get('phone')?.trim()) {
-        errorDiv.textContent = '请填写联系电话';
-        errorDiv.classList.add('show');
-        return;
-      }
-
-      if (!attendValue) {
-        errorDiv.textContent = '请选择是否出席';
-        errorDiv.classList.add('show');
-        return;
-      }
-
-      let isLocalGuest = false;
-      let isAttending = attendValue === 'yes';
-
-      // Only validate attendance fields if attending
-      if (isAttending) {
-        const guestTypeValue = formData.get('guestType');
-        if (!guestTypeValue) {
-          errorDiv.textContent = '请选择宾客类型';
-          errorDiv.classList.add('show');
-          return;
-        }
-
-        isLocalGuest = guestTypeValue === 'local';
-
-        if (isLocalGuest) {
-          if (!formData.get('guestsLocal')) {
-            errorDiv.textContent = '请选择出席人数';
-            errorDiv.classList.add('show');
-            return;
-          }
-        } else {
-          if (!formData.get('guestsOut')) {
-            errorDiv.textContent = '请选择出席人数';
-            errorDiv.classList.add('show');
-            return;
-          }
-          if (!formData.get('arrivalDate')) {
-            errorDiv.textContent = '请选择预计到达日期';
-            errorDiv.classList.add('show');
-            return;
-          }
-          if (!formData.get('arrivalTime')) {
-            errorDiv.textContent = '请选择预计到达时间';
-            errorDiv.classList.add('show');
-            return;
-          }
-        }
-      }
-
-      // Clear error
-      errorDiv.classList.remove('show');
-
-      // Update button state
-      btn.innerHTML = '<span class="spinner"></span>提交中...';
-      btn.style.opacity = '0.7';
-      isSubmitting = true;
-
-      // ─── 构建 payload ───
+    // ─── 如果出席，才校验出席相关字段 ───
+    const isAttending = attendValue === 'yes';
+    let isLocalGuest = false;
+    
+    if (isAttending) {
+      // ─── 校验：宾客类型必选 ───
       const guestTypeValue = formData.get('guestType');
-      isLocalGuest = guestTypeValue === 'local';
-
-      // 根据宾客类型获取对应的字段值
-      const guests = isLocalGuest ? formData.get('guestsLocal') : formData.get('guestsOut');
-      const meal = isLocalGuest ? formData.get('mealLocal') : formData.get('mealOut');
-
-      const payload = {
-        name:  formData.get('name')    || '未填写',
-        phone: formData.get('phone')   || '未填写',
-        attend:          formData.get('attend')         || '',
-        guestType:     isLocalGuest ? '本地亲友' : (isAttending ? '外地宾客' : 'N/A'),
-        guests:        guests || (isAttending ? '' : '0'),
-        meal:          meal || (isAttending ? '不限定' : 'N/A'),
-        arrivalDate:   isLocalGuest ? '本地/不适用' : (formData.get('arrivalDate') || 'N/A'),
-        arrivalTime:   isLocalGuest ? '本地/不适用' : (formData.get('arrivalTime') || 'N/A'),
-        departureDate: isLocalGuest ? '本地/不适用' : (formData.get('departureDate') || '待定'),
-        departureTime: isLocalGuest ? '本地/不适用' : '不收集',
-        transportInfo: isLocalGuest ? '本地/不适用' : (formData.get('flightNumber') || '未填写'),
-        message:       formData.get('message') || '未填写',
-      };
-
-      try {
-        // 添加时间戳防止缓存
-        const url = API_ENDPOINT + '?t=' + Date.now();
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Cache-Control': 'no-cache'
-          },
-          body: JSON.stringify(payload)
-        });
-
-        // API 返回 200 才算成功
-        if (response.ok) {
-          form.style.display = 'none';
-          document.getElementById('formSuccess').classList.add('show');
-
-          // 根据是否出席显示不同文案
-          const isAttending = formData.get('attend') === 'yes';
-          document.getElementById('successAttending').style.display = isAttending ? 'block' : 'none';
-          document.getElementById('successDeclined').style.display = isAttending ? 'none' : 'block';
-        } else {
-          // API 返回错误状态码，尝试读取后端错误信息
-          const errorText = await response.text().catch(() => '');
-          console.error('RSVP 提交失败:', response.status, errorText);
-          throw new Error(`Server error ${response.status}: ${errorText || '未知错误'}`);
-        }
-      } catch (err) {
-        // 网络错误或 API 错误，显示错误提示
-        console.error('RSVP 提交失败:', err);
-        errorDiv.textContent = '提交失败，请稍后重试或联系新人';
-        errorDiv.classList.add('show');
-
-        // 恢复按钮状态
+      if (!guestTypeValue) {
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'form-error';
+        errorDiv.innerHTML = '<p>请选择宾客类型</p>';
+        form.insertBefore(errorDiv, form.firstChild);
         btn.style.opacity = '';
         btn.textContent = '确认回复';
         isSubmitting = false;
+        return;
       }
+      isLocalGuest = guestTypeValue === 'local';
+      
+      if (isLocalGuest) {
+        // ─── 本地宾客：只校验人数 ───
+        const guestsValue = formData.get('guestsLocal');
+        if (!guestsValue) {
+          const errorDiv = document.createElement('div');
+          errorDiv.className = 'form-error';
+          errorDiv.innerHTML = '<p>请选择出席人数</p>';
+          form.insertBefore(errorDiv, form.firstChild);
+          btn.style.opacity = '';
+          btn.textContent = '确认回复';
+          isSubmitting = false;
+          return;
+        }
+      } else {
+        // ─── 外地宾客：校验人数、到达日期、到达时间 ───
+        const guestsValue = formData.get('guestsOut');
+        if (!guestsValue) {
+          const errorDiv = document.createElement('div');
+          errorDiv.className = 'form-error';
+          errorDiv.innerHTML = '<p>请选择出席人数</p>';
+          form.insertBefore(errorDiv, form.firstChild);
+          btn.style.opacity = '';
+          btn.textContent = '确认回复';
+          isSubmitting = false;
+          return;
+        }
+        
+        const arrivalDateValue = formData.get('arrivalDate')?.trim();
+        if (!arrivalDateValue) {
+          const errorDiv = document.createElement('div');
+          errorDiv.className = 'form-error';
+          errorDiv.innerHTML = '<p>请选择预计到达日期</p>';
+          form.insertBefore(errorDiv, form.firstChild);
+          btn.style.opacity = '';
+          btn.textContent = '确认回复';
+          isSubmitting = false;
+          return;
+        }
+        
+        const arrivalTimeValue = formData.get('arrivalTime')?.trim();
+        if (!arrivalTimeValue) {
+          const errorDiv = document.createElement('div');
+          errorDiv.className = 'form-error';
+          errorDiv.innerHTML = '<p>请选择预计到达时间</p>';
+          form.insertBefore(errorDiv, form.firstChild);
+          btn.style.opacity = '';
+          btn.textContent = '确认回复';
+          isSubmitting = false;
+          return;
+        }
+      }
+    }
+
+    // ─── 构建 payload ───
+    const guestTypeValue = formData.get('guestType');
+    isLocalGuest = guestTypeValue === 'local';
+    
+    // 根据宾客类型获取对应的字段值
+    const guests = isLocalGuest ? formData.get('guestsLocal') : formData.get('guestsOut');
+    const meal = isLocalGuest ? formData.get('mealLocal') : formData.get('mealOut');
+    
+    const payload = {
+      name:  formData.get('name')    || '未填写',
+      phone: formData.get('phone')   || '未填写',
+      attend:          formData.get('attend')         || '',
+      guestType:     isLocalGuest ? '本地亲友' : (isAttending ? '外地宾客' : 'N/A'),
+      guests:        guests || (isAttending ? '' : '0'),
+      meal:          meal || (isAttending ? '不限定' : 'N/A'),
+      arrivalDate:   isLocalGuest ? '本地/不适用' : (formData.get('arrivalDate') || 'N/A'),
+      arrivalTime:   isLocalGuest ? '本地/不适用' : (formData.get('arrivalTime') || 'N/A'),
+      departureDate: '不收集',
+      departureTime: '不收集',
+      transportInfo: isLocalGuest ? '本地/不适用' : (formData.get('flightNumber') || '未填写'),
+      message:       formData.get('message') || '未填写',
+    };
+
+    try {
+      // 添加时间戳防止缓存
+      const url = API_ENDPOINT + '?t=' + Date.now();
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache'
+        },
+        body: JSON.stringify(payload)
+      });
+      
+      // API 返回 200 才算成功
+      if (response.ok) {
+        form.style.display = 'none';
+        document.getElementById('formSuccess').classList.add('show');
+
+        // 根据是否出席显示不同文案
+        const isAttending = formData.get('attend') === 'yes';
+        document.getElementById('successAttending').style.display = isAttending ? 'block' : 'none';
+        document.getElementById('successDeclined').style.display = isAttending ? 'none' : 'block';
+      } else {
+        // API 返回错误状态码，尝试读取后端错误信息
+        const errorText = await response.text().catch(() => '');
+        console.error('RSVP 提交失败:', response.status, errorText);
+        throw new Error(`Server error ${response.status}: ${errorText || '未知错误'}`);
+      }
+    } catch (err) {
+      // 网络错误或 API 错误，显示错误提示
+      console.error('RSVP 提交失败:', err);
+      
+      const errorMessage = err.message && err.message.includes('Server error') 
+        ? '提交失败：' + err.message.replace('Server error ', '')
+        : '提交失败，请检查网络后重试';
+      
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'form-error';
+      errorDiv.innerHTML = '<p>' + errorMessage + '</p>';
+      // 插入到表单的最前面
+      form.insertBefore(errorDiv, form.firstChild);
+      
+      // 恢复按钮状态 - 彻底清除所有可能残留的样式和类
+      btn.style.opacity = '';
+      btn.style.pointerEvents = '';
+      btn.style.cursor = '';
+      btn.classList.remove('is-submitting', 'error-recovered', 'disabled');
+      btn.textContent = '确认回复';
+      isSubmitting = false;
+    }
+  });
+
+
+  // ─── QR Code ───
+  (function() {
+    const url = window.location.href;
+    const qrcodeDiv = document.getElementById('qrcode');
+    new QRCode(qrcodeDiv, {
+      text: url,
+      width: 160,
+      height: 160,
+      colorDark: '#2A2825',
+      colorLight: '#FAF8F5',
+      correctLevel: QRCode.CorrectLevel.M
     });
 
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
+    // 下载二维码功能
+    const downloadBtn = document.getElementById('downloadQR');
+    if (downloadBtn) {
+      downloadBtn.addEventListener('click', function(e) {
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth' });
+        const canvas = qrcodeDiv.querySelector('canvas');
+        if (canvas) {
+          // 创建一个白色背景的 canvas（避免透明背景在某些场景下显示问题）
+          const finalCanvas = document.createElement('canvas');
+          finalCanvas.width = 180;
+          finalCanvas.height = 220; // 增加高度用于添加文字说明
+          const ctx = finalCanvas.getContext('2d');
+
+          // 白色背景
+          ctx.fillStyle = '#FAF8F5';
+          ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
+
+          // 绘制二维码（居中）
+          ctx.drawImage(canvas, 10, 10, 160, 160);
+
+          // 添加文字
+          ctx.fillStyle = '#2A2825';
+          ctx.font = '12px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText('王真 & 陈雨欣 婚礼邀请函', 90, 190);
+
+          // 触发下载
+          const link = document.createElement('a');
+          link.download = '王真陈雨欣-婚礼邀请函-二维码.png';
+          link.href = finalCanvas.toDataURL('image/png');
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        } else {
+          // 如果 canvas 不存在（可能是 img 标签），尝试获取 img
+          const img = qrcodeDiv.querySelector('img');
+          if (img) {
+            const link = document.createElement('a');
+            link.download = '王真陈雨欣-婚礼邀请函-二维码.png';
+            link.href = img.src;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }
         }
       });
-    });
+    }
+  })();
 
-    // Generate QR Code (placeholder - you can integrate a real QR library)
-    const qrContainer = document.getElementById('qrcode');
-    const currentUrl = window.location.href;
-    qrContainer.innerHTML = `
-      <div style="text-align: center;">
-        <div style="width: 180px; height: 180px; margin: 0 auto; background: white; display: flex; align-items: center; justify-content: center; border: 1px solid #e8e0d0;">
-          <div style="font-size: 10px; color: #999; text-align: center; padding: 10px;">
-            请使用二维码生成工具<br>生成当前页面链接<br><br>
-            ${currentUrl.substring(0, 30)}...
-          </div>
-        </div>
-      </div>
-    `;
-  </script>
+  // ─── Music (placeholder — audio file to be added) ───
+  // To enable: add an <audio id="bgMusic" src="your-music.mp3" loop></audio> element
+  // and uncomment the toggle logic below
+  /*
+  const audio = document.getElementById('bgMusic');
+  const toggle = document.getElementById('musicToggle');
+  let playing = false;
+  toggle.addEventListener('click', () => {
+    playing = !playing;
+    playing ? audio.play() : audio.pause();
+  });
+  */
+</script>
 </body>
 </html>
