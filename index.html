@@ -1895,10 +1895,10 @@
   <p class="footer-hashtag">#王真陈雨欣 <span>·</span> 2026</p>
 </footer>
 
-<!-- QRCode.js -->
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-<!-- html2canvas -->
+<!-- html2canvas (入场凭证生成) -->
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<!-- QRCode.js (如需动态二维码可启用) -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script> -->
 
 <!-- 入场凭证弹窗 -->
 <div class="ticket-modal-overlay" id="ticketModal">
@@ -2629,67 +2629,25 @@
     }
   }
 
-  // ─── QR Code ───
+  // ─── QR Code (使用静态图片，动态生成已禁用) ───
+  // 注意：当前使用 httpspannacotta.me.png 静态二维码图片
+  // 如需动态生成，请添加 <div id="qrcode"></div> 容器并取消下方注释
+  /*
   (function() {
     const url = window.location.href;
     const qrcodeDiv = document.getElementById('qrcode');
-    new QRCode(qrcodeDiv, {
-      text: url,
-      width: 160,
-      height: 160,
-      colorDark: '#2A2825',
-      colorLight: '#FAF8F5',
-      correctLevel: QRCode.CorrectLevel.M
-    });
-
-    // 下载二维码功能
-    const downloadBtn = document.getElementById('downloadQR');
-    if (downloadBtn) {
-      downloadBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        const canvas = qrcodeDiv.querySelector('canvas');
-        if (canvas) {
-          // 创建一个白色背景的 canvas（避免透明背景在某些场景下显示问题）
-          const finalCanvas = document.createElement('canvas');
-          finalCanvas.width = 180;
-          finalCanvas.height = 220; // 增加高度用于添加文字说明
-          const ctx = finalCanvas.getContext('2d');
-
-          // 白色背景
-          ctx.fillStyle = '#FAF8F5';
-          ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
-
-          // 绘制二维码（居中）
-          ctx.drawImage(canvas, 10, 10, 160, 160);
-
-          // 添加文字
-          ctx.fillStyle = '#2A2825';
-          ctx.font = '12px sans-serif';
-          ctx.textAlign = 'center';
-          ctx.fillText('王真 & 陈雨欣 婚礼邀请函', 90, 190);
-
-          // 触发下载
-          const link = document.createElement('a');
-          link.download = '王真陈雨欣-婚礼邀请函-二维码.png';
-          link.href = finalCanvas.toDataURL('image/png');
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        } else {
-          // 如果 canvas 不存在（可能是 img 标签），尝试获取 img
-          const img = qrcodeDiv.querySelector('img');
-          if (img) {
-            const link = document.createElement('a');
-            link.download = '王真陈雨欣-婚礼邀请函-二维码.png';
-            link.href = img.src;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-          }
-        }
+    if (qrcodeDiv && typeof QRCode !== 'undefined') {
+      new QRCode(qrcodeDiv, {
+        text: url,
+        width: 160,
+        height: 160,
+        colorDark: '#2A2825',
+        colorLight: '#FAF8F5',
+        correctLevel: QRCode.CorrectLevel.M
       });
     }
   })();
+  */
 
   // ─── Music (placeholder — audio file to be added) ───
   // To enable: add an <audio id="bgMusic" src="your-music.mp3" loop></audio> element
