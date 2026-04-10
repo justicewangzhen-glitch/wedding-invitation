@@ -1448,7 +1448,7 @@
               <option value="4">4 人</option>
               <option value="more">更多</option>
             </select>
-            <input type="number" class="form-input" id="guestsLocalMore" name="guestsLocalMore" placeholder="请输入具体人数" min="5" max="20" style="display: none; margin-top: 8px;">
+            <input type="number" class="form-input" id="guestsLocalMore" name="guestsLocalMore" placeholder="请输入具体人数" min="5" max="99" style="display: none; margin-top: 8px;">
           </div>
           <div class="form-group">
             <label class="form-label" for="mealLocal">餐饮偏好</label>
@@ -1476,7 +1476,7 @@
               <option value="4">4 人</option>
               <option value="more">更多</option>
             </select>
-            <input type="number" class="form-input" id="guestsOutMore" name="guestsOutMore" placeholder="请输入具体人数" min="5" max="20" style="display: none; margin-top: 8px;">
+            <input type="number" class="form-input" id="guestsOutMore" name="guestsOutMore" placeholder="请输入具体人数" min="5" max="99" style="display: none; margin-top: 8px;">
           </div>
           <div class="form-group">
             <label class="form-label" for="mealOut">餐饮偏好</label>
@@ -2108,6 +2108,7 @@
         const isAttending = formData.get('attend') === 'yes';
         const guestName = formData.get('name') || '未知';
         // 使用处理后的 guests 值（已处理"更多"情况）
+        console.log('Debug - guests value:', guests, 'isLocalGuest:', isLocalGuest);
         const guestCount = guests || '--';
 
         // 显示对应的文案
