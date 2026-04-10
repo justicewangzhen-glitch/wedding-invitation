@@ -873,6 +873,112 @@
       margin-right: 12px;
     }
 
+    /* ─── 入场凭证卡片 ─── */
+    .entry-ticket {
+      max-width: 280px;
+      margin: 0 auto 32px;
+      padding: 28px 24px;
+      border: 2px solid var(--gold);
+      background: linear-gradient(135deg, var(--warm-white) 0%, rgba(196, 169, 110, 0.05) 100%);
+      position: relative;
+    }
+
+    .entry-ticket::before,
+    .entry-ticket::after {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background: var(--cream);
+      border-radius: 50%;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .entry-ticket::before {
+      left: -8px;
+    }
+
+    .entry-ticket::after {
+      right: -8px;
+    }
+
+    .ticket-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .ticket-icon {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    .ticket-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--charcoal);
+      letter-spacing: 0.1em;
+      margin-bottom: 4px;
+    }
+
+    .ticket-subtitle {
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      letter-spacing: 0.05em;
+    }
+
+    .ticket-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
+      margin: 20px 0;
+    }
+
+    .ticket-content {
+      text-align: center;
+    }
+
+    .ticket-info {
+      margin-bottom: 16px;
+    }
+
+    .ticket-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .ticket-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      color: var(--charcoal);
+      font-weight: 400;
+    }
+
+    .ticket-qr {
+      width: 120px;
+      height: 120px;
+      margin: 20px auto 12px;
+      padding: 8px;
+      background: var(--warm-white);
+      border: 1px solid var(--divider);
+    }
+
+    .ticket-qr img,
+    .ticket-qr canvas {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+    }
+
+    .ticket-qr-hint {
+      font-size: 0.65rem;
+      color: var(--text-secondary);
+      letter-spacing: 0.05em;
+    }
+
     /* 返回顶部按钮 */
     .back-to-top-btn {
       margin-top: 8px;
@@ -1572,6 +1678,28 @@
           <p><span class="reminder-label">厅房</span>3F 大宴会厅</p>
         </div>
       </div>
+
+      <!-- 入场凭证卡片（可截图保存） -->
+      <div class="entry-ticket" id="entryTicket">
+        <div class="ticket-header">
+          <div class="ticket-icon">💐</div>
+          <p class="ticket-title">婚礼入场凭证</p>
+          <p class="ticket-subtitle">请截图保存，现场出示</p>
+        </div>
+        <div class="ticket-divider"></div>
+        <div class="ticket-content">
+          <div class="ticket-info">
+            <p class="ticket-label">宾客姓名</p>
+            <p class="ticket-value" id="ticketName">--</p>
+          </div>
+          <div class="ticket-info">
+            <p class="ticket-label">出席人数</p>
+            <p class="ticket-value" id="ticketGuests">--人</p>
+          </div>
+          <div class="ticket-qr" id="ticketQR"></div>
+          <p class="ticket-qr-hint">扫码查看婚礼详情</p>
+        </div>
+      </div>
     </div>
 
     <!-- 缺席文案 -->
@@ -2121,6 +2249,25 @@
           document.getElementById('summaryName').textContent = guestName;
           document.getElementById('summaryAttend').textContent = '欣然出席';
           document.getElementById('summaryGuests').textContent = guestCount + ' 人';
+
+          // 填充入场凭证
+          document.getElementById('ticketName').textContent = guestName;
+          document.getElementById('ticketGuests').textContent = guestCount + '人';
+
+          // 生成凭证二维码
+          const ticketQR = document.getElementById('ticketQR');
+          ticketQR.innerHTML = '';
+          new QRCode(ticketQR, {
+            text: window.location.href,
+            width: 104,
+            height: 104,
+            colorDark: '#2A2825',
+            colorLight: '#FFFDF9',
+            correctLevel: QRCode.CorrectLevel.M
+          });
+        } else {
+          // 缺席时隐藏入场凭证
+          document.getElementById('entryTicket').style.display = 'none';
         }
 
         // 自动滚动到成功页面中央
