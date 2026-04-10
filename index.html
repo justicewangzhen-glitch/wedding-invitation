@@ -1536,6 +1536,8 @@
 
     if (isAttending) {
       attendanceFields.classList.remove('hidden');
+      // 切回出席时，检查宾客类型并恢复显示对应子字段
+      updateGuestTypeFields();
     } else {
       attendanceFields.classList.add('hidden');
       // 清空出席相关字段的值，避免误提交
