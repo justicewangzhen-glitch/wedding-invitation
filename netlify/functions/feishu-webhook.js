@@ -42,12 +42,12 @@ UOnlOiTaqYe68RKzoL51LRzF/A==
 
 // 字段映射（与服务端 index.html 保持一致）
 const ATTENDANCE_MAP = { yes: '✅ 欣然出席', no: '❌ 遗憾缺席' };
+const GUEST_TYPE_MAP = { local: '本地亲友', out: '外地宾客' };
 const GUEST_MAP = { '1': '1人', '2': '2人', '3': '3人', '4': '4人及以上' };
 const MEAL_MAP = { any: '不限定', vegetarian: '素食', allergy: '食物过敏' };
-const ARRIVAL_DATE_MAP = { 'two-days-before': '6月18日', eve: '6月19日', day: '6月20日' };
+const ARRIVAL_DATE_MAP = { 'two-days-before': '6月18日', eve: '6月19日' };
 const ARRIVAL_TIME_MAP = { morning: '上午（10:00前）', noon: '中午（10:00–12:00）', afternoon: '下午（12:00–17:00）', evening: '傍晚（17:00后）' };
 const DEPARTURE_DATE_MAP = { day: '6月20日', next: '6月21日', later: '6月22日或之后' };
-const DEPARTURE_TIME_MAP = { morning: '上午（12:00前）', afternoon: '下午（12:00–18:00）', evening: '傍晚（18:00后）' };
 
 // Google OAuth2 JWT 生成
 function createJWT() {
@@ -133,23 +133,24 @@ exports.handler = async function (event, context) {
     name = '未填写',
     phone = '未填写',
     attend: attendance,
+    guestType,
     guests = '未知',
     meal = '未知',
     arrivalDate,
     arrivalTime,
     departureDate,
-    departureTime,
-    flightNumber = '未填写',
+    flightNumber,
+    transportInfo = flightNumber || '未填写',
     message: blessing = '未填写'
   } = body;
 
   const attendanceLabel = ATTENDANCE_MAP[attendance] || '未知';
+  const guestTypeLabel = GUEST_TYPE_MAP[guestType] || '未知';
   const guestsLabel = GUEST_MAP[guests] || '未知';
   const mealLabel = MEAL_MAP[meal] || '未知';
-  const arrivalDateLabel = ARRIVAL_DATE_MAP[arrivalDate] || '未填写';
-  const arrivalTimeLabel = ARRIVAL_TIME_MAP[arrivalTime] || '未填写';
-  const departureDateLabel = DEPARTURE_DATE_MAP[departureDate] || '未填写';
-  const departureTimeLabel = DEPARTURE_TIME_MAP[departureTime] || '未填写';
+  const arrivalDateLabel = ARRIVAL_DATE_MAP[arrivalDate] || arrivalDate || '未填写';
+  const arrivalTimeLabel = ARRIVAL_TIME_MAP[arrivalTime] || arrivalTime || '未填写';
+  const departureDateLabel = DEPARTURE_DATE_MAP[departureDate] || departureDate || '未填写';
 
   const timestamp = new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' });
 
@@ -159,15 +160,18 @@ exports.handler = async function (event, context) {
     name,
     phone,
     attendanceLabel,
+    guestTypeLabel,
     guestsLabel,
     mealLabel,
     arrivalDateLabel,
     arrivalTimeLabel,
     departureDateLabel,
-    departureTimeLabel,
-    flightNumber,
+    transportInfo,
     blessing
   ];
+
+  // 是否为本地宾客
+  const isLocalGuest = guestType === 'local';
 
   // 构建飞书卡片（使用 div 替代 section，减少消息体积）
   const cardElements = [
@@ -201,52 +205,58 @@ exports.handler = async function (event, context) {
       ]
     },
     { tag: 'hr' },
-    // 第三组：到达信息
+    // 第三组：宾客类型 + 餐饮
     {
       tag: 'div',
       fields: [
         {
           is_short: true,
-          text: { tag: 'lark_md', content: `**✈️ 到达日期**\n${arrivalDateLabel}` }
+          text: { tag: 'lark_md', content: `**🏠 宾客类型**\n${guestTypeLabel}` }
         },
-        {
-          is_short: true,
-          text: { tag: 'lark_md', content: `**🕐 到达时间**\n${arrivalTimeLabel}` }
-        }
-      ]
-    },
-    // 第四组：离开信息
-    {
-      tag: 'div',
-      fields: [
-        {
-          is_short: true,
-          text: { tag: 'lark_md', content: `**🚗 离开日期**\n${departureDateLabel}` }
-        },
-        {
-          is_short: true,
-          text: { tag: 'lark_md', content: `**🕑 离开时间**\n${departureTimeLabel}` }
-        }
-      ]
-    },
-    { tag: 'hr' },
-    // 第五组：餐饮和航班
-    {
-      tag: 'div',
-      fields: [
         {
           is_short: true,
           text: { tag: 'lark_md', content: `**🍽️ 餐饮偏好**\n${mealLabel}` }
-        },
-        {
-          is_short: true,
-          text: { tag: 'lark_md', content: `**🗺️ 航班/车次**\n${flightNumber}` }
         }
       ]
     }
   ];
 
-  // 祝福语单独成块
+  // 外地宾客才显示行程信息
+  if (!isLocalGuest) {
+    cardElements.push(
+      { tag: 'hr' },
+      // 第四组：到达信息
+      {
+        tag: 'div',
+        fields: [
+          {
+            is_short: true,
+            text: { tag: 'lark_md', content: `**✈️ 到达日期**\n${arrivalDateLabel}` }
+          },
+          {
+            is_short: true,
+            text: { tag: 'lark_md', content: `**🕐 到达时间**\n${arrivalTimeLabel}` }
+          }
+        ]
+      },
+      // 第五组：离开信息（只有日期和航班，没有时间）
+      {
+        tag: 'div',
+        fields: [
+          {
+            is_short: true,
+            text: { tag: 'lark_md', content: `**🚗 离开日期**\n${departureDateLabel}` }
+          },
+          {
+            is_short: true,
+            text: { tag: 'lark_md', content: `**🚗 交通信息**\n${transportInfo}` }
+          }
+        ]
+      }
+    );
+  }
+
+  // 祝福语单独成块（本地宾客前面没有 hr，需要加上）
   if (blessing !== '未填写') {
     cardElements.push(
       { tag: 'hr' },
@@ -258,6 +268,9 @@ exports.handler = async function (event, context) {
         }
       }
     );
+  } else if (isLocalGuest) {
+    // 本地宾客如果没有祝福语，为了美观加一条 hr
+    cardElements.push({ tag: 'hr' });
   }
 
   cardElements.push({
@@ -265,13 +278,16 @@ exports.handler = async function (event, context) {
     elements: [{ tag: 'plain_text', content: `📅 收到时间：${timestamp}` }]
   });
 
+  // 根据出席状态设置卡片颜色：出席=pink，缺席=grey
+  const headerTemplate = attendance === 'yes' ? 'pink' : 'grey';
+
   const payload = {
     msg_type: 'interactive',
     card: {
       header: {
         title: { tag: 'plain_text', content: '💐 婚礼宾客回复' },
         subtitle: { tag: 'plain_text', content: `${name} 已填写回复` },
-        template: 'pink'
+        template: headerTemplate
       },
       elements: cardElements
     }
