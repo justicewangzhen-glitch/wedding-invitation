@@ -2059,12 +2059,13 @@
     }
     const meal = isLocalGuest ? formData.get('mealLocal') : formData.get('mealOut');
     
+    console.log('Debug payload - guests:', guests, 'type:', typeof guests);
     const payload = {
       name:  formData.get('name')    || '未填写',
       phone: formData.get('phone')   || '未填写',
       attend:          formData.get('attend')         || '',
       guestType:     guestTypeValue || '',
-      guests:        guests || (isAttending ? '' : '0'),
+      guests:        String(guests || (isAttending ? '' : '0')),
       meal:          meal || (isAttending ? '不限定' : 'N/A'),
       arrivalDate:   isLocalGuest ? '本地/不适用' : (formData.get('arrivalDate') || 'N/A'),
       arrivalTime:   isLocalGuest ? '本地/不适用' : (formData.get('arrivalTime') || 'N/A'),
