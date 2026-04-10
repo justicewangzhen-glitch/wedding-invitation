@@ -1445,8 +1445,10 @@
               <option value="1">1 人</option>
               <option value="2">2 人</option>
               <option value="3">3 人</option>
-              <option value="4">4 人及以上</option>
+              <option value="4">4 人</option>
+              <option value="more">更多</option>
             </select>
+            <input type="number" class="form-input" id="guestsLocalMore" name="guestsLocalMore" placeholder="请输入具体人数" min="5" max="20" style="display: none; margin-top: 8px;">
           </div>
           <div class="form-group">
             <label class="form-label" for="mealLocal">餐饮偏好</label>
@@ -1471,8 +1473,10 @@
               <option value="1">1 人</option>
               <option value="2">2 人</option>
               <option value="3">3 人</option>
-              <option value="4">4 人及以上</option>
+              <option value="4">4 人</option>
+              <option value="more">更多</option>
             </select>
+            <input type="number" class="form-input" id="guestsOutMore" name="guestsOutMore" placeholder="请输入具体人数" min="5" max="20" style="display: none; margin-top: 8px;">
           </div>
           <div class="form-group">
             <label class="form-label" for="mealOut">餐饮偏好</label>
@@ -1776,6 +1780,38 @@
   localFields?.classList.add('hidden');
   outFields?.classList.add('hidden');
 
+  // ─── 人数选择：更多选项显示输入框 ───
+  const guestsLocal = document.getElementById('guestsLocal');
+  const guestsLocalMore = document.getElementById('guestsLocalMore');
+  const guestsOut = document.getElementById('guestsOut');
+  const guestsOutMore = document.getElementById('guestsOutMore');
+
+  if (guestsLocal && guestsLocalMore) {
+    guestsLocal.addEventListener('change', function() {
+      if (this.value === 'more') {
+        guestsLocalMore.style.display = 'block';
+        guestsLocalMore.required = true;
+      } else {
+        guestsLocalMore.style.display = 'none';
+        guestsLocalMore.required = false;
+        guestsLocalMore.value = '';
+      }
+    });
+  }
+
+  if (guestsOut && guestsOutMore) {
+    guestsOut.addEventListener('change', function() {
+      if (this.value === 'more') {
+        guestsOutMore.style.display = 'block';
+        guestsOutMore.required = true;
+      } else {
+        guestsOutMore.style.display = 'none';
+        guestsOutMore.required = false;
+        guestsOutMore.value = '';
+      }
+    });
+  }
+
   // ─── 自动回填已提交数据 ───
   (function autoFillForm() {
     const savedData = localStorage.getItem('rsvpData');
@@ -1938,6 +1974,17 @@
           isSubmitting = false;
           return;
         }
+        // 如果选了"更多"，校验具体人数输入
+        if (guestsValue === 'more' && !formData.get('guestsLocalMore')) {
+          const errorDiv = document.createElement('div');
+          errorDiv.className = 'form-error';
+          errorDiv.innerHTML = '<p>请输入具体人数</p>';
+          form.insertBefore(errorDiv, form.firstChild);
+          btn.style.opacity = '';
+          btn.textContent = '确认回复';
+          isSubmitting = false;
+          return;
+        }
       } else {
         // ─── 外地宾客：校验人数、到达日期、到达时间 ───
         const guestsValue = formData.get('guestsOut');
@@ -1945,6 +1992,17 @@
           const errorDiv = document.createElement('div');
           errorDiv.className = 'form-error';
           errorDiv.innerHTML = '<p>请选择出席人数</p>';
+          form.insertBefore(errorDiv, form.firstChild);
+          btn.style.opacity = '';
+          btn.textContent = '确认回复';
+          isSubmitting = false;
+          return;
+        }
+        // 如果选了"更多"，校验具体人数输入
+        if (guestsValue === 'more' && !formData.get('guestsOutMore')) {
+          const errorDiv = document.createElement('div');
+          errorDiv.className = 'form-error';
+          errorDiv.innerHTML = '<p>请输入具体人数</p>';
           form.insertBefore(errorDiv, form.firstChild);
           btn.style.opacity = '';
           btn.textContent = '确认回复';
@@ -1994,8 +2052,11 @@
     const guestTypeValue = formData.get('guestType');
     isLocalGuest = guestTypeValue === 'local';
     
-    // 根据宾客类型获取对应的字段值
-    const guests = isLocalGuest ? formData.get('guestsLocal') : formData.get('guestsOut');
+    // 根据宾客类型获取对应的字段值（处理"更多"情况）
+    let guests = isLocalGuest ? formData.get('guestsLocal') : formData.get('guestsOut');
+    if (guests === 'more') {
+      guests = isLocalGuest ? formData.get('guestsLocalMore') : formData.get('guestsOutMore');
+    }
     const meal = isLocalGuest ? formData.get('mealLocal') : formData.get('mealOut');
     
     const payload = {
@@ -2034,6 +2095,10 @@
         document.getElementById('rsvpHeader').style.display = 'none';
         form.style.display = 'none';
 
+        // 移除已提交提示（如果存在）
+        const rsvpNotice = document.getElementById('rsvpNotice');
+        if (rsvpNotice) rsvpNotice.remove();
+
         // 显示成功页面
         const formSuccess = document.getElementById('formSuccess');
         formSuccess.classList.add('show');
@@ -2042,9 +2107,8 @@
         // 获取提交数据
         const isAttending = formData.get('attend') === 'yes';
         const guestName = formData.get('name') || '未知';
-        const guestCount = isLocalGuest
-          ? (formData.get('guestsLocal') || '--')
-          : (formData.get('guestsOut') || '--');
+        // 使用处理后的 guests 值（已处理"更多"情况）
+        const guestCount = guests || '--';
 
         // 显示对应的文案
         document.getElementById('successAttending').style.display = isAttending ? 'block' : 'none';
