@@ -1938,7 +1938,7 @@
           
           <!-- 二维码图片 -->
           <div class="ticket-source-qr">
-            <img src="httpspannacotta.me.png" alt="婚礼邀请函二维码" id="ticketSourceQR">
+            <img src="httpspannacotta.me.png" alt="婚礼邀请函二维码" id="ticketSourceQR" crossorigin="anonymous">
           </div>
           
           <!-- 底部提示 -->
@@ -2588,14 +2588,28 @@
       // 等待字体加载完成
       await document.fonts.ready;
       
-      // 使用 html2canvas 生成高清图片 (8x 缩放)
+      // 预加载二维码图片
+      const qrImg = document.getElementById('ticketSourceQR');
+      if (qrImg && !qrImg.complete) {
+        await new Promise((resolve, reject) => {
+          qrImg.onload = resolve;
+          qrImg.onerror = reject;
+          setTimeout(() => reject(new Error('二维码图片加载超时')), 5000);
+        });
+      }
+      
+      // 短暂延迟确保渲染完成
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // 使用 html2canvas 生成高清图片 (4x 缩放)
       const canvas = await html2canvas(ticketSource, {
         scale: 4, // 4x 高清缩放
         useCORS: true,
-        allowTaint: true,
+        allowTaint: false, // 避免跨域污染问题
         backgroundColor: '#FFFDF9',
         logging: false,
-        imageTimeout: 0
+        imageTimeout: 0,
+        foreignObjectRendering: false // 禁用 foreignObject 以确保兼容性
       });
       
       // 转换为 PNG 数据
@@ -2609,6 +2623,9 @@
     } catch (err) {
       console.error('生成凭证失败:', err);
       loadingEl.innerHTML = '<p style="color: var(--rose);">生成失败，请重试</p>';
+      // 显示错误信息便于调试
+      console.log('ticketSource:', ticketSource);
+      console.log('html2canvas loaded:', typeof html2canvas !== 'undefined');
     }
   }
 
