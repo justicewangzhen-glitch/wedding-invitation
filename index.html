@@ -959,8 +959,14 @@
         grid-template-columns: 1fr;
         gap: 40px 0;
       }
-      .detail-divider { display: none; }
-      .detail-block + .detail-block { border-top: 1px solid var(--divider); padding-top: 40px; }
+      .detail-divider {
+        display: block;
+        width: 80px;
+        height: 1px;
+        background: var(--divider);
+        margin: 0 auto;
+      }
+      .detail-block + .detail-block { padding-top: 40px; }
 
       /* Dress code mobile */
       .dresscode-colors {
@@ -1133,7 +1139,8 @@
     <div class="story-block">
       <p class="story-year">2021 · 初见</p>
       <p class="story-text">
-        那是一个春日的午后，阳光穿过梧桐叶洒在石板路上。<br>
+        那是一个春日的午后，<br>
+        阳光穿过梧桐叶洒在石板路上。<br>
         我们的第一次对话，只有一杯咖啡的时间，<br>
         却仿佛认识了很久。
       </p>
