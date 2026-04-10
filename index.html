@@ -1675,81 +1675,6 @@
   const API_ENDPOINT = '/api/feishu-webhook';
   let isSubmitting = false;
 
-  // ─── 自动回填已提交数据 ───
-  (function autoFillForm() {
-    const savedData = localStorage.getItem('rsvpData');
-    if (!savedData) return;
-
-    try {
-      const data = JSON.parse(savedData);
-      if (!data.name || !data.phone) return;
-
-      // 显示提示信息
-      const formContainer = document.querySelector('.rsvp-form');
-      const existingNotice = document.getElementById('rsvpNotice');
-      if (!existingNotice && formContainer) {
-        const notice = document.createElement('div');
-        notice.id = 'rsvpNotice';
-        notice.className = 'rsvp-notice';
-        notice.innerHTML = '<p>💡 您已提交过回复，当前显示上次填写的内容，可直接修改后再次提交</p>';
-        formContainer.parentNode.insertBefore(notice, formContainer);
-      }
-
-      // 回填表单字段
-      const fields = {
-        'name': data.name,
-        'phone': data.phone,
-        'guestsLocal': data.guests === 'N/A' ? '' : data.guests,
-        'guestsOut': data.guests === 'N/A' ? '' : data.guests,
-        'arrivalDate': data.arrivalDate === '本地/不适用' || data.arrivalDate === 'N/A' ? '' : data.arrivalDate,
-        'arrivalTime': data.arrivalTime === '本地/不适用' || data.arrivalTime === 'N/A' ? '' : data.arrivalTime,
-        'departureDate': data.departureDate === '本地/不适用' || data.departureDate === 'N/A' ? '' : data.departureDate,
-        'flightNumber': data.transportInfo === '本地/不适用' || data.transportInfo === 'N/A' || data.transportInfo === '未填写' ? '' : data.transportInfo,
-        'message': data.message === '未填写' ? '' : data.message
-      };
-
-      Object.entries(fields).forEach(([id, value]) => {
-        const field = document.getElementById(id);
-        if (field && value && value !== '--') field.value = value;
-      });
-
-      // 回填用餐偏好
-      if (data.meal && data.meal !== '不限定' && data.meal !== 'N/A') {
-        const mealLocal = document.getElementById('mealLocal');
-        const mealOut = document.getElementById('mealOut');
-        if (mealLocal) mealLocal.value = data.meal;
-        if (mealOut) mealOut.value = data.meal;
-      }
-
-      // 回填 radio 按钮
-      if (data.attend) {
-        const attendRadio = document.querySelector(`input[name="attend"][value="${data.attend}"]`);
-        if (attendRadio) {
-          attendRadio.checked = true;
-          attendRadio.dispatchEvent(new Event('change'));
-        }
-      }
-
-      if (data.guestType) {
-        const guestTypeRadio = document.querySelector(`input[name="guestType"][value="${data.guestType}"]`);
-        if (guestTypeRadio) {
-          guestTypeRadio.checked = true;
-          guestTypeRadio.dispatchEvent(new Event('change'));
-        }
-      }
-
-      // 回填用餐偏好
-      if (data.meal && data.meal !== '不限定' && data.meal !== 'N/A') {
-        const mealLocal = document.getElementById('mealLocal');
-        const mealOut = document.getElementById('mealOut');
-        if (mealLocal) mealLocal.value = data.meal;
-        if (mealOut) mealOut.value = data.meal;
-      }
-    } catch (e) {
-      console.log('自动回填失败:', e);
-    }
-  })();
-
   // ─── 祝福语字数统计 ───
   const messageInput = document.getElementById('message');
   const messageCount = document.getElementById('messageCount');
@@ -1850,6 +1775,75 @@
   attendanceFields.classList.add('hidden');
   localFields?.classList.add('hidden');
   outFields?.classList.add('hidden');
+
+  // ─── 自动回填已提交数据 ───
+  (function autoFillForm() {
+    const savedData = localStorage.getItem('rsvpData');
+    if (!savedData) return;
+
+    try {
+      const data = JSON.parse(savedData);
+      if (!data.name || !data.phone) return;
+
+      // 显示提示信息
+      const formContainer = document.querySelector('.rsvp-form');
+      const existingNotice = document.getElementById('rsvpNotice');
+      if (!existingNotice && formContainer) {
+        const notice = document.createElement('div');
+        notice.id = 'rsvpNotice';
+        notice.className = 'rsvp-notice';
+        notice.innerHTML = '<p>💡 您已提交过回复，当前显示上次填写的内容，可直接修改后再次提交</p>';
+        formContainer.parentNode.insertBefore(notice, formContainer);
+      }
+
+      // 回填表单字段
+      const fields = {
+        'name': data.name,
+        'phone': data.phone,
+        'guestsLocal': data.guests === 'N/A' ? '' : data.guests,
+        'guestsOut': data.guests === 'N/A' ? '' : data.guests,
+        'arrivalDate': data.arrivalDate === '本地/不适用' || data.arrivalDate === 'N/A' ? '' : data.arrivalDate,
+        'arrivalTime': data.arrivalTime === '本地/不适用' || data.arrivalTime === 'N/A' ? '' : data.arrivalTime,
+        'departureDate': data.departureDate === '本地/不适用' || data.departureDate === 'N/A' ? '' : data.departureDate,
+        'flightNumber': data.transportInfo === '本地/不适用' || data.transportInfo === 'N/A' || data.transportInfo === '未填写' ? '' : data.transportInfo,
+        'message': data.message === '未填写' ? '' : data.message
+      };
+
+      Object.entries(fields).forEach(([id, value]) => {
+        const field = document.getElementById(id);
+        if (field && value && value !== '--') field.value = value;
+      });
+
+      // 回填用餐偏好
+      if (data.meal && data.meal !== '不限定' && data.meal !== 'N/A') {
+        const mealLocal = document.getElementById('mealLocal');
+        const mealOut = document.getElementById('mealOut');
+        if (mealLocal) mealLocal.value = data.meal;
+        if (mealOut) mealOut.value = data.meal;
+      }
+
+      // 回填 radio 按钮并触发change事件显示对应字段
+      if (data.attend) {
+        const attendRadio = document.querySelector(`input[name="attend"][value="${data.attend}"]`);
+        if (attendRadio) {
+          attendRadio.checked = true;
+          // 手动调用更新函数确保字段显示
+          updateAttendanceFields();
+        }
+      }
+
+      if (data.guestType) {
+        const guestTypeRadio = document.querySelector(`input[name="guestType"][value="${data.guestType}"]`);
+        if (guestTypeRadio) {
+          guestTypeRadio.checked = true;
+          // 手动调用更新函数确保字段显示
+          updateGuestTypeFields();
+        }
+      }
+    } catch (e) {
+      console.log('自动回填失败:', e);
+    }
+  })();
 
   document.getElementById('rsvpForm').addEventListener('submit', async (e) => {
     e.preventDefault();
