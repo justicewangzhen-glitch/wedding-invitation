@@ -996,11 +996,16 @@
     }
     
     .ticket-source-card {
-      width: 320px; /* 标准尺寸 */
+      width: 320px;
       background: var(--warm-white);
       position: relative;
       padding: 0;
       border-radius: 2px;
+    }
+    
+    /* 源卡片在隐藏容器内 */
+    .ticket-source-wrapper .ticket-source-card {
+      width: 640px; /* 高清生成尺寸 */
     }
     
     /* 缺口边框 - 左右两边中间留缺口 */
@@ -1028,13 +1033,18 @@
     .ticket-source-content {
       position: relative;
       z-index: 2;
-      padding: 48px 40px 40px;
+      padding: 70px 80px 60px;
+    }
+    
+    /* 源卡片的大尺寸样式 */
+    .ticket-source-wrapper .ticket-source-content {
+      padding: 70px 80px 60px;
     }
     
     /* 顶部装饰区域 */
     .ticket-source-header {
       text-align: center;
-      margin-bottom: 32px;
+      margin-bottom: 48px;
       position: relative;
     }
     
@@ -1055,6 +1065,20 @@
       font-weight: 300;
     }
     
+    /* 源卡片的大尺寸样式 */
+    .ticket-source-wrapper .ticket-source-header {
+      margin-bottom: 48px;
+    }
+    
+    .ticket-source-wrapper .ticket-source-title {
+      font-size: 2.3rem;
+      margin-bottom: 16px;
+    }
+    
+    .ticket-source-wrapper .ticket-source-subtitle {
+      font-size: 1.36rem;
+    }
+    
     /* 渐变分隔线 */
     .ticket-source-divider {
       height: 1px;
@@ -1070,13 +1094,26 @@
       margin: 0 0 32px;
     }
     
+    .ticket-source-wrapper .ticket-source-divider {
+      height: 2px;
+      margin: 0 0 48px;
+    }
+    
     .ticket-source-body {
       margin-bottom: 32px;
+    }
+    
+    .ticket-source-wrapper .ticket-source-body {
+      margin-bottom: 56px;
     }
     
     .ticket-source-row {
       text-align: center;
       margin-bottom: 24px;
+    }
+    
+    .ticket-source-wrapper .ticket-source-row {
+      margin-bottom: 40px;
     }
     
     .ticket-source-row:last-child {
@@ -1094,6 +1131,11 @@
       text-transform: uppercase;
     }
     
+    .ticket-source-wrapper .ticket-source-label {
+      font-size: 1.24rem;
+      margin-bottom: 20px;
+    }
+    
     .ticket-source-value {
       font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
       font-size: 1.8rem;
@@ -1102,15 +1144,30 @@
       letter-spacing: 0.1em;
     }
     
+    .ticket-source-wrapper .ticket-source-value {
+      font-size: 2.9rem;
+    }
+    
     .ticket-source-qr {
       display: flex;
       justify-content: center;
       margin-bottom: 16px;
     }
     
-    .ticket-source-qr canvas {
-      width: 120px !important;
-      height: 120px !important;
+    .ticket-source-wrapper .ticket-source-qr {
+      margin-bottom: 16px;
+    }
+    
+    .ticket-source-qr img {
+      width: 120px;
+      height: 120px;
+      border-radius: 4px;
+      display: block;
+    }
+    
+    .ticket-source-wrapper .ticket-source-qr img {
+      width: 210px;
+      height: 210px;
     }
     
     .ticket-source-qr-hint {
@@ -1122,21 +1179,8 @@
       font-weight: 300;
     }
     
-    /* 结果展示区域 */
-    .ticket-result-wrapper {
-      width: 100%;
-      max-width: 400px;
-      min-height: 520px;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      position: relative;
-      overflow: visible;
-      padding: 20px 0;
-    }
-    
-    .ticket-result-wrapper > div {
-      box-shadow: 0 8px 32px rgba(42, 40, 37, 0.15);
+    .ticket-source-wrapper .ticket-source-qr-hint {
+      font-size: 1.24rem;
     }
     
     .ticket-loading {
@@ -1168,18 +1212,110 @@
       display: block;
     }
     
+    .ticket-preview-wrapper {
+      width: 320px;
+      min-height: 480px;
+      background: var(--warm-white);
+      border-radius: 2px;
+      box-shadow: 0 8px 32px rgba(42, 40, 37, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 20px;
+    }
+    
+    .ticket-preview-wrapper .ticket-source-card {
+      width: 280px;
+      transform: scale(1);
+    }
+    
+    /* 预览区域使用小尺寸样式 */
+    .ticket-preview-wrapper .ticket-source-content {
+      padding: 40px 32px 32px;
+    }
+    
+    .ticket-preview-wrapper .ticket-source-header {
+      margin-bottom: 28px;
+    }
+    
+    .ticket-preview-wrapper .ticket-source-title {
+      font-size: 1.4rem;
+      margin-bottom: 10px;
+    }
+    
+    .ticket-preview-wrapper .ticket-source-subtitle {
+      font-size: 0.75rem;
+    }
+    
+    .ticket-preview-wrapper .ticket-source-divider {
+      height: 1px;
+      margin: 0 0 28px;
+    }
+    
+    .ticket-preview-wrapper .ticket-source-body {
+      margin-bottom: 24px;
+    }
+    
+    .ticket-preview-wrapper .ticket-source-row {
+      margin-bottom: 20px;
+    }
+    
+    .ticket-preview-wrapper .ticket-source-label {
+      font-size: 0.7rem;
+      margin-bottom: 12px;
+    }
+    
+    .ticket-preview-wrapper .ticket-source-value {
+      font-size: 1.6rem;
+    }
+    
+    .ticket-preview-wrapper .ticket-source-qr img {
+      width: 100px;
+      height: 100px;
+    }
+    
+    .ticket-preview-wrapper .ticket-source-qr-hint {
+      font-size: 0.65rem;
+    }
+    
+    .ticket-save-btn {
+      margin-top: 24px;
+      padding: 14px 32px;
+      background: var(--gold);
+      color: #fff;
+      border: none;
+      border-radius: 2px;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .ticket-save-btn:hover {
+      background: #b8995a;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(196, 169, 110, 0.3);
+    }
+    
+    .ticket-save-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    
     .ticket-save-hint {
       text-align: center;
-      margin-top: 20px;
+      margin-top: 16px;
       font-size: 0.68rem;
       color: var(--text-secondary);
       letter-spacing: 0.08em;
       font-family: 'Josefin Sans', sans-serif;
-    }
-    
-    .ticket-save-hint::before {
-      content: '↓ ';
-      color: var(--gold);
     }
 
     /* ─── ATTENDANCE TOGGLE ─── */
@@ -1943,7 +2079,7 @@
           
           <!-- 二维码图片 -->
           <div class="ticket-source-qr">
-            <canvas id="ticketQRCanvas" width="120" height="120" style="border-radius:4px;"></canvas>
+            <img src="httpspannacotta.me.png" alt="婚礼二维码" id="ticketSourceQR" style="width:120px;height:120px;border-radius:4px;display:block;">
           </div>
           
           <!-- 底部提示 -->
@@ -1955,12 +2091,21 @@
       </div>
     </div>
     
-    <!-- 入场凭证展示 (纯CSS渲染，可直接截图保存) -->
-    <div class="ticket-result-wrapper" id="ticketResultWrapper">
-      <!-- 这里显示实际的入场凭证卡片 -->
+    <!-- 入场凭证预览 -->
+    <div class="ticket-preview-wrapper" id="ticketPreviewWrapper">
+      <!-- 这里会动态克隆入场凭证卡片 -->
     </div>
     
-    <p class="ticket-save-hint">👆 长按上方入场凭证截图保存</p>
+    <button class="ticket-save-btn" id="saveTicketBtn" onclick="saveTicketToAlbum()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <polyline points="7 10 12 15 17 10"></polyline>
+        <line x1="12" y1="15" x2="12" y2="3"></line>
+      </svg>
+      保存到相册
+    </button>
+    
+    <p class="ticket-save-hint">点击按钮保存高清入场凭证</p>
   </div>
 </div>
 
@@ -2566,53 +2711,77 @@
     document.getElementById('ticketSourceGuestName').textContent = guestName || '--';
     document.getElementById('ticketSourceGuestCount').textContent = guestCount || '--';
     
-    // 加载二维码图片
-    loadQRCodeToCanvas();
+    // 存储宾客姓名用于下载文件名
+    document.getElementById('ticketCardSource').dataset.guestName = guestName || '宾客';
     
-    // 将源卡片显示在结果区域（替代html2canvas方案）
-    displayTicketCard();
+    // 在预览区域显示缩小的卡片
+    displayTicketPreview();
   }
   
-  // ─── 加载二维码到 Canvas ───
-  function loadQRCodeToCanvas() {
-    const qrCanvas = document.getElementById('ticketQRCanvas');
-    if (!qrCanvas) return;
+  // ─── 显示入场凭证预览 ───
+  function displayTicketPreview() {
+    const sourceCard = document.getElementById('ticketCardSource');
+    const previewWrapper = document.getElementById('ticketPreviewWrapper');
     
-    const ctx = qrCanvas.getContext('2d');
-    const qrImg = new Image();
-    qrImg.crossOrigin = 'anonymous';
-    qrImg.onload = () => {
-      ctx.drawImage(qrImg, 0, 0, 120, 120);
-    };
-    qrImg.onerror = () => {
-      console.warn('二维码图片加载失败');
-      // 绘制占位符
-      ctx.fillStyle = '#f5f5f5';
-      ctx.fillRect(0, 0, 210, 210);
-      ctx.fillStyle = '#999';
-      ctx.font = '14px sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText('二维码', 105, 110);
-    };
-    qrImg.src = 'httpspannacotta.me.png';
+    if (!sourceCard || !previewWrapper) return;
+    
+    // 清空并克隆源卡片到预览区域
+    previewWrapper.innerHTML = '';
+    const clone = sourceCard.cloneNode(true);
+    clone.id = 'ticketCardPreview';
+    clone.removeAttribute('id');
+    previewWrapper.appendChild(clone);
   }
   
-  // ─── 显示入场凭证卡片 ───
-  function displayTicketCard() {
-    const sourceWrapper = document.getElementById('ticketSource');
-    const resultWrapper = document.getElementById('ticketResultWrapper');
+  // ─── 保存入场凭证到相册 ───
+  async function saveTicketToAlbum() {
+    const ticketCard = document.getElementById('ticketCardSource');
+    const guestName = ticketCard.dataset.guestName || '宾客';
     
-    if (!sourceWrapper || !resultWrapper) return;
+    if (typeof html2canvas === 'undefined') {
+      alert('正在加载生成工具，请稍后再试');
+      return;
+    }
     
-    // 清空并克隆整个源容器到展示区域
-    resultWrapper.innerHTML = '';
-    const clone = sourceWrapper.cloneNode(true);
-    clone.id = 'ticketDisplay';
-    clone.style.position = 'relative';
-    clone.style.top = '0';
-    clone.style.left = '0';
-    clone.style.zIndex = '1';
-    resultWrapper.appendChild(clone);
+    try {
+      // 显示加载提示
+      const btn = document.getElementById('saveTicketBtn');
+      const originalText = btn.textContent;
+      btn.textContent = '生成中...';
+      btn.disabled = true;
+      
+      // 等待字体加载
+      await document.fonts.ready;
+      
+      // 使用 html2canvas 生成高清 PNG
+      const canvas = await html2canvas(ticketCard, {
+        scale: 4,  // 4倍分辨率，高清
+        useCORS: true,  // 允许跨域图片
+        allowTaint: true,  // 允许被污染的图片
+        backgroundColor: '#FFFDF9',  // 米白底色
+        logging: false,
+        imageTimeout: 10000
+      });
+      
+      // 转换为 PNG 并下载
+      const link = document.createElement('a');
+      link.download = '婚礼入场凭证_' + guestName + '.png';
+      link.href = canvas.toDataURL('image/png');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // 恢复按钮
+      btn.textContent = originalText;
+      btn.disabled = false;
+      
+    } catch (err) {
+      console.error('生成失败:', err);
+      alert('生成失败，请重试');
+      const btn = document.getElementById('saveTicketBtn');
+      btn.textContent = '保存到相册';
+      btn.disabled = false;
+    }
   }
 
   // ─── QR Code (使用静态图片，动态生成已禁用) ───
