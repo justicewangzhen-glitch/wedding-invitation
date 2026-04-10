@@ -935,12 +935,15 @@
     }
 
     .ticket-modal-content {
-      background: var(--warm-white);
-      padding: 48px 24px 24px;
-      max-width: 320px;
-      width: 100%;
+      background: rgba(250, 248, 245, 0.95);
+      padding: 48px 24px 32px;
+      max-width: 400px;
+      width: 92%;
       position: relative;
       animation: modalSlideIn 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     @keyframes modalSlideIn {
@@ -982,21 +985,193 @@
       stroke-width: 1.5;
     }
 
-    .ticket-image {
+    /* ========== 入场凭证生成器样式 ========== */
+    
+    /* 隐藏的源卡片 - 用于html2canvas生成 */
+    .ticket-source-wrapper {
+      position: fixed;
+      top: -9999px;
+      left: -9999px;
+      z-index: -9999;
+    }
+    
+    .ticket-source-card {
+      width: 640px; /* 2x基础尺寸 */
+      background: var(--warm-white);
+      position: relative;
+      padding: 0;
+      border-radius: 2px;
+    }
+    
+    /* 缺口边框 - 左右两边中间留缺口 */
+    .ticket-source-frame {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      border: 2px solid rgba(196, 169, 110, 0.5);
+      pointer-events: none;
+      clip-path: polygon(
+        0 0, 
+        100% 0, 
+        100% 46%, 
+        100% 46%, 
+        100% 100%, 
+        0 100%, 
+        0 54%, 
+        0 54%
+      );
+    }
+    
+    /* 内容区域 */
+    .ticket-source-content {
+      position: relative;
+      z-index: 2;
+      padding: 70px 80px 60px;
+    }
+    
+    /* 顶部装饰区域 */
+    .ticket-source-header {
+      text-align: center;
+      margin-bottom: 48px;
+      position: relative;
+    }
+    
+    .ticket-source-title {
+      font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+      font-size: 2.3rem;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      color: #3d3b3a;
+      margin-bottom: 16px;
+    }
+    
+    .ticket-source-subtitle {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 1.36rem;
+      color: var(--text-secondary);
+      letter-spacing: 0.12em;
+      font-weight: 300;
+    }
+    
+    /* 渐变分隔线 */
+    .ticket-source-divider {
+      height: 2px;
+      background: linear-gradient(90deg, 
+        rgba(196, 169, 110, 0) 0%, 
+        rgba(196, 169, 110, 0.2) 10%,
+        rgba(196, 169, 110, 0.45) 25%, 
+        rgba(196, 169, 110, 0.75) 50%,
+        rgba(196, 169, 110, 0.45) 75%, 
+        rgba(196, 169, 110, 0.2) 90%,
+        rgba(196, 169, 110, 0) 100%
+      );
+      margin: 0 0 48px;
+    }
+    
+    .ticket-source-body {
+      margin-bottom: 56px;
+    }
+    
+    .ticket-source-row {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .ticket-source-row:last-child {
+      margin-bottom: 0;
+    }
+    
+    .ticket-source-label {
+      display: block;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 1.24rem;
+      color: var(--text-secondary);
+      letter-spacing: 0.18em;
+      margin-bottom: 20px;
+      font-weight: 300;
+      text-transform: uppercase;
+    }
+    
+    .ticket-source-value {
+      font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+      font-size: 2.9rem;
+      font-weight: 400;
+      color: #3d3b3a;
+      letter-spacing: 0.1em;
+    }
+    
+    .ticket-source-qr {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+    
+    .ticket-source-qr img {
+      width: 210px !important;
+      height: 210px !important;
+    }
+    
+    .ticket-source-qr-hint {
+      text-align: center;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 1.24rem;
+      color: var(--text-secondary);
+      letter-spacing: 0.1em;
+      font-weight: 300;
+    }
+    
+    /* 结果展示区域 */
+    .ticket-result-wrapper {
+      width: 320px;
+      min-height: 480px;
+      background: var(--warm-white);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    
+    .ticket-loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+    }
+    
+    .ticket-loading-spinner {
+      width: 32px;
+      height: 32px;
+      border: 2px solid rgba(196, 169, 110, 0.3);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .ticket-generated-img {
       width: 100%;
       height: auto;
       display: block;
-      border: 2px solid var(--gold);
     }
-
+    
     .ticket-save-hint {
       text-align: center;
-      margin-top: 16px;
-      font-size: 0.7rem;
+      margin-top: 20px;
+      font-size: 0.68rem;
       color: var(--text-secondary);
-      letter-spacing: 0.05em;
+      letter-spacing: 0.08em;
+      font-family: 'Josefin Sans', sans-serif;
     }
-
+    
     .ticket-save-hint::before {
       content: '↓ ';
       color: var(--gold);
@@ -1722,6 +1897,8 @@
 
 <!-- QRCode.js -->
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<!-- html2canvas -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <!-- 入场凭证弹窗 -->
 <div class="ticket-modal-overlay" id="ticketModal">
@@ -1733,10 +1910,56 @@
       </svg>
     </button>
     
-    <!-- 凭证图片（Canvas生成） -->
-    <img id="ticketImage" class="ticket-image" alt="婚礼入场凭证">
+    <!-- 入场凭证卡片 - 隐藏的原版，用于生成高清PNG -->
+    <div class="ticket-source-wrapper" id="ticketSource">
+      <div class="ticket-source-card" id="ticketCardSource">
+        <!-- 内容区域 -->
+        <div class="ticket-source-content">
+          <!-- 顶部装饰区域 -->
+          <div class="ticket-source-header">
+            <h3 class="ticket-source-title">婚礼入场凭证</h3>
+            <p class="ticket-source-subtitle">长按保存，现场出示</p>
+          </div>
+          
+          <!-- 渐变分隔线 -->
+          <div class="ticket-source-divider"></div>
+          
+          <!-- 宾客信息区域 -->
+          <div class="ticket-source-body">
+            <div class="ticket-source-row">
+              <span class="ticket-source-label">宾客姓名</span>
+              <span class="ticket-source-value" id="ticketSourceGuestName">--</span>
+            </div>
+            <div class="ticket-source-row">
+              <span class="ticket-source-label">出席人数</span>
+              <span class="ticket-source-value"><span id="ticketSourceGuestCount">--</span> 人</span>
+            </div>
+          </div>
+          
+          <!-- 二维码图片 -->
+          <div class="ticket-source-qr">
+            <img src="httpspannacotta.me.png" alt="婚礼邀请函二维码" id="ticketSourceQR">
+          </div>
+          
+          <!-- 底部提示 -->
+          <p class="ticket-source-qr-hint">扫码查看婚礼详情</p>
+        </div>
+        
+        <!-- 缺口边框装饰 -->
+        <div class="ticket-source-frame"></div>
+      </div>
+    </div>
     
-    <p class="ticket-save-hint">长按图片即可保存</p>
+    <!-- 生成的入场凭证PNG展示 -->
+    <div class="ticket-result-wrapper">
+      <div class="ticket-loading" id="ticketLoading">
+        <div class="ticket-loading-spinner"></div>
+        <p>正在生成高清凭证...</p>
+      </div>
+      <img class="ticket-generated-img" id="ticketGeneratedImg" alt="婚礼入场凭证" style="display:none;">
+    </div>
+    
+    <p class="ticket-save-hint">长按上方图片保存</p>
   </div>
 </div>
 
@@ -2206,6 +2429,19 @@
       message:       formData.get('message') || '未填写',
     };
 
+    // ─── 本地开发模式：模拟提交成功 ───
+    const isLocalDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    
+    if (isLocalDev) {
+      console.log('[本地开发模式] 模拟提交成功:', payload);
+      // 模拟网络延迟
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      // 走成功逻辑（提取为函数复用）
+      completeSubmit(payload, formData, form, btn, guests);
+      return;
+    }
+    
     try {
       // 添加时间戳防止缓存
       const url = API_ENDPOINT + '?t=' + Date.now();
@@ -2220,75 +2456,7 @@
       
       // API 返回 200 才算成功
       if (response.ok) {
-        // 保存数据到 localStorage 以便下次自动回填
-        localStorage.setItem('rsvpData', JSON.stringify(payload));
-
-        // 隐藏表单和标题区域
-        document.getElementById('rsvpHeader').style.display = 'none';
-        form.style.display = 'none';
-
-        // 移除已提交提示（如果存在）
-        const rsvpNotice = document.getElementById('rsvpNotice');
-        if (rsvpNotice) rsvpNotice.remove();
-
-        // 显示成功页面
-        const formSuccess = document.getElementById('formSuccess');
-        formSuccess.classList.add('show');
-        formSuccess.style.padding = '80px 24px';
-
-        // 获取提交数据
-        const isAttending = formData.get('attend') === 'yes';
-        const guestName = formData.get('name') || '未知';
-        // 使用处理后的 guests 值（已处理"更多"情况）
-        console.log('Debug - guests value:', guests, 'isLocalGuest:', isLocalGuest);
-        const guestCount = guests || '--';
-
-        // 显示对应的文案
-        document.getElementById('successAttending').style.display = isAttending ? 'block' : 'none';
-        document.getElementById('successDeclined').style.display = isAttending ? 'none' : 'block';
-
-        // 填充摘要信息（仅出席宾客显示）
-        if (isAttending) {
-          document.getElementById('summaryName').textContent = guestName;
-          document.getElementById('summaryAttend').textContent = '欣然出席';
-          document.getElementById('summaryGuests').textContent = guestCount + ' 人';
-
-          // 生成凭证图片
-          generateTicketImage(guestName, guestCount);
-          
-          // 绑定查看凭证按钮
-          document.getElementById('viewTicketBtn').addEventListener('click', () => {
-            document.getElementById('ticketModal').classList.add('show');
-            document.body.style.overflow = 'hidden';
-          });
-        } else {
-          // 缺席时隐藏查看凭证按钮
-          document.getElementById('viewTicketBtn').style.display = 'none';
-        }
-
-        // 自动滚动到成功页面中央
-        setTimeout(() => {
-          formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 100);
-
-        // 绑定返回顶部按钮
-        document.getElementById('backToTop').addEventListener('click', () => {
-          document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
-        });
-        
-        // 绑定凭证弹窗关闭
-        document.getElementById('ticketModalClose').addEventListener('click', () => {
-          document.getElementById('ticketModal').classList.remove('show');
-          document.body.style.overflow = ''; // 恢复背景滚动
-        });
-        
-        // 点击弹窗背景关闭
-        document.getElementById('ticketModal').addEventListener('click', (e) => {
-          if (e.target === document.getElementById('ticketModal')) {
-            document.getElementById('ticketModal').classList.remove('show');
-            document.body.style.overflow = '';
-          }
-        });
+        completeSubmit(payload, formData, form, btn, guests);
       } else {
         // API 返回错误状态码，尝试读取后端错误信息
         const errorText = await response.text().catch(() => '');
@@ -2320,138 +2488,128 @@
   });
 
 
-  // ─── 生成凭证图片 ───
-  function generateTicketImage(guestName, guestCount) {
-    // 先生成二维码，再合成凭证图片
-    const qrDiv = document.createElement('div');
-    qrDiv.style.position = 'absolute';
-    qrDiv.style.left = '-9999px';
-    document.body.appendChild(qrDiv);
-    
-    new QRCode(qrDiv, {
-      text: window.location.href,
-      width: 100,
-      height: 100,
-      colorDark: '#2A2825',
-      colorLight: '#FFFDF9',
-      correctLevel: QRCode.CorrectLevel.M
+  // ─── 提交成功后的完整处理 ───
+  function completeSubmit(payload, formData, form, btn, guests) {
+    // 保存数据到 localStorage 以便下次自动回填
+    localStorage.setItem('rsvpData', JSON.stringify(payload));
+
+    // 隐藏表单和标题区域
+    document.getElementById('rsvpHeader').style.display = 'none';
+    form.style.display = 'none';
+
+    // 移除已提交提示（如果存在）
+    const rsvpNotice = document.getElementById('rsvpNotice');
+    if (rsvpNotice) rsvpNotice.remove();
+
+    // 显示成功页面
+    const formSuccess = document.getElementById('formSuccess');
+    formSuccess.classList.add('show');
+    formSuccess.style.padding = '80px 24px';
+
+    // 获取提交数据
+    const isAttending = formData.get('attend') === 'yes';
+    const guestName = formData.get('name') || '未知';
+    const guestCount = guests || '--';
+
+    // 显示对应的文案
+    document.getElementById('successAttending').style.display = isAttending ? 'block' : 'none';
+    document.getElementById('successDeclined').style.display = isAttending ? 'none' : 'block';
+
+    // 填充摘要信息（仅出席宾客显示）
+    if (isAttending) {
+      document.getElementById('summaryName').textContent = guestName;
+      document.getElementById('summaryAttend').textContent = '欣然出席';
+      document.getElementById('summaryGuests').textContent = guestCount + ' 人';
+
+      // 填充入场凭证信息
+      fillTicketCard(guestName, guestCount);
+      
+      // 绑定查看凭证按钮
+      document.getElementById('viewTicketBtn').addEventListener('click', () => {
+        document.getElementById('ticketModal').classList.add('show');
+        document.body.style.overflow = 'hidden';
+      });
+    } else {
+      // 缺席时隐藏查看凭证按钮
+      document.getElementById('viewTicketBtn').style.display = 'none';
+    }
+
+    // 自动滚动到成功页面中央
+    setTimeout(() => {
+      formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+
+    // 绑定返回顶部按钮
+    document.getElementById('backToTop').addEventListener('click', () => {
+      document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
     });
     
-    // 等待二维码生成
-    setTimeout(() => {
-      const qrCanvas = qrDiv.querySelector('canvas');
-      const qrDataUrl = qrCanvas ? qrCanvas.toDataURL() : null;
-      document.body.removeChild(qrDiv);
-      
-      // 创建凭证画布
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      const width = 280;
-      const height = 420;
-      canvas.width = width * 2;
-      canvas.height = height * 2;
-      ctx.scale(2, 2);
-      
-      // 背景色
-      ctx.fillStyle = '#FFFDF9';
-      ctx.fillRect(0, 0, width, height);
-      
-      // 边框
-      ctx.strokeStyle = '#C4A96E';
-      ctx.lineWidth = 2;
-      ctx.strokeRect(8, 8, width - 16, height - 16);
-      
-      // 装饰圆点（左）
-      ctx.beginPath();
-      ctx.arc(8, height / 2, 8, 0, Math.PI * 2);
-      ctx.fillStyle = '#FFFDF9';
-      ctx.fill();
-      ctx.stroke();
-      
-      // 装饰圆点（右）
-      ctx.beginPath();
-      ctx.arc(width - 8, height / 2, 8, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.stroke();
-      
-      // 标题区域背景
-      const gradient = ctx.createLinearGradient(0, 0, 0, 120);
-      gradient.addColorStop(0, '#FFFDF9');
-      gradient.addColorStop(1, 'rgba(196, 169, 110, 0.05)');
-      ctx.fillStyle = gradient;
-      ctx.fillRect(10, 10, width - 20, 110);
-      
-      // 花朵图标
-      ctx.font = '28px serif';
-      ctx.textAlign = 'center';
-      ctx.fillStyle = '#C4A96E';
-      ctx.fillText('💐', width / 2, 45);
-      
-      // 标题
-      ctx.font = '500 16px "Cormorant Garamond", serif';
-      ctx.fillStyle = '#2A2825';
-      ctx.fillText('婚礼入场凭证', width / 2, 75);
-      
-      // 副标题
-      ctx.font = '300 11px "Josefin Sans", sans-serif';
-      ctx.fillStyle = '#8A8480';
-      ctx.fillText('请截图保存，现场出示', width / 2, 95);
-      
-      // 分隔线
-      const gradientLine = ctx.createLinearGradient(20, 0, width - 20, 0);
-      gradientLine.addColorStop(0, 'transparent');
-      gradientLine.addColorStop(0.5, '#E8D9B8');
-      gradientLine.addColorStop(1, 'transparent');
-      ctx.strokeStyle = gradientLine;
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(20, 130);
-      ctx.lineTo(width - 20, 130);
-      ctx.stroke();
-      
-      // 宾客姓名标签
-      ctx.font = '300 10px "Josefin Sans", sans-serif';
-      ctx.fillStyle = '#8A8480';
-      ctx.fillText('宾客姓名', width / 2, 165);
-      
-      // 宾客姓名值
-      ctx.font = '400 22px "Cormorant Garamond", serif';
-      ctx.fillStyle = '#2A2825';
-      ctx.fillText(guestName || '--', width / 2, 195);
-      
-      // 出席人数标签
-      ctx.font = '300 10px "Josefin Sans", sans-serif';
-      ctx.fillStyle = '#8A8480';
-      ctx.fillText('出席人数', width / 2, 235);
-      
-      // 出席人数值
-      ctx.font = '400 22px "Cormorant Garamond", serif';
-      ctx.fillStyle = '#2A2825';
-      ctx.fillText((guestCount || '--') + '人', width / 2, 265);
-      
-      // 绘制二维码
-      if (qrDataUrl) {
-        const qrImg = new Image();
-        qrImg.onload = function() {
-          ctx.drawImage(qrImg, (width - 100) / 2, 285, 100, 100);
-          
-          // 二维码边框
-          ctx.strokeStyle = '#D4C9BE';
-          ctx.lineWidth = 1;
-          ctx.strokeRect((width - 100) / 2, 285, 100, 100);
-          
-          // 二维码提示
-          ctx.font = '300 10px "Josefin Sans", sans-serif';
-          ctx.fillStyle = '#8A8480';
-          ctx.fillText('扫码查看婚礼详情', width / 2, 405);
-          
-          // 转换为图片
-          const ticketImg = document.getElementById('ticketImage');
-          ticketImg.src = canvas.toDataURL('image/png');
-        };
-        qrImg.src = qrDataUrl;
+    // 绑定凭证弹窗关闭
+    document.getElementById('ticketModalClose').addEventListener('click', () => {
+      document.getElementById('ticketModal').classList.remove('show');
+      document.body.style.overflow = '';
+    });
+    
+    // 点击弹窗背景关闭
+    document.getElementById('ticketModal').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('ticketModal')) {
+        document.getElementById('ticketModal').classList.remove('show');
+        document.body.style.overflow = '';
       }
-    }, 150);
+    });
+  }
+
+  // ─── 填充入场凭证卡片 ───
+  function fillTicketCard(guestName, guestCount) {
+    // 填充源卡片数据（用于生成高清PNG）
+    document.getElementById('ticketSourceGuestName').textContent = guestName || '--';
+    document.getElementById('ticketSourceGuestCount').textContent = guestCount || '--';
+    
+    // 使用 html2canvas 生成高清 PNG (8x 缩放)
+    generateTicketPNG();
+  }
+  
+  // ─── 生成高清入场凭证 PNG ───
+  async function generateTicketPNG() {
+    const ticketSource = document.getElementById('ticketCardSource');
+    const loadingEl = document.getElementById('ticketLoading');
+    const imgEl = document.getElementById('ticketGeneratedImg');
+    
+    if (!ticketSource || typeof html2canvas === 'undefined') {
+      console.error('html2canvas 未加载');
+      return;
+    }
+    
+    try {
+      // 显示加载中
+      loadingEl.style.display = 'flex';
+      imgEl.style.display = 'none';
+      
+      // 等待字体加载完成
+      await document.fonts.ready;
+      
+      // 使用 html2canvas 生成高清图片 (8x 缩放)
+      const canvas = await html2canvas(ticketSource, {
+        scale: 4, // 4x 高清缩放
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#FFFDF9',
+        logging: false,
+        imageTimeout: 0
+      });
+      
+      // 转换为 PNG 数据
+      const pngData = canvas.toDataURL('image/png', 1.0);
+      
+      // 显示生成的图片
+      imgEl.src = pngData;
+      imgEl.style.display = 'block';
+      loadingEl.style.display = 'none';
+      
+    } catch (err) {
+      console.error('生成凭证失败:', err);
+      loadingEl.innerHTML = '<p style="color: var(--rose);">生成失败，请重试</p>';
+    }
   }
 
   // ─── QR Code ───
@@ -2519,15 +2677,56 @@
   // ─── Music (placeholder — audio file to be added) ───
   // To enable: add an <audio id="bgMusic" src="your-music.mp3" loop></audio> element
   // and uncomment the toggle logic below
-  /*
-  const audio = document.getElementById('bgMusic');
-  const toggle = document.getElementById('musicToggle');
-  let playing = false;
-  toggle.addEventListener('click', () => {
-    playing = !playing;
-    playing ? audio.play() : audio.pause();
-  });
-  */
+/*
+const audio = document.getElementById('bgMusic');
+const toggle = document.getElementById('musicToggle');
+let playing = false;
+toggle.addEventListener('click', () => {
+  playing = !playing;
+  playing ? audio.play() : audio.pause();
+});
+*/
+
+  // ─── 本地测试模式 ───
+  // 在 URL 中添加 ?testTicket=1&name=张三&count=2 即可预览入场凭证
+  (function() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('testTicket') === '1') {
+      const testName = params.get('name') || '测试宾客';
+      const testCount = params.get('count') || '2';
+      
+      // 模拟成功提交后的状态
+      document.getElementById('rsvpHeader').style.display = 'none';
+      document.getElementById('rsvpForm').style.display = 'none';
+      
+      const formSuccess = document.getElementById('formSuccess');
+      formSuccess.classList.add('show');
+      formSuccess.style.padding = '80px 24px';
+      
+      document.getElementById('successAttending').style.display = 'block';
+      document.getElementById('successDeclined').style.display = 'none';
+      document.getElementById('summaryName').textContent = testName;
+      document.getElementById('summaryAttend').textContent = '欣然出席';
+      document.getElementById('summaryGuests').textContent = testCount + ' 人';
+      document.getElementById('viewTicketBtn').style.display = 'inline-flex';
+      
+      // 填充并生成入场凭证
+      setTimeout(() => {
+        fillTicketCard(testName, testCount);
+      }, 500);
+      
+      // 滚动到 RSVP 区域
+      setTimeout(() => {
+        document.getElementById('rsvp').scrollIntoView({ behavior: 'smooth' });
+      }, 1000);
+      
+      // 绑定查看凭证按钮
+      document.getElementById('viewTicketBtn').addEventListener('click', () => {
+        document.getElementById('ticketModal').classList.add('show');
+        document.body.style.overflow = 'hidden';
+      });
+    }
+  })();
 </script>
 </body>
 </html>
