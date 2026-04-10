@@ -43,7 +43,15 @@ UOnlOiTaqYe68RKzoL51LRzF/A==
 // 字段映射（与服务端 index.html 保持一致）
 const ATTENDANCE_MAP = { yes: '✅ 欣然出席', no: '❌ 遗憾缺席' };
 const GUEST_TYPE_MAP = { local: '本地亲友', out: '外地宾客' };
-const GUEST_MAP = { '1': '1人', '2': '2人', '3': '3人', '4': '4人及以上' };
+const GUEST_MAP = { '1': '1人', '2': '2人', '3': '3人', '4': '4人' };
+// 处理人数显示：如果是数字直接加"人"，否则查映射表
+function getGuestsLabel(guests) {
+  if (!guests || guests === '未知') return '未知';
+  // 如果是纯数字，直接返回"X人"
+  if (/^\d+$/.test(guests)) return guests + '人';
+  // 否则查映射表
+  return GUEST_MAP[guests] || guests;
+}
 const MEAL_MAP = { any: '不限定', vegetarian: '素食', allergy: '食物过敏' };
 const ARRIVAL_DATE_MAP = { 'two-days-before': '6月18日', eve: '6月19日' };
 const ARRIVAL_TIME_MAP = { morning: '上午（10:00前）', noon: '中午（10:00–12:00）', afternoon: '下午（12:00–17:00）', evening: '傍晚（17:00后）' };
@@ -146,7 +154,7 @@ exports.handler = async function (event, context) {
 
   const attendanceLabel = ATTENDANCE_MAP[attendance] || '未知';
   const guestTypeLabel = GUEST_TYPE_MAP[guestType] || '未知';
-  const guestsLabel = GUEST_MAP[guests] || '未知';
+  const guestsLabel = getGuestsLabel(guests);
   const mealLabel = MEAL_MAP[meal] || '未知';
   const arrivalDateLabel = ARRIVAL_DATE_MAP[arrivalDate] || arrivalDate || '未填写';
   const arrivalTimeLabel = ARRIVAL_TIME_MAP[arrivalTime] || arrivalTime || '未填写';
