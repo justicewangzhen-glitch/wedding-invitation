@@ -1544,13 +1544,12 @@
       attendanceFields.querySelectorAll('select, input').forEach(field => {
         if (field.tagName === 'SELECT') {
           field.selectedIndex = 0;
+        } else if (field.type === 'radio' || field.type === 'checkbox') {
+          // radio/checkbox 只清空选中状态，不清空 value
+          field.checked = false;
         } else {
           field.value = '';
         }
-      });
-      // 清除宾客类型 radio 选中状态
-      guestTypeRadios.forEach(radio => {
-        radio.checked = false;
       });
       // 重置宾客类型子字段显示
       localFields?.classList.add('hidden');
