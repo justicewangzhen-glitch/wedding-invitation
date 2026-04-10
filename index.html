@@ -1563,7 +1563,14 @@
     const selectedRadio = document.querySelector('input[name="guestType"]:checked');
     const guestType = selectedRadio?.value;
     
+    // 调试：检查所有 radio 的状态
+    const allRadios = document.querySelectorAll('input[name="guestType"]');
+    allRadios.forEach((r, i) => {
+      console.log(`Radio ${i}: value=${r.value}, checked=${r.checked}`);
+    });
+    
     console.log('updateGuestTypeFields called, guestType:', guestType);
+    console.log('selectedRadio:', selectedRadio);
     console.log('localFields:', localFields);
     console.log('outFields:', outFields);
     
