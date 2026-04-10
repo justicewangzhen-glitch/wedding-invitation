@@ -835,6 +835,45 @@
       color: var(--charcoal);
     }
 
+    /* 婚礼信息提醒 */
+    .wedding-reminder {
+      max-width: 280px;
+      margin: 0 auto 40px;
+      padding: 24px;
+      border: 1px solid var(--gold-light);
+      background: rgba(196, 169, 110, 0.03);
+    }
+
+    .reminder-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .reminder-content {
+      text-align: left;
+    }
+
+    .reminder-content p {
+      margin: 10px 0;
+      font-size: 0.85rem;
+      color: var(--charcoal);
+      line-height: 1.6;
+    }
+
+    .reminder-label {
+      display: inline-block;
+      width: 40px;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--text-secondary);
+      margin-right: 12px;
+    }
+
     /* 返回顶部按钮 */
     .back-to-top-btn {
       margin-top: 8px;
@@ -1502,23 +1541,23 @@
           <span class="summary-value" id="summaryGuests">--</span>
         </div>
       </div>
+
+      <!-- 婚礼信息提醒 -->
+      <div class="wedding-reminder">
+        <p class="reminder-title">婚礼信息</p>
+        <div class="reminder-content">
+          <p><span class="reminder-label">日期</span>2026年6月20日（周六）</p>
+          <p><span class="reminder-label">时间</span>中午十二点整</p>
+          <p><span class="reminder-label">地点</span>兰州皇冠假日酒店</p>
+          <p><span class="reminder-label">厅房</span>3F 大宴会厅</p>
+        </div>
+      </div>
     </div>
 
     <!-- 缺席文案 -->
     <div id="successDeclined" class="success-content" style="display: none;">
       <h3>感谢您的告知</h3>
       <p class="success-subtitle">虽不能相见，祝福依然在心</p>
-
-      <div class="success-summary">
-        <div class="summary-item">
-          <span class="summary-label">宾客</span>
-          <span class="summary-value" id="summaryNameNo">--</span>
-        </div>
-        <div class="summary-item">
-          <span class="summary-label">回复</span>
-          <span class="summary-value">遗憾缺席</span>
-        </div>
-      </div>
     </div>
 
     <!-- 返回顶部按钮 -->
@@ -1923,13 +1962,11 @@
         document.getElementById('successAttending').style.display = isAttending ? 'block' : 'none';
         document.getElementById('successDeclined').style.display = isAttending ? 'none' : 'block';
 
-        // 填充摘要信息
+        // 填充摘要信息（仅出席宾客显示）
         if (isAttending) {
           document.getElementById('summaryName').textContent = guestName;
           document.getElementById('summaryAttend').textContent = '欣然出席';
           document.getElementById('summaryGuests').textContent = guestCount + ' 人';
-        } else {
-          document.getElementById('summaryNameNo').textContent = guestName;
         }
 
         // 绑定返回顶部按钮
