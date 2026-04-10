@@ -999,6 +999,108 @@
       color: var(--warm-white);
     }
 
+    /* 查看凭证按钮 */
+    .view-ticket-btn {
+      margin-top: 32px;
+      padding: 16px 40px;
+      background: var(--gold);
+      border: 1px solid var(--gold);
+      color: var(--warm-white);
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .view-ticket-btn:hover {
+      background: transparent;
+      color: var(--gold);
+    }
+
+    /* ─── 凭证弹窗 ─── */
+    .ticket-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(42, 40, 37, 0.85);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      padding: 20px;
+    }
+
+    .ticket-modal-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .ticket-modal-content {
+      background: var(--warm-white);
+      padding: 24px;
+      max-width: 340px;
+      width: 100%;
+      position: relative;
+      animation: modalSlideIn 0.3s ease;
+    }
+
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .ticket-modal-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      transition: color 0.2s ease;
+    }
+
+    .ticket-modal-close:hover {
+      color: var(--charcoal);
+    }
+
+    .ticket-modal-close svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.5;
+    }
+
+    .ticket-save-hint {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      letter-spacing: 0.05em;
+    }
+
+    .ticket-save-hint::before {
+      content: '↓ ';
+      color: var(--gold);
+    }
+
     /* ─── ATTENDANCE TOGGLE ─── */
     .attendance-fields {
       transition: opacity 400ms ease, max-height 400ms ease;
@@ -1679,27 +1781,10 @@
         </div>
       </div>
 
-      <!-- 入场凭证卡片（可截图保存） -->
-      <div class="entry-ticket" id="entryTicket">
-        <div class="ticket-header">
-          <div class="ticket-icon">💐</div>
-          <p class="ticket-title">婚礼入场凭证</p>
-          <p class="ticket-subtitle">请截图保存，现场出示</p>
-        </div>
-        <div class="ticket-divider"></div>
-        <div class="ticket-content">
-          <div class="ticket-info">
-            <p class="ticket-label">宾客姓名</p>
-            <p class="ticket-value" id="ticketName">--</p>
-          </div>
-          <div class="ticket-info">
-            <p class="ticket-label">出席人数</p>
-            <p class="ticket-value" id="ticketGuests">--人</p>
-          </div>
-          <div class="ticket-qr" id="ticketQR"></div>
-          <p class="ticket-qr-hint">扫码查看婚礼详情</p>
-        </div>
-      </div>
+      <!-- 查看入场凭证按钮 -->
+      <button class="view-ticket-btn" id="viewTicketBtn" type="button">
+        查看您的婚礼入场凭证
+      </button>
     </div>
 
     <!-- 缺席文案 -->
@@ -1736,6 +1821,42 @@
 
 <!-- QRCode.js -->
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
+<!-- 入场凭证弹窗 -->
+<div class="ticket-modal-overlay" id="ticketModal">
+  <div class="ticket-modal-content">
+    <button class="ticket-modal-close" id="ticketModalClose" aria-label="关闭">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    
+    <!-- 入场凭证卡片 -->
+    <div class="entry-ticket" id="entryTicket">
+      <div class="ticket-header">
+        <div class="ticket-icon">💐</div>
+        <p class="ticket-title">婚礼入场凭证</p>
+        <p class="ticket-subtitle">请截图保存，现场出示</p>
+      </div>
+      <div class="ticket-divider"></div>
+      <div class="ticket-content">
+        <div class="ticket-info">
+          <p class="ticket-label">宾客姓名</p>
+          <p class="ticket-value" id="ticketName">--</p>
+        </div>
+        <div class="ticket-info">
+          <p class="ticket-label">出席人数</p>
+          <p class="ticket-value" id="ticketGuests">--人</p>
+        </div>
+        <div class="ticket-qr" id="ticketQR"></div>
+        <p class="ticket-qr-hint">扫码查看婚礼详情</p>
+      </div>
+    </div>
+    
+    <p class="ticket-save-hint">长按图片即可保存</p>
+  </div>
+</div>
 
 <script>
   // ─── Loading ───
@@ -2250,7 +2371,7 @@
           document.getElementById('summaryAttend').textContent = '欣然出席';
           document.getElementById('summaryGuests').textContent = guestCount + ' 人';
 
-          // 填充入场凭证
+          // 填充入场凭证数据（但先生成二维码，不显示弹窗）
           document.getElementById('ticketName').textContent = guestName;
           document.getElementById('ticketGuests').textContent = guestCount + '人';
 
@@ -2265,9 +2386,15 @@
             colorLight: '#FFFDF9',
             correctLevel: QRCode.CorrectLevel.M
           });
+          
+          // 绑定查看凭证按钮
+          document.getElementById('viewTicketBtn').addEventListener('click', () => {
+            document.getElementById('ticketModal').classList.add('show');
+            document.body.style.overflow = 'hidden'; // 防止背景滚动
+          });
         } else {
-          // 缺席时隐藏入场凭证
-          document.getElementById('entryTicket').style.display = 'none';
+          // 缺席时隐藏查看凭证按钮
+          document.getElementById('viewTicketBtn').style.display = 'none';
         }
 
         // 自动滚动到成功页面中央
@@ -2278,6 +2405,20 @@
         // 绑定返回顶部按钮
         document.getElementById('backToTop').addEventListener('click', () => {
           document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        // 绑定凭证弹窗关闭
+        document.getElementById('ticketModalClose').addEventListener('click', () => {
+          document.getElementById('ticketModal').classList.remove('show');
+          document.body.style.overflow = ''; // 恢复背景滚动
+        });
+        
+        // 点击弹窗背景关闭
+        document.getElementById('ticketModal').addEventListener('click', (e) => {
+          if (e.target === document.getElementById('ticketModal')) {
+            document.getElementById('ticketModal').classList.remove('show');
+            document.body.style.overflow = '';
+          }
         });
       } else {
         // API 返回错误状态码，尝试读取后端错误信息
