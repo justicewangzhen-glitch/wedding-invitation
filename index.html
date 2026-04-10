@@ -793,6 +793,68 @@
       color: var(--text-secondary);
     }
 
+    .form-success .success-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+    }
+
+    /* 提交信息摘要 */
+    .success-summary {
+      max-width: 280px;
+      margin: 0 auto 40px;
+      padding: 24px;
+      border: 1px solid var(--divider);
+      background: var(--warm-white);
+    }
+
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .summary-item:last-child {
+      border-bottom: none;
+    }
+
+    .summary-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    .summary-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--charcoal);
+    }
+
+    /* 返回顶部按钮 */
+    .back-to-top-btn {
+      margin-top: 8px;
+      padding: 14px 32px;
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .back-to-top-btn:hover {
+      background: var(--gold);
+      color: var(--warm-white);
+    }
+
     /* ─── ATTENDANCE TOGGLE ─── */
     .attendance-fields {
       transition: opacity 400ms ease, max-height 400ms ease;
@@ -1259,14 +1321,17 @@
 
 <!-- ══════════════ RSVP ══════════════ -->
 <section class="section rsvp-section section-reveal" id="rsvp">
-  <p class="section-label">RSVP</p>
-  <h2 class="section-title">期待您的回复</h2>
-  <p class="section-subtitle">请于 2026 年 6 月 1 日前告知我们</p>
+  <!-- 标题区域：提交成功后隐藏 -->
+  <div id="rsvpHeader">
+    <p class="section-label">RSVP</p>
+    <h2 class="section-title">期待您的回复</h2>
+    <p class="section-subtitle">请于 2026 年 6 月 1 日前告知我们</p>
 
-  <p class="rsvp-intro">
-    您的到来是对我们最好的祝福。<br>
-    请填写以下信息，方便我们为您预留席位。
-  </p>
+    <p class="rsvp-intro">
+      您的到来是对我们最好的祝福。<br>
+      请填写以下信息，方便我们为您预留席位。
+    </p>
+  </div>
 
   <form class="rsvp-form" id="rsvpForm" novalidate>
     <div class="form-row">
@@ -1409,22 +1474,57 @@
     <button type="submit" class="form-submit" onclick="console.log('按钮被点击了')">确认回复</button>
   </form>
 
+  <!-- 成功确认页：提交后显示 -->
   <div class="form-success" id="formSuccess">
     <div class="form-success-icon">
       <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="20,6 9,17 4,12"/>
       </svg>
     </div>
+
     <!-- 出席文案 -->
     <div id="successAttending" class="success-content">
       <h3>感谢您的确认</h3>
-      <p>期待在婚礼上与您相见</p>
+      <p class="success-subtitle">期待在婚礼上与您相见</p>
+
+      <!-- 提交信息摘要 -->
+      <div class="success-summary">
+        <div class="summary-item">
+          <span class="summary-label">宾客</span>
+          <span class="summary-value" id="summaryName">--</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">出席</span>
+          <span class="summary-value" id="summaryAttend">--</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">人数</span>
+          <span class="summary-value" id="summaryGuests">--</span>
+        </div>
+      </div>
     </div>
+
     <!-- 缺席文案 -->
     <div id="successDeclined" class="success-content" style="display: none;">
       <h3>感谢您的告知</h3>
-      <p>虽不能相见，祝福依然在心</p>
+      <p class="success-subtitle">虽不能相见，祝福依然在心</p>
+
+      <div class="success-summary">
+        <div class="summary-item">
+          <span class="summary-label">宾客</span>
+          <span class="summary-value" id="summaryNameNo">--</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">回复</span>
+          <span class="summary-value">遗憾缺席</span>
+        </div>
+      </div>
     </div>
+
+    <!-- 返回顶部按钮 -->
+    <button class="back-to-top-btn" id="backToTop" type="button">
+      返回查看邀请函
+    </button>
   </div>
 </section>
 
@@ -1803,13 +1903,39 @@
       
       // API 返回 200 才算成功
       if (response.ok) {
+        // 隐藏表单和标题区域
+        document.getElementById('rsvpHeader').style.display = 'none';
         form.style.display = 'none';
-        document.getElementById('formSuccess').classList.add('show');
 
-        // 根据是否出席显示不同文案
+        // 显示成功页面
+        const formSuccess = document.getElementById('formSuccess');
+        formSuccess.classList.add('show');
+        formSuccess.style.padding = '80px 24px';
+
+        // 获取提交数据
         const isAttending = formData.get('attend') === 'yes';
+        const guestName = formData.get('name') || '未知';
+        const guestCount = isLocalGuest
+          ? (formData.get('guestsLocal') || '--')
+          : (formData.get('guestsOut') || '--');
+
+        // 显示对应的文案
         document.getElementById('successAttending').style.display = isAttending ? 'block' : 'none';
         document.getElementById('successDeclined').style.display = isAttending ? 'none' : 'block';
+
+        // 填充摘要信息
+        if (isAttending) {
+          document.getElementById('summaryName').textContent = guestName;
+          document.getElementById('summaryAttend').textContent = '欣然出席';
+          document.getElementById('summaryGuests').textContent = guestCount + ' 人';
+        } else {
+          document.getElementById('summaryNameNo').textContent = guestName;
+        }
+
+        // 绑定返回顶部按钮
+        document.getElementById('backToTop').addEventListener('click', () => {
+          document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
+        });
       } else {
         // API 返回错误状态码，尝试读取后端错误信息
         const errorText = await response.text().catch(() => '');
