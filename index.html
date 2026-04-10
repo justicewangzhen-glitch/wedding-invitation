@@ -1969,6 +1969,11 @@
           document.getElementById('summaryGuests').textContent = guestCount + ' 人';
         }
 
+        // 自动滚动到成功页面中央
+        setTimeout(() => {
+          formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+
         // 绑定返回顶部按钮
         document.getElementById('backToTop').addEventListener('click', () => {
           document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
