@@ -1606,8 +1606,9 @@
   console.log('Binding guestType radios, count:', guestTypeRadios.length);
   guestTypeRadios.forEach((radio, index) => {
     console.log(`Binding radio ${index}:`, radio.value);
-    radio.addEventListener('change', () => {
-      console.log('Radio changed:', radio.value);
+    radio.addEventListener('change', (e) => {
+      const target = e.target;
+      console.log('Radio changed via event:', target?.value);
       updateGuestTypeFields();
     });
   });
