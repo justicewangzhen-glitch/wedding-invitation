@@ -1699,19 +1699,27 @@
       const fields = {
         'name': data.name,
         'phone': data.phone,
-        'guestsLocal': data.guests,
-        'guestsOut': data.guests,
-        'arrivalDate': data.arrivalDate === '本地/不适用' ? '' : data.arrivalDate,
-        'arrivalTime': data.arrivalTime === '本地/不适用' ? '' : data.arrivalTime,
-        'departureDate': data.departureDate === '本地/不适用' ? '' : data.departureDate,
-        'flightNumber': data.transportInfo === '本地/不适用' ? '' : data.transportInfo,
+        'guestsLocal': data.guests === 'N/A' ? '' : data.guests,
+        'guestsOut': data.guests === 'N/A' ? '' : data.guests,
+        'arrivalDate': data.arrivalDate === '本地/不适用' || data.arrivalDate === 'N/A' ? '' : data.arrivalDate,
+        'arrivalTime': data.arrivalTime === '本地/不适用' || data.arrivalTime === 'N/A' ? '' : data.arrivalTime,
+        'departureDate': data.departureDate === '本地/不适用' || data.departureDate === 'N/A' ? '' : data.departureDate,
+        'flightNumber': data.transportInfo === '本地/不适用' || data.transportInfo === 'N/A' || data.transportInfo === '未填写' ? '' : data.transportInfo,
         'message': data.message === '未填写' ? '' : data.message
       };
 
       Object.entries(fields).forEach(([id, value]) => {
         const field = document.getElementById(id);
-        if (field && value) field.value = value;
+        if (field && value && value !== '--') field.value = value;
       });
+
+      // 回填用餐偏好
+      if (data.meal && data.meal !== '不限定' && data.meal !== 'N/A') {
+        const mealLocal = document.getElementById('mealLocal');
+        const mealOut = document.getElementById('mealOut');
+        if (mealLocal) mealLocal.value = data.meal;
+        if (mealOut) mealOut.value = data.meal;
+      }
 
       // 回填 radio 按钮
       if (data.attend) {
