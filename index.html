@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -1748,7 +1747,7 @@
       name:  formData.get('name')    || '未填写',
       phone: formData.get('phone')   || '未填写',
       attend:          formData.get('attend')         || '',
-      guestType:     isLocalGuest ? '本地亲友' : (isAttending ? '外地宾客' : 'N/A'),
+      guestType:     guestTypeValue || '',
       guests:        guests || (isAttending ? '' : '0'),
       meal:          meal || (isAttending ? '不限定' : 'N/A'),
       arrivalDate:   isLocalGuest ? '本地/不适用' : (formData.get('arrivalDate') || 'N/A'),
