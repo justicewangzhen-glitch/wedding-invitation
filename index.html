@@ -989,10 +989,15 @@
     
     /* 隐藏的源卡片 - 用于html2canvas生成 */
     .ticket-source-wrapper {
-      position: fixed;
-      top: -9999px;
-      left: -9999px;
-      z-index: -9999;
+      position: absolute;
+      left: -10000px;
+      top: -10000px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
     }
     
     .ticket-source-card {
