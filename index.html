@@ -1124,14 +1124,19 @@
     
     /* 结果展示区域 */
     .ticket-result-wrapper {
-      width: 320px;
-      min-height: 480px;
-      background: var(--warm-white);
-      border-radius: 2px;
+      width: 100%;
+      max-width: 400px;
+      min-height: 520px;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       position: relative;
+      overflow: visible;
+      padding: 20px 0;
+    }
+    
+    .ticket-result-wrapper > div {
+      box-shadow: 0 8px 32px rgba(42, 40, 37, 0.15);
     }
     
     .ticket-loading {
@@ -1950,16 +1955,12 @@
       </div>
     </div>
     
-    <!-- 生成的入场凭证PNG展示 -->
-    <div class="ticket-result-wrapper">
-      <div class="ticket-loading" id="ticketLoading">
-        <div class="ticket-loading-spinner"></div>
-        <p>正在生成高清凭证...</p>
-      </div>
-      <img class="ticket-generated-img" id="ticketGeneratedImg" alt="婚礼入场凭证" style="display:none;">
+    <!-- 入场凭证展示 (纯CSS渲染，可直接截图保存) -->
+    <div class="ticket-result-wrapper" id="ticketResultWrapper">
+      <!-- 这里显示实际的入场凭证卡片 -->
     </div>
     
-    <p class="ticket-save-hint">长按上方图片保存</p>
+    <p class="ticket-save-hint">👆 长按上方入场凭证截图保存</p>
   </div>
 </div>
 
@@ -2561,81 +2562,58 @@
 
   // ─── 填充入场凭证卡片 ───
   function fillTicketCard(guestName, guestCount) {
-    // 填充源卡片数据（用于生成高清PNG）
+    // 填充源卡片数据
     document.getElementById('ticketSourceGuestName').textContent = guestName || '--';
     document.getElementById('ticketSourceGuestCount').textContent = guestCount || '--';
     
-    // 使用 html2canvas 生成高清 PNG (8x 缩放)
-    generateTicketPNG();
+    // 加载二维码图片
+    loadQRCodeToCanvas();
+    
+    // 将源卡片显示在结果区域（替代html2canvas方案）
+    displayTicketCard();
   }
   
-  // ─── 生成高清入场凭证 PNG ───
-  async function generateTicketPNG() {
-    const ticketSource = document.getElementById('ticketCardSource');
-    const loadingEl = document.getElementById('ticketLoading');
-    const imgEl = document.getElementById('ticketGeneratedImg');
+  // ─── 加载二维码到 Canvas ───
+  function loadQRCodeToCanvas() {
+    const qrCanvas = document.getElementById('ticketQRCanvas');
+    if (!qrCanvas) return;
     
-    if (!ticketSource || typeof html2canvas === 'undefined') {
-      console.error('html2canvas 未加载');
-      return;
-    }
+    const ctx = qrCanvas.getContext('2d');
+    const qrImg = new Image();
+    qrImg.crossOrigin = 'anonymous';
+    qrImg.onload = () => {
+      ctx.drawImage(qrImg, 0, 0, 210, 210);
+    };
+    qrImg.onerror = () => {
+      console.warn('二维码图片加载失败');
+      // 绘制占位符
+      ctx.fillStyle = '#f5f5f5';
+      ctx.fillRect(0, 0, 210, 210);
+      ctx.fillStyle = '#999';
+      ctx.font = '14px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('二维码', 105, 110);
+    };
+    qrImg.src = 'httpspannacotta.me.png';
+  }
+  
+  // ─── 显示入场凭证卡片 ───
+  function displayTicketCard() {
+    const sourceCard = document.getElementById('ticketCardSource');
+    const resultWrapper = document.getElementById('ticketResultWrapper');
     
-    try {
-      // 显示加载中
-      loadingEl.style.display = 'flex';
-      imgEl.style.display = 'none';
-      
-      // 等待字体加载完成
-      await document.fonts.ready;
-      
-      // 加载并绘制二维码图片到 canvas
-      const qrCanvas = document.getElementById('ticketQRCanvas');
-      if (qrCanvas) {
-        const ctx = qrCanvas.getContext('2d');
-        const qrImg = new Image();
-        qrImg.crossOrigin = 'anonymous';
-        await new Promise((resolve) => {
-          qrImg.onload = () => {
-            ctx.drawImage(qrImg, 0, 0, 210, 210);
-            resolve();
-          };
-          qrImg.onerror = () => {
-            console.warn('二维码图片加载失败');
-            resolve();
-          };
-          setTimeout(() => resolve(), 2000); // 2秒超时
-          qrImg.src = 'httpspannacotta.me.png';
-        });
-      }
-      
-      // 短暂延迟确保渲染完成
-      await new Promise(resolve => setTimeout(resolve, 100));
-      
-      // 使用 html2canvas 生成高清图片 (4x 缩放)
-      // 二维码使用背景图，避免跨域问题
-      const canvas = await html2canvas(ticketSource, {
-        scale: 4,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#FFFDF9',
-        logging: true,
-        imageTimeout: 15000,
-        foreignObjectRendering: false
-      });
-      
-      // 转换为 PNG 数据
-      const pngData = canvas.toDataURL('image/png', 1.0);
-      
-      // 显示生成的图片
-      imgEl.src = pngData;
-      imgEl.style.display = 'block';
-      loadingEl.style.display = 'none';
-      
-    } catch (err) {
-      console.error('生成凭证失败:', err);
-      loadingEl.innerHTML = '<p style="color: var(--rose);">生成失败: ' + err.message + '</p>';
-      console.log('Error:', err);
-    }
+    if (!sourceCard || !resultWrapper) return;
+    
+    // 清空并克隆源卡片到展示区域
+    resultWrapper.innerHTML = '';
+    const clone = sourceCard.cloneNode(true);
+    clone.id = 'ticketCardDisplay';
+    clone.style.position = 'relative';
+    clone.style.top = '0';
+    clone.style.left = '0';
+    clone.style.transform = 'scale(0.85)';
+    clone.style.transformOrigin = 'center top';
+    resultWrapper.appendChild(clone);
   }
 
   // ─── QR Code (使用静态图片，动态生成已禁用) ───
