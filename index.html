@@ -1309,7 +1309,7 @@
       </div>
 
       <!-- 本地宾客：只显示人数+餐饮 -->
-      <div id="localFields" class="local-fields">
+      <div id="localFields" class="local-fields" style="margin-top: 1.5rem;">
         <div class="form-row" style="margin-bottom: 1.5rem;">
           <div class="form-group">
             <label class="form-label" for="guestsLocal">出席人数 <span style="color: var(--rose);">*</span></label>
@@ -1375,6 +1375,16 @@
               <option value="evening">傍晚（17:00 后）</option>
             </select>
           </div>
+        </div>
+
+        <div class="form-group full" style="margin-bottom: 1.5rem;">
+          <label class="form-label" for="departureDate">预计离开日期 <span style="color: var(--rose);">*</span> <span style="font-weight:300;font-size:0.85em;opacity:0.6;">（方便我们安排住宿）</span></label>
+          <select class="form-select" id="departureDate" name="departureDate" required>
+            <option value="">请选择</option>
+            <option value="6月20日">6月20日（婚礼当天）</option>
+            <option value="6月21日">6月21日（婚礼次日）</option>
+            <option value="6月22日及以后">6月22日及以后</option>
+          </select>
         </div>
 
         <div class="form-group full">
@@ -1735,6 +1745,18 @@
           isSubmitting = false;
           return;
         }
+        
+        const departureDateValue = formData.get('departureDate')?.trim();
+        if (!departureDateValue) {
+          const errorDiv = document.createElement('div');
+          errorDiv.className = 'form-error';
+          errorDiv.innerHTML = '<p>请选择预计离开日期</p>';
+          form.insertBefore(errorDiv, form.firstChild);
+          btn.style.opacity = '';
+          btn.textContent = '确认回复';
+          isSubmitting = false;
+          return;
+        }
       }
     }
 
@@ -1755,7 +1777,7 @@
       meal:          meal || (isAttending ? '不限定' : 'N/A'),
       arrivalDate:   isLocalGuest ? '本地/不适用' : (formData.get('arrivalDate') || 'N/A'),
       arrivalTime:   isLocalGuest ? '本地/不适用' : (formData.get('arrivalTime') || 'N/A'),
-      departureDate: '不收集',
+      departureDate: isLocalGuest ? '本地/不适用' : (formData.get('departureDate') || 'N/A'),
       departureTime: '不收集',
       transportInfo: isLocalGuest ? '本地/不适用' : (formData.get('flightNumber') || '未填写'),
       message:       formData.get('message') || '未填写',
