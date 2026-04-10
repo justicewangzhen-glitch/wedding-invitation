@@ -1261,11 +1261,11 @@
     请填写以下信息，让我们更好地为您安排当天的座位与餐饮。
   </p>
 
-  <form class="rsvp-form" id="rsvpForm">
+  <form class="rsvp-form" id="rsvpForm" novalidate>
     <div class="form-row">
       <div class="form-group">
         <label class="form-label" for="name">您的姓名 <span style="color: var(--rose);">*</span></label>
-        <input class="form-input" type="text" id="name" name="name" placeholder="请填写姓名">
+        <input class="form-input" type="text" id="name" name="name" placeholder="请填写姓名" required>
       </div>
       <div class="form-group">
         <label class="form-label" for="phone">联系电话 <span style="color: var(--rose);">*</span></label>
@@ -1562,27 +1562,14 @@
     const selectedRadio = document.querySelector('input[name="guestType"]:checked');
     const guestType = selectedRadio?.value;
     
-    // 调试：检查所有 radio 的状态
-    const allRadios = document.querySelectorAll('input[name="guestType"]');
-    allRadios.forEach((r, i) => {
-      console.log(`Radio ${i}: value=${r.value}, checked=${r.checked}`);
-    });
-    
-    console.log('updateGuestTypeFields called, guestType:', guestType);
-    console.log('selectedRadio:', selectedRadio);
-    console.log('localFields:', localFields);
-    console.log('outFields:', outFields);
-    
     if (!guestType) {
       // 如果没有选中任何宾客类型，隐藏所有子字段
-      console.log('No guestType selected, hiding all fields');
       localFields?.classList.add('hidden');
       outFields?.classList.add('hidden');
       return;
     }
     
     if (guestType === 'local') {
-      console.log('Showing local fields');
       localFields?.classList.remove('hidden');
       outFields?.classList.add('hidden');
       // 清空外地宾客字段
@@ -1594,7 +1581,6 @@
         }
       });
     } else if (guestType === 'out') {
-      console.log('Showing out fields');
       localFields?.classList.add('hidden');
       outFields?.classList.remove('hidden');
       // 清空本地宾客字段
@@ -1609,14 +1595,9 @@
     radio.addEventListener('change', updateAttendanceFields);
   });
   
-  console.log('Binding guestType radios, count:', guestTypeRadios.length);
-  guestTypeRadios.forEach((radio, index) => {
-    console.log(`Binding radio ${index}:`, radio.value);
-    radio.addEventListener('change', (e) => {
-      const target = e.target;
-      console.log('Radio changed via event:', target?.value);
-      updateGuestTypeFields();
-    });
+  // 监听 radio 变化
+  guestTypeRadios.forEach(radio => {
+    radio.addEventListener('change', updateGuestTypeFields);
   });
 
   // 初始化状态（默认隐藏）
