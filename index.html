@@ -844,7 +844,7 @@
     /* 婚礼信息提醒 */
     .wedding-reminder {
       max-width: 280px;
-      margin: 0 auto 24px;
+      margin: 0 auto 16px;
       padding: 24px;
       border: 1px solid var(--gold-light);
       background: rgba(196, 169, 110, 0.03);
@@ -882,27 +882,39 @@
 
     /* 返回顶部按钮 */
     .back-to-top-btn {
-      margin-top: 8px;
-      padding: 14px 32px;
+      margin-top: 16px;
+      padding: 12px 28px;
       background: transparent;
-      border: 1px solid var(--gold);
-      color: var(--gold);
+      border: 1px solid var(--text-secondary);
+      color: var(--text-secondary);
       font-family: 'Josefin Sans', sans-serif;
-      font-size: 0.7rem;
-      letter-spacing: 0.25em;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       cursor: pointer;
       transition: all 0.3s ease;
     }
 
     .back-to-top-btn:hover {
+      background: var(--text-secondary);
+      color: var(--warm-white);
+    }
+
+    /* 突出的返回按钮样式 */
+    .back-to-top-btn.prominent {
+      margin-top: 20px;
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .back-to-top-btn.prominent:hover {
       background: var(--gold);
       color: var(--warm-white);
     }
 
     /* 查看凭证按钮 */
     .view-ticket-btn {
-      margin-top: 24px;
+      margin-top: 32px;
       padding: 12px 28px;
       background: transparent;
       border: 1px solid var(--gold);
@@ -1943,31 +1955,29 @@
       <button class="view-ticket-btn" id="viewTicketBtn" type="button">
         查看您的婚礼入场凭证
       </button>
+
+      <!-- 返回顶部按钮（更明显） -->
+      <button class="back-to-top-btn prominent" id="backToTop" type="button">
+        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;vertical-align:middle;">
+          <polyline points="18,15 12,9 6,15"/>
+        </svg>
+        返回查看邀请函
+      </button>
     </div>
 
     <!-- 缺席文案 -->
     <div id="successDeclined" class="success-content" style="display: none;">
       <h3>感谢您的告知</h3>
       <p class="success-subtitle">虽不能相见，祝福依然在心</p>
+
+      <!-- 缺席时也显示返回按钮 -->
+      <button class="back-to-top-btn prominent" id="backToTopDeclined" type="button">
+        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;vertical-align:middle;">
+          <polyline points="18,15 12,9 6,15"/>
+        </svg>
+        返回查看邀请函
+      </button>
     </div>
-
-    <!-- 返回顶部按钮 -->
-    <button class="back-to-top-btn" id="backToTop" type="button">
-      返回查看邀请函
-    </button>
-  </div>
-</section>
-
-<!-- ══════════════ QR ══════════════ -->
-<section class="qr-section section-reveal">
-  <p class="section-label">Save this Invitation</p>
-  <h2 class="section-title" style="font-size: clamp(1.4rem, 3.5vw, 2.2rem);">收藏这份邀请函</h2>
-  <p class="section-subtitle">扫码打开，随时查看</p>
-
-  <div class="qr-card">
-    <img src="httpspannacotta.me.png" alt="婚礼邀请函二维码" style="width:160px;height:160px;display:block;margin:0 auto;">
-    <p class="qr-hint">长按保存 · 分享给亲友</p>
-
   </div>
 </section>
 
@@ -2637,8 +2647,13 @@
       formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
 
-    // 绑定返回顶部按钮
+    // 绑定返回顶部按钮（出席情况）
     document.getElementById('backToTop').addEventListener('click', () => {
+      document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
+    });
+    
+    // 绑定返回顶部按钮（缺席情况）
+    document.getElementById('backToTopDeclined').addEventListener('click', () => {
       document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
     });
     
