@@ -839,7 +839,13 @@
       display: none;
     }
 
-    .form-success.show { display: block; }
+    .form-success.show {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 70vh;
+    }
 
     .form-success-icon {
       width: 56px;
@@ -2118,7 +2124,7 @@
 <!-- ══════════════ FOOTER ══════════════ -->
 <footer class="footer">
   <p class="footer-names">王真 &amp; 陈雨欣</p>
-  <p class="footer-hashtag">#王真陈雨欣 <span>·</span> 2026</p>
+  <p class="footer-hashtag">2026.06.20</p>
 </footer>
 
 <!-- html2canvas (入场凭证生成) -->
@@ -2744,7 +2750,6 @@
     // 显示成功页面
     const formSuccess = document.getElementById('formSuccess');
     formSuccess.classList.add('show');
-    formSuccess.style.padding = '80px 24px';
 
     // 获取提交数据
     const isAttending = formData.get('attend') === 'yes';
@@ -2935,7 +2940,6 @@ toggle.addEventListener('click', () => {
       
       const formSuccess = document.getElementById('formSuccess');
       formSuccess.classList.add('show');
-      formSuccess.style.padding = '80px 24px';
       
       document.getElementById('successAttending').style.display = 'block';
       document.getElementById('successDeclined').style.display = 'none';
