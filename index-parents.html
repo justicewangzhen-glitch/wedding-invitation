@@ -911,8 +911,10 @@
       max-width: 280px;
       margin: 0 auto 16px;
       padding: 16px 20px;
-      border: 1px solid var(--divider);
+      border: 1px solid rgba(0,0,0,0.15);
+      border-radius: 4px;
       background: var(--warm-white);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
     }
 
     .summary-item {
@@ -920,7 +922,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 8px 0;
-      border-bottom: 1px solid var(--divider);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
     }
 
     .summary-item:last-child {
@@ -930,12 +932,13 @@
     .summary-label {
       font-size: 0.75rem;
       letter-spacing: 0.15em;
-      color: var(--text-secondary);
+      color: rgba(0,0,0,0.5);
+      font-weight: 500;
     }
 
     .summary-value {
       font-size: 0.85rem;
-      font-weight: 200;
+      font-weight: 500;
       color: var(--charcoal);
     }
 
@@ -944,8 +947,10 @@
       max-width: 280px;
       margin: 0 auto 12px;
       padding: 16px 20px;
-      border: 1px solid var(--gold-light);
-      background: rgba(196, 169, 110, 0.03);
+      border: 1px solid var(--gold);
+      border-radius: 4px;
+      background: rgba(196, 169, 110, 0.08);
+      box-shadow: 0 2px 16px rgba(196, 169, 110, 0.15);
     }
 
     .reminder-title {
@@ -965,6 +970,7 @@
     .reminder-content p {
       margin: 6px 0;
       font-size: 0.8rem;
+      font-weight: 500;
       color: var(--charcoal);
       line-height: 1.5;
     }
@@ -1337,7 +1343,7 @@
     .ticket-save-hint {
       text-align: center;
       margin-top: 16px;
-      font-size: 0.75rem;
+      font-size: 0.9rem;
       color: var(--text-secondary);
       letter-spacing: 0.08em;
       font-family: 'Josefin Sans', sans-serif;
