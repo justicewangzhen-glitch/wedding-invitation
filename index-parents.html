@@ -417,7 +417,7 @@
 
     .story-photo-placeholder {
       grid-column: 1 / -1;
-      margin-top: 56px;
+      margin-top: 32px;
       display: flex;
       justify-content: center;
     }
@@ -2164,7 +2164,7 @@
           
           <!-- 二维码图片 -->
           <div class="ticket-source-qr">
-            <img src="httpspannacotta.me.png" alt="婚礼二维码" id="ticketSourceQR" style="width:120px;height:120px;border-radius:4px;display:block;">
+            <img src="httpspannacotta.meindex-parents.html.png" alt="婚礼二维码" id="ticketSourceQR" style="width:120px;height:120px;border-radius:4px;display:block;">
           </div>
           
           <!-- 底部提示 -->
@@ -2778,7 +2778,7 @@
 
     // 自动滚动到成功页面中央
     setTimeout(() => {
-      formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      formSuccess.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 100);
 
     // 绑定凭证弹窗关闭
@@ -2951,7 +2951,7 @@ toggle.addEventListener('click', () => {
       
       // 滚动到 RSVP 区域
       setTimeout(() => {
-        document.getElementById('rsvp').scrollIntoView({ behavior: 'smooth' });
+        document.getElementById('rsvp').scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 1000);
       
       // 绑定查看凭证按钮
