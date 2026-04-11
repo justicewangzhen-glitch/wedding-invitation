@@ -545,6 +545,27 @@
       letter-spacing: 0.05em;
     }
 
+    /* 着装参考图 */
+    .dresscode-photo-wrapper {
+      margin: 0 auto 28px;
+      max-width: 520px;
+      text-align: center;
+    }
+
+    .dresscode-photo {
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+      box-shadow: 0 6px 24px rgba(42, 40, 37, 0.10);
+      display: block;
+      filter: sepia(6%) saturate(95%) brightness(99%);
+      transition: filter 0.4s ease;
+    }
+
+    .dresscode-photo:hover {
+      filter: sepia(0%) saturate(100%) brightness(100%);
+    }
+
     /* ─── COUNTDOWN ─── */
     .countdown-section {
       background: var(--charcoal);
@@ -1591,11 +1612,6 @@
   <div class="loading-text">正在加载邀请函...</div>
 </div>
 
-<!-- Music toggle -->
-<button class="music-toggle" id="musicToggle" title="播放/暂停背景音乐" aria-label="音乐开关">
-  <svg id="iconMusic" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM21 16a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/></svg>
-</button>
-
 <!-- Navigation dots -->
 <nav class="nav-dots" aria-label="页面导航">
   <button class="nav-dot active" data-target="hero" aria-label="首页"></button>
@@ -1756,6 +1772,9 @@
   <div class="dresscode-block">
     <p class="dresscode-label">Dress Code</p>
     <h4 class="dresscode-title">着装推荐</h4>
+    <div class="dresscode-photo-wrapper">
+      <img src="DSCF7186.jpg" alt="着装参考" class="dresscode-photo" loading="lazy">
+    </div>
     <div class="dresscode-colors">
       <span class="color-dot" style="background: #FAF8F5; border: 1px solid var(--divider);" title="米白"></span>
       <span class="color-dot" style="background: #D4C9BE;" title="香槟"></span>
