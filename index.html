@@ -996,14 +996,16 @@
     
     /* 隐藏的源卡片 - 用于html2canvas生成 */
     /* 注意：不能用 visibility:hidden 或 display:none，html2canvas 无法渲染 */
+    /* 使用绝对定位而不是 fixed，避免影响页面滚动和内容 */
     .ticket-source-wrapper {
-      position: fixed;
-      left: -2000px;
-      top: 0;
-      width: 640px;
-      opacity: 0;
+      position: absolute;
+      left: -10000px;
+      top: -10000px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      opacity: 0.01;
       pointer-events: none;
-      z-index: -1;
     }
     
     .ticket-source-card {
@@ -2719,8 +2721,8 @@
       });
       
       // 生成完成后恢复隐藏
-      sourceWrapper.style.left = prevLeft || '-2000px';
-      sourceWrapper.style.opacity = '0';
+      sourceWrapper.style.left = prevLeft || '-10000px';
+      sourceWrapper.style.opacity = '0.01';
       
       // 将 canvas 转为图片显示
       const img = document.createElement('img');
