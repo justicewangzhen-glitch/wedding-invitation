@@ -582,6 +582,41 @@
       letter-spacing: 0.05em;
     }
 
+    /* 着装参考图 */
+    .dresscode-photo-wrapper {
+      margin: 0 auto 36px;
+      max-width: 480px;
+      text-align: center;
+    }
+
+    .dresscode-photo {
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+      box-shadow: 0 6px 24px rgba(42, 40, 37, 0.10);
+      display: block;
+      filter: sepia(6%) saturate(95%) brightness(99%);
+      transition: filter 0.4s ease;
+    }
+
+    .dresscode-photo:hover {
+      filter: sepia(0%) saturate(100%) brightness(100%);
+    }
+
+    .dresscode-photo-caption {
+      margin-top: 12px;
+      font-size: 0.7rem;
+      color: var(--taupe);
+      letter-spacing: 0.08em;
+      opacity: 0.7;
+    }
+
+    @media (max-width: 640px) {
+      .dresscode-photo-wrapper {
+        margin-bottom: 28px;
+      }
+    }
+
     /* ─── COUNTDOWN ─── */
     .countdown-section {
       background: rgb(42, 40, 37);
@@ -1811,6 +1846,17 @@
   <div class="dresscode-block">
     <p class="dresscode-label">Dress Code</p>
     <h4 class="dresscode-title">着装推荐</h4>
+
+    <!-- 着装参考图 -->
+    <div class="dresscode-photo-wrapper">
+      <img
+        src="DSCF7186.jpg"
+        alt="着装参考"
+        class="dresscode-photo"
+        loading="lazy"
+      >
+    </div>
+
     <div class="dresscode-colors">
       <span class="color-dot" style="background: #FAF8F5; border: 1px solid var(--divider);" title="米白"></span>
       <span class="color-dot" style="background: #D4C9BE;" title="香槟"></span>
