@@ -988,16 +988,15 @@
     /* ========== 入场凭证生成器样式 ========== */
     
     /* 隐藏的源卡片 - 用于html2canvas生成 */
+    /* 注意：不能用 visibility:hidden 或 display:none，html2canvas 无法渲染 */
     .ticket-source-wrapper {
-      position: absolute;
-      left: -10000px;
-      top: -10000px;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      visibility: hidden;
+      position: fixed;
+      left: -2000px;
+      top: 0;
+      width: 640px;
       opacity: 0;
       pointer-events: none;
+      z-index: -1;
     }
     
     .ticket-source-card {
@@ -2049,14 +2048,26 @@
 
   // ─── Scroll Reveal ───
   const revealEls = document.querySelectorAll('.section-reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.15 });
-  revealEls.forEach(el => observer.observe(el));
+  
+  // 兜底：3秒后强制显示所有未显示的元素（防止微信/安卓浏览器IntersectionObserver不触发）
+  setTimeout(() => {
+    revealEls.forEach(el => el.classList.add('visible'));
+  }, 3000);
+  
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.05, rootMargin: '0px 0px -30px 0px' });
+    revealEls.forEach(el => observer.observe(el));
+  } else {
+    // 不支持 IntersectionObserver 时直接显示全部
+    revealEls.forEach(el => el.classList.add('visible'));
+  }
 
   // ─── Nav dots ───
   const sections = ['hero', 'story', 'details', 'countdown', 'rsvp'];
@@ -2652,6 +2663,7 @@
   // ─── 显示入场凭证预览（生成图片）───
   async function displayTicketPreview() {
     const sourceCard = document.getElementById('ticketCardSource');
+    const sourceWrapper = document.getElementById('ticketSource');
     const previewWrapper = document.getElementById('ticketPreviewWrapper');
     const loadingEl = document.getElementById('ticketLoading');
     
@@ -2681,6 +2693,14 @@
         });
       }
       
+      // 临时让源卡片在视口内可见（html2canvas 需要元素可渲染）
+      const prevLeft = sourceWrapper.style.left;
+      sourceWrapper.style.left = '0px';
+      sourceWrapper.style.opacity = '0.01'; // 人眼不可见但html2canvas可读取
+      
+      // 短暂等待样式生效
+      await new Promise(r => setTimeout(r, 100));
+      
       // 使用 html2canvas 生成高清 PNG
       const canvas = await html2canvas(sourceCard, {
         scale: 3,  // 3倍分辨率，高清
@@ -2690,6 +2710,10 @@
         logging: false,
         imageTimeout: 15000
       });
+      
+      // 生成完成后恢复隐藏
+      sourceWrapper.style.left = prevLeft || '-2000px';
+      sourceWrapper.style.opacity = '0';
       
       // 将 canvas 转为图片显示
       const img = document.createElement('img');
