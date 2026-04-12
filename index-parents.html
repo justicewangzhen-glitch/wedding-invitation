@@ -358,8 +358,8 @@
     .ornamental-divider {
       display: flex;
       align-items: center;
-      gap: 20px;
       justify-content: center;
+      gap: 16px;
       padding: 0 24px;
       max-width: 760px;
       margin: 0 auto;
@@ -367,15 +367,16 @@
     .ornamental-divider::before,
     .ornamental-divider::after {
       content: '';
-      flex: 1;
+      flex: 1 1 0;
       height: 1px;
       background: var(--divider);
     }
     .ornamental-divider svg {
-      width: 22px;
-      height: 22px;
+      width: 20px;
+      height: 20px;
       fill: var(--gold);
       flex-shrink: 0;
+      display: block;
     }
 
     /* ─── STORY ─── */
