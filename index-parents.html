@@ -297,16 +297,17 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Hero 照片样式（独立于 hero 区域） */
+    /* Hero 照片样式 */
     .hero-photo {
-      max-width: 240px;
+      margin-top: 32px;
+      max-width: 280px;
       width: 100%;
+      opacity: 0;
+      animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) 1.6s forwards;
     }
     .hero-photo img {
       width: 100%;
       height: auto;
-      max-height: 380px;
-      object-fit: contain;
       border-radius: 4px;
       box-shadow: 0 8px 32px rgba(0,0,0,0.12);
       filter: sepia(8%) saturate(92%) brightness(98%);
@@ -358,8 +359,8 @@
     .ornamental-divider {
       display: flex;
       align-items: center;
+      gap: 20px;
       justify-content: center;
-      gap: 16px;
       padding: 0 24px;
       max-width: 760px;
       margin: 0 auto;
@@ -367,16 +368,15 @@
     .ornamental-divider::before,
     .ornamental-divider::after {
       content: '';
-      flex: 1 1 0;
+      flex: 1;
       height: 1px;
       background: var(--divider);
     }
     .ornamental-divider svg {
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       fill: var(--gold);
       flex-shrink: 0;
-      display: block;
     }
 
     /* ─── STORY ─── */
@@ -1591,8 +1591,6 @@
       .hero { padding: 32px 20px; }
       .botanical-watermark { display: none; }
       .hero-cta { margin-top: 36px; }
-      .hero-footer { margin-top: 24px; }
-      .hero-photo { max-width: 200px; }
 
       /* Story */
       .story-grid {
@@ -1785,13 +1783,9 @@
         <span>Scroll</span>
         <div class="scroll-arrow"></div>
       </div>
-    </div>
-  </div>
-
-  <!-- 照片独立于 hero，让装饰线自然跟在下方 -->
-  <div class="hero-footer">
-    <div class="hero-photo">
-      <img src="zm009850.jpg" alt="新人照片" loading="lazy" onclick="openLightbox(this.src)" style="cursor:zoom-in;">
+      <div class="hero-photo">
+        <img src="zm009850.jpg" alt="新人照片" loading="lazy" onclick="openLightbox(this.src)" style="cursor:zoom-in;">
+      </div>
     </div>
   </div>
 </section>
