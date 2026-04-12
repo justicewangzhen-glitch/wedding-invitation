@@ -261,13 +261,11 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Hero 照片样式 */
+    /* Hero 照片（独立于 hero，照片在装饰线上方） */
     .hero-photo {
-      margin-top: 32px;
       max-width: 280px;
-      width: 100%;
-      opacity: 0;
-      animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) 1.6s forwards;
+      margin: 32px auto 0;
+      text-align: center;
     }
     .hero-photo img {
       width: 100%;
@@ -1555,6 +1553,7 @@
       .hero { padding: 32px 20px; }
       .botanical-watermark { display: none; }
       .hero-cta { margin-top: 36px; }
+      .hero-photo { max-width: 200px; }
 
       /* Story */
       .story-grid {
@@ -1742,13 +1741,14 @@
     <span class="hero-ampersand">&amp;</span>
     <p class="hero-date">2026 · 陆月 · 贰拾</p>
 
-    <div class="hero-cta">
-      <div class="hero-photo">
-        <img src="zm009850.jpg" alt="新人照片" loading="lazy" onclick="openLightbox(this.src)" style="cursor:zoom-in;">
-      </div>
-    </div>
+    <div class="hero-cta"></div>
   </div>
 </section>
+
+<!-- 照片独立于 hero，跟装饰线自然排列 -->
+<div class="hero-photo">
+  <img src="zm009850.jpg" alt="新人照片" loading="lazy" onclick="openLightbox(this.src)" style="cursor:zoom-in;">
+</div>
 
 <!-- ══════════════ DIVIDER ══════════════ -->
 <div class="ornamental-divider">
