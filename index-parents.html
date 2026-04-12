@@ -1686,6 +1686,28 @@
       color: var(--taupe);
     }
   </style>
+
+  <style>
+  /* ─── LIGHTBOX ─── */
+  #lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-out;
+  }
+  #lightbox.open { display: flex; }
+  #lightbox img {
+    max-width: 92vw;
+    max-height: 88vh;
+    object-fit: contain;
+    border-radius: 2px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+  }
+  </style>
 </head>
 <body>
 
@@ -1759,7 +1781,7 @@
         <div class="scroll-arrow"></div>
       </div>
       <div class="hero-photo">
-        <img src="zm009837.jpg" alt="新人照片" loading="lazy">
+        <img src="zm009850.jpg" alt="新人照片" loading="lazy" onclick="openLightbox(this.src)" style="cursor:zoom-in;">
       </div>
     </div>
   </div>
@@ -1866,6 +1888,8 @@
         alt="着装参考"
         class="dresscode-photo"
         loading="lazy"
+        onclick="openLightbox(this.src)"
+        style="cursor:zoom-in;"
       >
     </div>
 
@@ -2083,7 +2107,7 @@
 
       <!-- RSVP 成功照片 -->
       <div class="rsvp-success-photo">
-        <img src="zm009901.jpg" alt="新人照片" loading="lazy">
+        <img src="zm009901.jpg" alt="新人照片" loading="lazy" onclick="openLightbox(this.src)" style="cursor:zoom-in;">
       </div>
 
       <!-- 提交信息摘要 -->
@@ -3056,6 +3080,29 @@ toggle.addEventListener('click', () => {
     document.addEventListener('click', firstInteraction);
     document.addEventListener('touchstart', firstInteraction);
   })();
+
+  /* ─── LIGHTBOX ─── */
+  function openLightbox(src) {
+    let lb = document.getElementById('lightbox');
+    if (!lb) {
+      lb = document.createElement('div');
+      lb.id = 'lightbox';
+      lb.innerHTML = '<img id="lightboxImg" alt="大图">';
+      lb.addEventListener('click', closeLightbox);
+      document.body.appendChild(lb);
+    }
+    lb.querySelector('img').src = src;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    const lb = document.getElementById('lightbox');
+    if (lb) lb.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLightbox();
+  });
 </script>
 </body>
 </html>
