@@ -132,14 +132,14 @@
 
     /* ─── HERO ─── */
     .hero {
-      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       position: relative;
-      overflow: hidden;
-      padding: 40px 24px;
+      overflow: visible;
+      padding: 48px 24px 40px;
+      min-height: 100vh;
     }
 
     .hero-bg {
@@ -261,10 +261,10 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Hero 照片（独立于 hero，照片在装饰线上方） */
+    /* Hero 照片（在 hero 内部，flex居中） */
     .hero-photo {
       max-width: 280px;
-      margin: 32px auto 0;
+      margin-top: 28px;
       text-align: center;
     }
     .hero-photo img {
@@ -1741,14 +1741,13 @@
     <span class="hero-ampersand">&amp;</span>
     <p class="hero-date">2026 · 陆月 · 贰拾</p>
 
-    <div class="hero-cta"></div>
+    <div class="hero-cta">
+      <div class="hero-photo">
+        <img src="zm009850.jpg" alt="新人照片" fetchpriority="high" onclick="openLightbox(this.src)" style="cursor:zoom-in;">
+      </div>
+    </div>
   </div>
 </section>
-
-<!-- 照片独立于 hero，跟装饰线自然排列 -->
-<div class="hero-photo">
-  <img src="zm009850.jpg" alt="新人照片" fetchpriority="high" onclick="openLightbox(this.src)" style="cursor:zoom-in;">
-</div>
 
 <!-- ══════════════ DIVIDER ══════════════ -->
 <div class="ornamental-divider">
