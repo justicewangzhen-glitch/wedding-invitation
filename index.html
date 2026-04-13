@@ -253,23 +253,6 @@
       animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) 1.2s forwards;
     }
 
-    .hero-photo {
-      max-width: 300px;
-      margin: 28px auto 0;
-      text-align: center;
-    }
-    .hero-photo img {
-      width: 100%;
-      height: auto;
-      border-radius: 4px;
-      box-shadow: 0 8px 32px rgba(42, 40, 37, 0.12);
-      filter: sepia(6%) saturate(95%) brightness(99%);
-      transition: filter 0.4s ease;
-    }
-    .hero-photo img:hover {
-      filter: sepia(0%) saturate(100%) brightness(100%);
-    }
-
     .hero-cta {
       margin-top: 48px;
       display: flex;
@@ -765,7 +748,13 @@
       display: none;
     }
 
-    .form-success.show { display: block; }
+    .form-success.show {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 70vh;
+    }
 
     .form-success-icon {
       width: 56px;
@@ -1681,11 +1670,6 @@
     <span class="hero-ampersand">&amp;</span>
     <p class="hero-date">2026 · 陆月 · 贰拾</p>
     <div class="hero-divider"></div>
-
-    <!-- 首页照片 -->
-    <div class="hero-photo">
-      <img src="zm009856_home_compressed.jpg" alt="新人照片" fetchpriority="high" onclick="openLightbox(this.src)" style="cursor:zoom-in;">
-    </div>
 
     <div class="hero-cta">
       <div class="scroll-hint">
@@ -2678,7 +2662,6 @@
     // 显示成功页面
     const formSuccess = document.getElementById('formSuccess');
     formSuccess.classList.add('show');
-    formSuccess.style.padding = '80px 24px';
 
     // 获取提交数据
     const isAttending = formData.get('attend') === 'yes';
@@ -2710,9 +2693,9 @@
       document.getElementById('viewTicketBtn').style.display = 'none';
     }
 
-    // 自动滚动到成功页面中央
+    // 自动滚动到成功页面顶部
     setTimeout(() => {
-      formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      formSuccess.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 100);
 
     // 绑定凭证弹窗关闭
@@ -2869,8 +2852,7 @@ toggle.addEventListener('click', () => {
       
       const formSuccess = document.getElementById('formSuccess');
       formSuccess.classList.add('show');
-      formSuccess.style.padding = '80px 24px';
-      
+
       document.getElementById('successAttending').style.display = 'block';
       document.getElementById('successDeclined').style.display = 'none';
       document.getElementById('summaryName').textContent = testName;
