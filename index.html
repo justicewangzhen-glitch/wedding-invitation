@@ -205,7 +205,7 @@
       letter-spacing: 0.35em;
       text-transform: uppercase;
       color: var(--gold);
-      margin-bottom: 32px;
+      margin-bottom: 18px;
       opacity: 0;
       animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
     }
@@ -213,7 +213,7 @@
     .hero-names {
       font-family: 'Cormorant Garamond', serif;
       font-weight: 300;
-      font-size: clamp(3.2rem, 9vw, 7rem);
+      font-size: clamp(3rem, 9vw, 7rem);
       line-height: 1.05;
       color: var(--charcoal);
       margin-bottom: 8px;
@@ -1493,9 +1493,11 @@
       .ornamental-divider svg { width: 18px; height: 18px; }
 
       /* Hero */
-      .hero { padding: 32px 20px; }
+      .hero { padding: 28px 20px; }
+      .hero-eyebrow { margin-bottom: 14px; }
+      .hero-names { font-size: clamp(2.6rem, 9vw, 4rem); }
+      .hero-cta { margin-top: 28px; }
       .botanical-watermark { display: none; }
-      .hero-cta { margin-top: 36px; }
       .hero-photo { max-width: 220px; }
       .hero-photo img { width: 220px; height: auto; }
 
@@ -1553,7 +1555,6 @@
     }
 
     @media (max-width: 375px) {
-      .hero-names { font-size: clamp(2.6rem, 14vw, 3.2rem); }
       .countdown-grid { gap: 0 10px; }
       .countdown-number { font-size: 1.8rem; }
     }
